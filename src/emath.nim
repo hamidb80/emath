@@ -76,10 +76,6 @@ func priority(mo: MathOperator): int =
   of mokMod: 1
   of mokLarger, mokLargerEq, mokEq, mokLessEq, mokLess: 0
 
-func putPars*(mn: MathNode): MathNode =
-  ## 1+2*3 == (1+(2*3))
-  discard
-
 
 template evalErr(msg): untyped =
   raise newException(ValueError, msg)
@@ -96,7 +92,7 @@ func eval*(mn: MathNode,
   of mnkPar: rec mn.children[0]
   of mnkVar: varLookup[mn.ident]
   of mnkCall: fnLookup[mn.ident](mn.children.mapit(rec it))
-  of mnkPrefix: 
+  of mnkPrefix:
     let v = rec mn.children[0]
     case mn.operator:
     of mokPlus: v
@@ -104,7 +100,7 @@ func eval*(mn: MathNode,
     else: evalErr "invalid prefix"
 
   of mnkInfix:
-    let 
+    let
       le = rec mn.children[0]
       ri = rec mn.children[1]
 
@@ -114,7 +110,7 @@ func eval*(mn: MathNode,
     of mokDiv: le / ri
     of mokPlus: le + ri
     of mokminus: le - ri
-    of mokMod: 
+    of mokMod:
       assert le.trunc == le
       assert ri.trunc == ri
       float le.int mod ri.int
@@ -124,8 +120,8 @@ func eval*(mn: MathNode,
     of mokEq: float le == ri
     of mokLessEq: float le <= ri
     of mokLess: float le < ri
-  
-func eval(mn: MathNode): float = 
+
+func eval(mn: MathNode): float =
   var
     v: MathVarLookup
     f: MathFnLookup
@@ -266,7 +262,6 @@ proc parse*(input: string): MathNode =
           stack.last.children.add t
 
         else:
-          echo stack
           parserErr "the last is: " & $stack.last.kind
 
       stack.add t
@@ -282,6 +277,11 @@ proc parse*(input: string): MathNode =
         elif stack.len == 1:
           stack.add MathNode(kind: mnkInfix, operator: tk.operator, children: @[stack.pop])
           break
+
+        # elif stack.last.kind == mnkPrefix:
+        #   let t = MathNode(kind: mnkPrefix, operator: tk.operator)
+        #   stack.last.children.add t
+        #   stack.add t
 
         elif stack[^2].kind in {mnkInfix}: # infix
           var temp = MathNode(kind: mnkInfix,
@@ -302,6 +302,7 @@ proc parse*(input: string): MathNode =
 
           else: discard
 
+
         else: # prefix
           discard
 
@@ -314,7 +315,7 @@ proc parse*(input: string): MathNode =
 
 
 func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
-    tab = 2)=
+    tab = 2) =
 
   template incl(smth, lvl): untyped =
     result.add indent(smth, lvl * tab)
@@ -327,14 +328,14 @@ func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
       treeReprImpl ch, result, level + 1
 
   case mn.kind
-  of mnkLit: 
+  of mnkLit:
     incl $mn.value
 
-  of mnkPrefix: 
+  of mnkPrefix:
     incl $mn.operator
     inclChildren mn.children
 
-  of mnkInfix: 
+  of mnkInfix:
     incl $mn.operator
     inclChildren mn.children
 
@@ -352,7 +353,11 @@ func treeRepr(mn: MathNode): string =
 
 
 when isMainModule:
-  let r = parse "1 + 2 * 3 ^ 4 - 5 * 6 * 7"
-  echo r
-  echo treerepr r
-  echo eval r
+  # let r = parse "1 + 2 * 3 ^ 4 - 5 * 6 * 7"
+
+  for t in ["-1", "-1 + 3"]:
+    let r = parse t
+    echo r
+    echo treerepr r
+    echo eval r
+    echo "------------------"
