@@ -1,5 +1,6 @@
 import std/[tables, strutils, sequtils, math]
 
+
 type
   MathOperator* = enum
     mlkPow = "^"
@@ -58,6 +59,43 @@ type
   MathVarLookup* = Table[string, float]
 
 
+func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
+    tab = 2) =
+
+  template incl(smth, lvl): untyped =
+    result.add indent(smth, lvl * tab)
+
+  template incl(smth): untyped =
+    incl smth, level
+
+  template inclChildren(children): untyped =
+    for ch in children:
+      treeReprImpl ch, result, level + 1
+
+  case mn.kind
+  of mnkLit:
+    incl $mn.value
+
+  of mnkPrefix:
+    incl $mn.operator
+    inclChildren mn.children
+
+  of mnkInfix:
+    incl $mn.operator
+    inclChildren mn.children
+
+  # of mnkPar: "PAR" ... $mn.children[0]
+  # of mnkVar: "VAR " & mn.ident
+  # of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
+  else: discard
+
+func treeRepr(mn: MathNode): string =
+  ## for debugging purposes
+  var acc: seq[string]
+  treeReprImpl mn, acc, 0
+
+  acc.join "\n"
+
 func `$`*(mn: MathNode): string =
   case mn.kind:
   of mnkLit: $mn.value
@@ -66,15 +104,6 @@ func `$`*(mn: MathNode): string =
   of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
   of mnkPrefix: $mn.operator & $mn.children[0]
   of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
-
-
-func priority(mo: MathOperator): int =
-  case mo:
-  of mlkPow: 4
-  of mokMult, mokDiv: 3
-  of mokPlus, mokminus: 2
-  of mokMod: 1
-  of mokLarger, mokLargerEq, mokEq, mokLessEq, mokLess: 0
 
 
 template evalErr(msg): untyped =
@@ -231,11 +260,6 @@ iterator lex(input: string): MathToken =
     inc i
 
 
-func toMathNode(f: float): MathNode =
-  MathNode(kind: mnkLit, value: f)
-
-# helpers
-
 func isEmpty(s: seq): bool {.inline.} =
   s.len == 0
 
@@ -245,6 +269,16 @@ template last(s: seq): untyped =
 template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
+func toMathNode(f: float): MathNode =
+  MathNode(kind: mnkLit, value: f)
+
+func priority(mo: MathOperator): int =
+  case mo:
+  of mlkPow: 4
+  of mokMult, mokDiv: 3
+  of mokPlus, mokminus: 2
+  of mokMod: 1
+  of mokLarger, mokLargerEq, mokEq, mokLessEq, mokLess: 0
 
 proc parse*(input: string): MathNode =
   var stack: seq[MathNode]
@@ -313,43 +347,6 @@ proc parse*(input: string): MathNode =
 
   stack[0]
 
-
-func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
-    tab = 2) =
-
-  template incl(smth, lvl): untyped =
-    result.add indent(smth, lvl * tab)
-
-  template incl(smth): untyped =
-    incl smth, level
-
-  template inclChildren(children): untyped =
-    for ch in children:
-      treeReprImpl ch, result, level + 1
-
-  case mn.kind
-  of mnkLit:
-    incl $mn.value
-
-  of mnkPrefix:
-    incl $mn.operator
-    inclChildren mn.children
-
-  of mnkInfix:
-    incl $mn.operator
-    inclChildren mn.children
-
-  # of mnkPar: "PAR" ... $mn.children[0]
-  # of mnkVar: "VAR " & mn.ident
-  # of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
-  else: discard
-
-func treeRepr(mn: MathNode): string =
-  ## for debugging purposes
-  var acc: seq[string]
-  treeReprImpl mn, acc, 0
-
-  acc.join "\n"
 
 
 when isMainModule:
