@@ -2,6 +2,15 @@ import std/[tables, strutils, sequtils, math]
 import emath/[model, utils]
 
 
+func `$`*(mn: MathNode): string =
+  case mn.kind:
+  of mnkLit: $mn.value
+  of mnkPar: '(' & $mn.children[0] & ')'
+  of mnkVar: mn.ident
+  of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
+  of mnkPrefix: $mn.operator & $mn.children[0]
+  of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
+
 func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
     tab = 2) =
 
@@ -32,21 +41,12 @@ func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
   # of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
   else: discard
 
-func treeRepr(mn: MathNode): string =
+func treeRepr*(mn: MathNode): string =
   ## for debugging purposes
   var acc: seq[string]
   treeReprImpl mn, acc, 0
 
   acc.join "\n"
-
-func `$`*(mn: MathNode): string =
-  case mn.kind:
-  of mnkLit: $mn.value
-  of mnkPar: '(' & $mn.children[0] & ')'
-  of mnkVar: mn.ident
-  of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
-  of mnkPrefix: $mn.operator & $mn.children[0]
-  of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
 
 
 template evalErr(msg): untyped =
@@ -93,7 +93,7 @@ func eval*(mn: MathNode,
     of mokLessEq: float le <= ri
     of mokLess: float le < ri
 
-func eval(mn: MathNode): float =
+func eval*(mn: MathNode): float =
   var
     v: MathVarLookup
     f: MathFnLookup
@@ -272,15 +272,3 @@ proc parse*(input: string): MathNode =
     of mtkComma: discard
 
   stack[0]
-
-
-
-when isMainModule:
-  # let r = parse "1 + 2 * 3 ^ 4 - 5 * 6 * 7"
-
-  for t in ["-1", "-1 + 3"]:
-    let r = parse t
-    echo r
-    echo treerepr r
-    echo eval r
-    echo "------------------"
