@@ -1,4 +1,4 @@
-import std/[tables, strutils, sequtils]
+import std/[tables, strutils, sequtils, math]
 
 type
   MathOperator* = enum
@@ -6,7 +6,7 @@ type
     mokMult = "*"
     mokDiv = "/"
     mokPlus = "+"
-    mokmonus = "-"
+    mokminus = "-"
     mokMod = "%"
 
     mokLarger = ">"
@@ -53,7 +53,7 @@ type
 
     of mnkPar: discard
 
-  MathFn* = proc(args: seq[float]): float
+  MathFn* = proc(args: seq[float]): float {.nosideeffect.}
   MathFnLookup* = Table[string, MathFn]
   MathVarLookup* = Table[string, float]
 
@@ -72,7 +72,7 @@ func priority(mo: MathOperator): int =
   case mo:
   of mlkPow: 4
   of mokMult, mokDiv: 3
-  of mokPlus, mokmonus: 2
+  of mokPlus, mokminus: 2
   of mokMod: 1
   of mokLarger, mokLargerEq, mokEq, mokLessEq, mokLess: 0
 
@@ -80,11 +80,57 @@ func putPars*(mn: MathNode): MathNode =
   ## 1+2*3 == (1+(2*3))
   discard
 
+
+template evalErr(msg): untyped =
+  raise newException(ValueError, msg)
+
 func eval*(mn: MathNode,
   varLookup: MathVarLookup,
   fnLookup: MathFnLookup): float =
 
-  discard
+  template rec(n): untyped =
+    eval(n, varLookup, fnLookup)
+
+  case mn.kind:
+  of mnkLit: mn.value
+  of mnkPar: rec mn.children[0]
+  of mnkVar: varLookup[mn.ident]
+  of mnkCall: fnLookup[mn.ident](mn.children.mapit(rec it))
+  of mnkPrefix: 
+    let v = rec mn.children[0]
+    case mn.operator:
+    of mokPlus: v
+    of mokminus: -v
+    else: evalErr "invalid prefix"
+
+  of mnkInfix:
+    let 
+      le = rec mn.children[0]
+      ri = rec mn.children[1]
+
+    case mn.operator:
+    of mlkPow: pow(le, ri)
+    of mokMult: le * ri
+    of mokDiv: le / ri
+    of mokPlus: le + ri
+    of mokminus: le - ri
+    of mokMod: 
+      assert le.trunc == le
+      assert ri.trunc == ri
+      float le.int mod ri.int
+
+    of mokLarger: float le > ri
+    of mokLargerEq: float le >= ri
+    of mokEq: float le == ri
+    of mokLessEq: float le <= ri
+    of mokLess: float le < ri
+  
+func eval(mn: MathNode): float = 
+  var
+    v: MathVarLookup
+    f: MathFnLookup
+
+  eval mn, v, f
 
 
 type MathLexerState = enum
@@ -298,12 +344,15 @@ func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
   else: discard
 
 func treeRepr(mn: MathNode): string =
+  ## for debugging purposes
   var acc: seq[string]
   treeReprImpl mn, acc, 0
 
   acc.join "\n"
 
+
 when isMainModule:
   let r = parse "1 + 2 * 3 ^ 4 - 5 * 6 * 7"
   echo r
   echo treerepr r
+  echo eval r
