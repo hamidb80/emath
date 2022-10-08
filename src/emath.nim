@@ -35,7 +35,7 @@ type
   MathNodeKind* = enum
     mnkLit
     mnkPar
-    mnkIdent, mnkFn
+    mnkVar, mnkCall
     mnkPrefix, mnkInfix
 
   MathNode* = ref object
@@ -45,7 +45,7 @@ type
     of mnkLit:
       value*: float
 
-    of mnkFn, mnkIdent:
+    of mnkCall, mnkVar:
       ident*: string
 
     of mnkPrefix, mnkInfix:
@@ -62,8 +62,8 @@ func `$`*(mn: MathNode): string =
   case mn.kind:
   of mnkLit: $mn.value
   of mnkPar: '(' & $mn.children[0] & ')'
-  of mnkIdent: mn.ident
-  of mnkFn: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
+  of mnkVar: mn.ident
+  of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
   of mnkPrefix: $mn.operator & $mn.children[0]
   of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
 
@@ -192,38 +192,72 @@ iterator lex(input: string): MathToken =
 func toMathNode(f: float): MathNode =
   MathNode(kind: mnkLit, value: f)
 
+# helpers
+
+func isEmpty(s: seq): bool {.inline.} =
+  s.len == 0
+
+template last(s: seq): untyped =
+  s[^1]
+
+template parserErr(msg): untyped =
+  raise newException(ValueError, msg)
+
 
 proc parse*(input: string): MathNode =
   var stack: seq[MathNode]
 
-  for t in lex input:
-    echo t
-    
-    case t.kind:
+  for tk in lex input:
+    echo ">> ", tk
+
+    case tk.kind
     of mtkNumber:
-      let t = toMathNode t.number
+      let t = toMathNode tk.number
 
-      # if result == nil:
-      # else:
-
-    of mtkOperator:
-      let temp = MathNode(kind: mnkInfix, operator: t.operator)
-
-      if result == nil: # prefix
-        discard
-
-      else:
-        case result.kind:
-        of mnkInfix:
-          # if target.operator.priority <= temp.operator.priority:
-          #   discard
-
-          # else:
-            discard
+      if not isEmpty stack:
+        case stack.last.kind:
+        of mnkInfix, mnkPrefix:
+          stack.last.children.add t
 
         else:
-          temp.children.add result
-          result = temp
+          echo stack
+          parserErr "the last is: " & $stack.last.kind
+
+      stack.add t
+
+    of mtkOperator:
+      # find general case | not all: --2
+
+      while true:
+        if isEmpty stack:
+          stack.add MathNode(kind: mnkPrefix, operator: tk.operator)
+          break
+
+        elif stack.len == 1:
+          stack.add MathNode(kind: mnkInfix, operator: tk.operator, children: @[stack.pop])
+          break
+
+        elif stack[^2].kind in {mnkInfix}: # infix
+          var temp = MathNode(kind: mnkInfix,
+              operator: tk.operator) # FIXME this is not good remember the code graph from "Grokking simplicity"
+
+          case stack[^2].kind:
+          of mnkInfix:
+            if tk.operator.priority > stack[^2].operator.priority:
+              temp.children.add stack[^2].children[1]
+              stack[^2].children[1] = temp
+              discard stack.pop
+              stack.add temp
+              break
+
+            else:
+              discard stack.pop
+
+
+          else: discard
+
+        else: # prefix
+          discard
 
     of mtkIdent: discard
     of mtkOpenPar: discard
@@ -233,6 +267,43 @@ proc parse*(input: string): MathNode =
   stack[0]
 
 
+func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
+    tab = 2)=
+
+  template incl(smth, lvl): untyped =
+    result.add indent(smth, lvl * tab)
+
+  template incl(smth): untyped =
+    incl smth, level
+
+  template inclChildren(children): untyped =
+    for ch in children:
+      treeReprImpl ch, result, level + 1
+
+  case mn.kind
+  of mnkLit: 
+    incl $mn.value
+
+  of mnkPrefix: 
+    incl $mn.operator
+    inclChildren mn.children
+
+  of mnkInfix: 
+    incl $mn.operator
+    inclChildren mn.children
+
+  # of mnkPar: "PAR" ... $mn.children[0]
+  # of mnkVar: "VAR " & mn.ident
+  # of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
+  else: discard
+
+func treeRepr(mn: MathNode): string =
+  var acc: seq[string]
+  treeReprImpl mn, acc, 0
+
+  acc.join "\n"
+
 when isMainModule:
-  echo parse "1 + 2 * 3"
-  # discard parse "1 + 2 ^ 0.3 / 4 (9==) sin(log10(3.14))"
+  let r = parse "1 + 2 * 3 ^ 4 - 5 * 6 * 7"
+  echo r
+  echo treerepr r
