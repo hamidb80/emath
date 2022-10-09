@@ -3,13 +3,23 @@ import emath/[model, utils]
 
 
 func `$`*(mn: MathNode): string =
-  case mn.kind:
+  case mn.kind
   of mnkLit: $mn.value
   of mnkPar: '(' & $mn.children[0] & ')'
   of mnkVar: mn.ident
   of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
   of mnkPrefix: $mn.operator & $mn.children[0]
   of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
+
+func recap(mn: MathNode): string =
+  case mn.kind
+  of mnkLit: "LIT " & $mn.value
+  of mnkPar: "PAR"
+  of mnkVar: "IDENT " & mn.ident
+  of mnkCall: "CALL"
+  of mnkPrefix: "PREFIX " & $mn.operator
+  of mnkInfix: "INFIX " & $mn.operator
+
 
 func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
     tab = 2) =
@@ -26,14 +36,14 @@ func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
 
   case mn.kind
   of mnkLit:
-    incl $mn.value
+    incl "LIT " & $mn.value
 
   of mnkPrefix:
-    incl $mn.operator
+    incl "PREFIX " & $mn.operator
     inclChildren mn.children
 
   of mnkInfix:
-    incl $mn.operator
+    incl "INFIX " & $mn.operator
     inclChildren mn.children
 
   # of mnkPar: "PAR" ... $mn.children[0]
@@ -59,14 +69,14 @@ func eval*(mn: MathNode,
   template rec(n): untyped =
     eval(n, varLookup, fnLookup)
 
-  case mn.kind:
+  case mn.kind
   of mnkLit: mn.value
   of mnkPar: rec mn.children[0]
   of mnkVar: varLookup[mn.ident]
   of mnkCall: fnLookup[mn.ident](mn.children.mapit(rec it))
   of mnkPrefix:
     let v = rec mn.children[0]
-    case mn.operator:
+    case mn.operator
     of mokPlus: v
     of mokminus: -v
     else: evalErr "invalid prefix"
@@ -76,7 +86,7 @@ func eval*(mn: MathNode,
       le = rec mn.children[0]
       ri = rec mn.children[1]
 
-    case mn.operator:
+    case mn.operator
     of mlkPow: pow(le, ri)
     of mokMult: le * ri
     of mokDiv: le / ri
@@ -133,7 +143,7 @@ iterator lex(input: string): MathToken =
       state = s
 
     template twist: untyped =
-      case state:
+      case state
       of mlsFloat, mlsInt:
         yield MathToken(kind: mtkNumber, number: parseFloat input[anchor ..< i])
       of mlsIdent:
@@ -142,7 +152,7 @@ iterator lex(input: string): MathToken =
         yield MathToken(kind: mtkOperator,
           operator: parseEnum[MathOperator](input[anchor ..< i]))
 
-      else: lexError "??"
+      else: lexError "invalid state"
 
       state = mlsReady
       continue
@@ -154,7 +164,7 @@ iterator lex(input: string): MathToken =
 
     case ch
     of Whitespace, EoS:
-      case state:
+      case state
       of mlsReady: discard
       else: twist
 
@@ -206,18 +216,16 @@ iterator lex(input: string): MathToken =
 template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
-proc parse*(input: string): MathNode =
+func parse*(input: string): MathNode =
   var stack: seq[MathNode]
 
   for tk in lex input:
-    echo ">> ", tk
-
     case tk.kind
     of mtkNumber:
       let t = toMathNode tk.number
 
       if not isEmpty stack:
-        case stack.last.kind:
+        case stack.last.kind
         of mnkInfix, mnkPrefix:
           stack.last.children.add t
 
@@ -232,47 +240,80 @@ proc parse*(input: string): MathNode =
       while true:
         if isEmpty stack:
           stack.add MathNode(kind: mnkPrefix, operator: tk.operator)
-          break
 
         elif stack.last.kind == mnkprefix:
           let t = MathNode(kind: mnkPrefix, operator: tk.operator)
           stack.last.children.add t
           stack.add t
-          break
+
+        elif stack.last.kind == mnkInfix:
+          debugEcho "??"
+          var t = MathNode(kind: mnkPrefix, operator: tk.operator)
+          stack.last.children.add t
+          stack.add t
 
         elif stack.len == 1:
-          stack.add MathNode(kind: mnkInfix, operator: tk.operator, children: @[stack.pop])
-          break
+          debugEcho ">>"
+
+          var
+            t = MathNode(kind: mnkInfix, operator: tk.operator)
+            n = stack.pop
+          t.children.add n
+          stack.add t
 
         elif stack[^2].kind == mnkInfix:
           var temp = MathNode(kind: mnkInfix,
               operator: tk.operator) # FIXME this is not good remember the code graph from "Grokking simplicity"
 
-          case stack[^2].kind:
+          case stack[^2].kind
           of mnkInfix:
             if tk.operator.priority > stack[^2].operator.priority:
               temp.children.add stack[^2].children[1]
               stack[^2].children[1] = temp
               discard stack.pop
               stack.add temp
-              break
 
             else:
               discard stack.pop
+              continue
 
 
           else: discard
 
         elif stack[^2].kind == mnkPrefix:
-          let t = MathNode(kind: mnkPrefix, operator: tk.operator)
-          stack.last.children.add t
-          stack.add t
-          break
+          var t = MathNode(kind: mnkInfix, operator: tk.operator)
+
+          if t.operator.priority > stack[^2].operator.priority: # -1 * 2
+            let n = stack.pop
+            t.children.add n
+            stack[^1].children = @[t]
+            stack.add t
+
+          else: # -1 - 2
+            debugEcho "!!"
+
+            while stack.len > 1:
+              discard stack.pop
+
+              if stack.last.kind == mnkInfix:
+                break
+
+            t.children.add stack.pop
+            stack.add t
+
+        break
 
     of mtkIdent: discard
     of mtkOpenPar: discard
     of mtkClosePar: discard
     of mtkComma: discard
 
-  echo stack
+
+    when defined emathDebug:
+      debugEcho ">> ", tk
+      debugEcho "stack: ", stack.map(recap).join ", "
+      debugEcho "tree:"
+      debugEcho treeRepr stack[0]
+      debugEcho "---------------------"
+
   stack[0]
