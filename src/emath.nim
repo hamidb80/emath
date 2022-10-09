@@ -220,6 +220,8 @@ template parserErr(msg): untyped =
 
 func parse*(input: string): MathNode =
   var stack: seq[MathNode]
+  # TODO you can store the whole scope in a par
+  # then supoorting other pars would not be a problem
 
   for tk in lex input:
     case tk.kind
