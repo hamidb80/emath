@@ -3,3 +3,6 @@ func isEmpty*(s: seq): bool {.inline.} =
 
 template last*(s: seq): untyped =
   s[^1]
+
+func shoot*(s: var seq) =
+  s.del s.high

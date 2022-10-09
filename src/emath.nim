@@ -16,7 +16,7 @@ func recap(mn: MathNode): string =
   of mnkLit: "LIT " & $mn.value
   of mnkPar: "PAR"
   of mnkVar: "IDENT " & mn.ident
-  of mnkCall: "CALL"
+  of mnkCall: "CALL " & mn.ident
   of mnkPrefix: "PREFIX " & $mn.operator
   of mnkInfix: "INFIX " & $mn.operator
 
@@ -216,6 +216,8 @@ iterator lex(input: string): MathToken =
 template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
+# FIXME apply "code graph" from "Grokking simplicity"
+
 func parse*(input: string): MathNode =
   var stack: seq[MathNode]
 
@@ -235,73 +237,68 @@ func parse*(input: string): MathNode =
       stack.add t
 
     of mtkOperator:
-      # find general case | not all: --2
+      if isEmpty stack:
+        stack.add MathNode(kind: mnkPrefix, operator: tk.operator)
 
-      while true:
-        if isEmpty stack:
-          stack.add MathNode(kind: mnkPrefix, operator: tk.operator)
+      elif stack.last.kind == mnkprefix:
+        let t = MathNode(kind: mnkPrefix, operator: tk.operator)
+        stack.last.children.add t
+        stack.add t
 
-        elif stack.last.kind == mnkprefix:
-          let t = MathNode(kind: mnkPrefix, operator: tk.operator)
-          stack.last.children.add t
-          stack.add t
+      elif stack.last.kind == mnkInfix:
+        debugEcho "??"
+        var t = MathNode(kind: mnkPrefix, operator: tk.operator)
+        stack.last.children.add t
+        stack.add t
 
-        elif stack.last.kind == mnkInfix:
-          debugEcho "??"
-          var t = MathNode(kind: mnkPrefix, operator: tk.operator)
-          stack.last.children.add t
-          stack.add t
+      elif stack.len == 1:
+        debugEcho ">>"
 
-        elif stack.len == 1:
-          debugEcho ">>"
+        var
+          t = MathNode(kind: mnkInfix, operator: tk.operator)
+          n = stack.pop
 
-          var
-            t = MathNode(kind: mnkInfix, operator: tk.operator)
-            n = stack.pop
+        t.children.add n
+        stack.add t
+
+      elif stack[^2].kind == mnkInfix:
+        var
+          temp = MathNode(kind: mnkInfix, operator: tk.operator)
+          n = stack.pop
+          l = n
+
+        while stack.len > 0:
+          if tk.operator.priority > stack.last.operator.priority:
+            temp.children.add stack.last.children[1]
+            stack.last.children[1] = temp
+            shoot stack
+            stack.add temp
+            break
+
+          else:
+            l = stack.pop
+
+      elif stack[^2].kind == mnkPrefix:
+        var t = MathNode(kind: mnkInfix, operator: tk.operator)
+
+        if t.operator.priority > stack[^2].operator.priority: # -1 * 2
+          let n = stack.pop
           t.children.add n
+          stack[^1].children = @[t]
           stack.add t
 
-        elif stack[^2].kind == mnkInfix:
-          var temp = MathNode(kind: mnkInfix,
-              operator: tk.operator) # FIXME this is not good remember the code graph from "Grokking simplicity"
+        else: # -1 - 2
+          debugEcho "!!"
 
-          case stack[^2].kind
-          of mnkInfix:
-            if tk.operator.priority > stack[^2].operator.priority:
-              temp.children.add stack[^2].children[1]
-              stack[^2].children[1] = temp
-              discard stack.pop
-              stack.add temp
+          while stack.len > 1:
+            shoot stack
 
-            else:
-              discard stack.pop
-              continue
+            if stack.last.kind == mnkInfix:
+              break
 
+          t.children.add stack.pop
+          stack.add t
 
-          else: discard
-
-        elif stack[^2].kind == mnkPrefix:
-          var t = MathNode(kind: mnkInfix, operator: tk.operator)
-
-          if t.operator.priority > stack[^2].operator.priority: # -1 * 2
-            let n = stack.pop
-            t.children.add n
-            stack[^1].children = @[t]
-            stack.add t
-
-          else: # -1 - 2
-            debugEcho "!!"
-
-            while stack.len > 1:
-              discard stack.pop
-
-              if stack.last.kind == mnkInfix:
-                break
-
-            t.children.add stack.pop
-            stack.add t
-
-        break
 
     of mtkIdent: discard
     of mtkOpenPar: discard
