@@ -234,16 +234,17 @@ proc parse*(input: string): MathNode =
           stack.add MathNode(kind: mnkPrefix, operator: tk.operator)
           break
 
+        elif stack.last.kind == mnkprefix:
+          let t = MathNode(kind: mnkPrefix, operator: tk.operator)
+          stack.last.children.add t
+          stack.add t
+          break
+
         elif stack.len == 1:
           stack.add MathNode(kind: mnkInfix, operator: tk.operator, children: @[stack.pop])
           break
 
-        # elif stack.last.kind == mnkPrefix:
-        #   let t = MathNode(kind: mnkPrefix, operator: tk.operator)
-        #   stack.last.children.add t
-        #   stack.add t
-
-        elif stack[^2].kind in {mnkInfix}: # infix
+        elif stack[^2].kind == mnkInfix:
           var temp = MathNode(kind: mnkInfix,
               operator: tk.operator) # FIXME this is not good remember the code graph from "Grokking simplicity"
 
@@ -262,13 +263,16 @@ proc parse*(input: string): MathNode =
 
           else: discard
 
-
-        else: # prefix
-          discard
+        elif stack[^2].kind == mnkPrefix:
+          let t = MathNode(kind: mnkPrefix, operator: tk.operator)
+          stack.last.children.add t
+          stack.add t
+          break
 
     of mtkIdent: discard
     of mtkOpenPar: discard
     of mtkClosePar: discard
     of mtkComma: discard
 
+  echo stack
   stack[0]
