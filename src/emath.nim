@@ -264,8 +264,7 @@ func parse*(input: string): MathNode =
       elif stack[^2].kind == mnkInfix:
         var
           temp = MathNode(kind: mnkInfix, operator: tk.operator)
-          n = stack.pop
-          l = n
+          l = stack.pop
 
         while stack.len > 0:
           if tk.operator.priority > stack.last.operator.priority:
@@ -277,6 +276,13 @@ func parse*(input: string): MathNode =
 
           else:
             l = stack.pop
+
+        temp.children.add l
+        
+        if stack.len != 0:
+          stack.last.children.add l
+
+        stack.add temp
 
       elif stack[^2].kind == mnkPrefix:
         var t = MathNode(kind: mnkInfix, operator: tk.operator)
