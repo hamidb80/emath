@@ -1,6 +1,7 @@
 import std/tables
 
 type
+  # TODO add fact (!) as postfix
   MathOperator* = enum
     # -- operation
     mlkPow = "^"
@@ -18,8 +19,7 @@ type
 
   MathTokenKind* = enum
     mtkNumber
-    mtkOperator
-    mtkIdent
+    mtkOperator, mtkIdent
     mtkOpenPar, mtkClosePar
     mtkComma
 
@@ -27,10 +27,13 @@ type
     case kind*: MathTokenKind
     of mtkNumber:
       number*: float
+
     of mtkIdent:
       ident*: string
+
     of mtkOperator:
       operator*: MathOperator
+
     else: discard
 
   MathNodeKind* = enum
@@ -54,14 +57,41 @@ type
 
     of mnkPar: discard
 
-  MathFn* = proc(args: seq[float]): float {.nosideeffect.}
+  MathFn* = proc(args: seq[float]): float {.noSideEffect.}
   MathFnLookup* = Table[string, MathFn]
   MathVarLookup* = Table[string, float]
 
 
+func newPar*: MathNode =
+  MathNode(kind: mnkPar)
 
-func toMathNode*(f: float): MathNode =
+func newPrefix*(o: MathOperator): MathNode =
+  MathNode(kind: mnkPrefix, operator: o)
+
+func newInfix*(o: MathOperator): MathNode =
+  MathNode(kind: mnkInfix, operator: o)
+
+func newVar*(i: string): MathNode =
+  MathNode(kind: mnkVar, ident: i)
+
+func newCall*(i: string): MathNode =
+  MathNode(kind: mnkCall, ident: i)
+
+func newLiteral*(f: float): MathNode =
   MathNode(kind: mnkLit, value: f)
+
+
+func left*(mn: MathNode): MathNode =
+  assert mn.kind == mnkInfix
+  mn.children[0]
+
+func right*(mn: MathNode): MathNode =
+  assert mn.kind == mnkInfix
+  mn.children[1]
+
+func inside*(mn: MathNode): MathNode =
+  assert mn.kind in {mnkPrefix, mnkPar}
+  mn.children[0]
 
 
 func priority*(mo: MathOperator): int =

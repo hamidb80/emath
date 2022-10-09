@@ -20,7 +20,6 @@ func recap(mn: MathNode): string {.used.} =
   of mnkPrefix: "PREFIX " & $mn.operator
   of mnkInfix: "INFIX " & $mn.operator
 
-
 func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
     tab = 2) =
 
@@ -57,6 +56,23 @@ func treeRepr*(mn: MathNode): string =
   treeReprImpl mn, acc, 0
 
   acc.join "\n"
+
+
+func isValid*(mn: MathNode): bool =
+  let
+    numberOfChildren =
+      case mn.kind
+      of mnkLit, mnkVar, mnkCall: true
+      of mnkPar, mnkPrefix: mn.children.len == 1
+      of mnkInfix: mn.children.len == 2
+
+    subNodes =
+      case mn.kind
+      of mnkLit, mnkVar: true
+      of mnkPar, mnkPrefix, mnkCall, mnkInfix:
+        mn.children.allIt isValid it
+
+  numberOfChildren and subNodes
 
 
 template evalErr(msg): untyped =
@@ -216,17 +232,13 @@ iterator lex(input: string): MathToken =
 template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
-# FIXME apply "code graph" from "Grokking simplicity"
-
 func parse*(input: string): MathNode =
-  var stack: seq[MathNode]
-  # TODO you can store the whole scope in a par
-  # then supoorting other pars would not be a problem
+  var stack: seq[MathNode] # = @[newPar()]
 
   for tk in lex input:
     case tk.kind
     of mtkNumber, mtkIdent:
-      let t = toMathNode tk.number
+      let t = newLiteral tk.number
 
       if not isEmpty stack:
         case stack.last.kind
@@ -280,7 +292,7 @@ func parse*(input: string): MathNode =
             l = stack.pop
 
         temp.children.add l
-        
+
         if stack.len != 0:
           stack.last.children.add l
 
