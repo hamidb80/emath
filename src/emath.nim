@@ -11,7 +11,7 @@ func `$`*(mn: MathNode): string =
   of mnkPrefix: $mn.operator & $mn.children[0]
   of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
 
-func recap(mn: MathNode): string =
+func recap(mn: MathNode): string {.used.} =
   case mn.kind
   of mnkLit: "LIT " & $mn.value
   of mnkPar: "PAR"
@@ -223,7 +223,7 @@ func parse*(input: string): MathNode =
 
   for tk in lex input:
     case tk.kind
-    of mtkNumber:
+    of mtkNumber, mtkIdent:
       let t = toMathNode tk.number
 
       if not isEmpty stack:
@@ -305,8 +305,6 @@ func parse*(input: string): MathNode =
           t.children.add stack.pop
           stack.add t
 
-
-    of mtkIdent: discard
     of mtkOpenPar: discard
     of mtkClosePar: discard
     of mtkComma: discard
