@@ -58,7 +58,7 @@ type
 
     of mnkPar: discard
 
-  MathFn* = proc(args: seq[float]): float {.noSideEffect.}
+  MathFn* = proc(args: seq[float]): float {.noSideEffect, nimcall.} # TODO remove .nimcall.
   MathFnLookup* = Table[string, MathFn]
   MathVarLookup* = Table[string, float]
 
@@ -93,6 +93,9 @@ func right*(mn: MathNode): MathNode =
 func inside*(mn: MathNode): MathNode =
   assert mn.kind in {mnkPrefix, mnkPar}
   mn.children[0]
+
+func isOpenPar*(mn: MathNode): bool = 
+  (mn.kind == mnkPar) and (not mn.isFinal)
 
 
 func priority*(mo: MathOperator): int =

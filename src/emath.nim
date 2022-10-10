@@ -1,5 +1,5 @@
 import std/[tables, strutils, sequtils, math, sugar]
-import emath/[model, utils]
+import emath/[model, utils, defs]
 
 
 func `$`*(mn: MathNode): string =
@@ -130,11 +130,7 @@ func eval*(mn: MathNode,
     of mokLess: float le < ri
 
 func eval*(mn: MathNode): float =
-  var
-    v: MathVarLookup
-    f: MathFnLookup
-
-  eval mn, v, f
+  eval mn, defaultVars, defaultFns
 
 
 type MathLexerState = enum
@@ -245,11 +241,12 @@ template parserErr(msg): untyped =
 func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
   ## returns subTree, could be nil
   while true:
-    if (fn stack.last) or
-       (stack.last.kind == mnkPar) and (not stack.last.isFinal):
+    if (fn stack.last):
       return
     else:
       result = stack.pop
+
+  raise newException(ValueError, "couldn't find the desired node")
 
 func parse*(input: string): MathNode =
   var stack: seq[MathNode] = @[newPar()]
@@ -281,6 +278,7 @@ func parse*(input: string): MathNode =
         var
           t = newInfix tk.operator
           n = goUp(stack, (mn: MathNode) =>
+            isOpenPar(mn) or
             (mn.kind in {mnkInfix, mnkPrefix}) and
             (t.operator.priority > mn.operator.priority))
 
@@ -305,9 +303,16 @@ func parse*(input: string): MathNode =
         parserErr "invalid token: " & $tk
 
     of mtkClosePar:
-      let sub = goUp(stack, (mn: MathNode) => false)
+      let sub = goUp(stack, (mn: MathNode) => isOpenPar(mn))
+
       assert sub != nil
       assert stack.len != 1
+
+      # case stack.last.kind:
+      # of mnkPar: discard
+      # of mnkCall: discard
+      # else: assert false
+
       stack.last.isFinal = true
 
     of mtkComma:

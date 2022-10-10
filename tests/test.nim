@@ -2,7 +2,7 @@ import std/unittest
 import emath
 
 
-func `~=`(f1, f2: float): bool = 
+func `~=`(f1, f2: float): bool =
   0.01 > abs f1 - f2
 
 template matche(expr, answer): untyped =
@@ -27,6 +27,7 @@ suite "operator priority":
 
 suite "pars":
   const expr = "(1) + (2 * 3) - 4"
+
   test expr:
     matche expr, 3.0
 
