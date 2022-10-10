@@ -1,4 +1,4 @@
-import std/[tables, strutils, sequtils, math]
+import std/[tables, strutils, sequtils, math, sugar]
 import emath/[model, utils]
 
 
@@ -45,8 +45,13 @@ func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
     incl "INFIX " & $mn.operator
     inclChildren mn.children
 
-  # of mnkPar: "PAR" ... $mn.children[0]
-  # of mnkVar: "VAR " & mn.ident
+  of mnkPar:
+    incl "PAR "
+    inclChildren mn.children
+
+  of mnkVar:
+    incl "VAR " & mn.ident
+
   # of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
   else: discard
 
@@ -72,7 +77,12 @@ func isValid*(mn: MathNode): bool =
       of mnkPar, mnkPrefix, mnkCall, mnkInfix:
         mn.children.allIt isValid it
 
-  numberOfChildren and subNodes
+    closed =
+      case mn.kind
+      of mnkPar, mnkCall: mn.isFinal
+      else: true
+
+  numberOfChildren and subNodes and closed
 
 
 template evalErr(msg): untyped =
@@ -135,7 +145,7 @@ type MathLexerState = enum
 
 const
   Operators = {'+', '-', '*', '/', '^', '=', '<', '>', '%'}
-  EoS = '\0' # End of Sting
+  EoS = '\0' # End of String
 
 template mtoken(k: MathTokenKind): untyped =
   MathToken(kind: k)
@@ -232,96 +242,76 @@ iterator lex(input: string): MathToken =
 template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
+func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
+  ## returns subTree, could be nil
+  while true:
+    if (fn stack.last) or
+       (stack.last.kind == mnkPar) and (not stack.last.isFinal):
+      return
+    else:
+      result = stack.pop
+
 func parse*(input: string): MathNode =
-  var stack: seq[MathNode] # = @[newPar()]
+  var stack: seq[MathNode] = @[newPar()]
 
   for tk in lex input:
     case tk.kind
     of mtkNumber, mtkIdent:
-      let t = newLiteral tk.number
-
-      if not isEmpty stack:
-        case stack.last.kind
-        of mnkInfix, mnkPrefix:
-          stack.last.children.add t
-
+      let t =
+        if tk.kind == mtkNumber:
+          newLiteral tk.number
         else:
-          parserErr "the last is: " & $stack.last.kind
+          newVar tk.ident
 
+      assert stack.last.kind in {mnkInfix, mnkPrefix, mnkPar}
+      stack.last.children.add t
       stack.add t
 
     of mtkOperator:
-      if isEmpty stack:
-        stack.add MathNode(kind: mnkPrefix, operator: tk.operator)
+      if
+        (stack.last.kind == mnkPar) and
+        (stack.last.children.len == 0) or
+        (stack.last.kind in {mnkInfix, mnkprefix}):
 
-      elif stack.last.kind == mnkprefix:
-        let t = MathNode(kind: mnkPrefix, operator: tk.operator)
+        let t = newPrefix tk.operator
         stack.last.children.add t
         stack.add t
 
-      elif stack.last.kind == mnkInfix:
-        debugEcho "??"
-        var t = MathNode(kind: mnkPrefix, operator: tk.operator)
-        stack.last.children.add t
-        stack.add t
-
-      elif stack.len == 1:
-        debugEcho ">>"
-
+      elif stack.last.kind in {mnkLit, mnkVar, mnkPar, mnkCall}:
         var
-          t = MathNode(kind: mnkInfix, operator: tk.operator)
-          n = stack.pop
+          t = newInfix tk.operator
+          n = goUp(stack, (mn: MathNode) =>
+            (mn.kind in {mnkInfix, mnkPrefix}) and
+            (t.operator.priority > mn.operator.priority))
 
+        stack.last.children[^1] = t
         t.children.add n
         stack.add t
 
-      elif stack[^2].kind == mnkInfix:
-        var
-          temp = MathNode(kind: mnkInfix, operator: tk.operator)
-          l = stack.pop
+      else:
+        parserErr "what?"
 
-        while stack.len > 0:
-          if tk.operator.priority > stack.last.operator.priority:
-            temp.children.add stack.last.children[1]
-            stack.last.children[1] = temp
-            shoot stack
-            stack.add temp
-            break
+    of mtkOpenPar:
+      case stack.last.kind
+      of mnkVar: # is a function call
+        discard
 
-          else:
-            l = stack.pop
+      of mnkInfix, mnkPrefix, mnkPar:
+        let t = newPar()
+        stack.last.children.add t
+        stack.add t
 
-        temp.children.add l
+      else:
+        parserErr "invalid token: " & $tk
 
-        if stack.len != 0:
-          stack.last.children.add l
+    of mtkClosePar:
+      let sub = goUp(stack, (mn: MathNode) => false)
+      assert sub != nil
+      assert stack.len != 1
+      stack.last.isFinal = true
 
-        stack.add temp
-
-      elif stack[^2].kind == mnkPrefix:
-        var t = MathNode(kind: mnkInfix, operator: tk.operator)
-
-        if t.operator.priority > stack[^2].operator.priority: # -1 * 2
-          let n = stack.pop
-          t.children.add n
-          stack[^1].children = @[t]
-          stack.add t
-
-        else: # -1 - 2
-          debugEcho "!!"
-
-          while stack.len > 1:
-            shoot stack
-
-            if stack.last.kind == mnkInfix:
-              break
-
-          t.children.add stack.pop
-          stack.add t
-
-    of mtkOpenPar: discard
-    of mtkClosePar: discard
-    of mtkComma: discard
+    of mtkComma:
+      discard
 
 
     when defined emathDebug:
@@ -331,4 +321,4 @@ func parse*(input: string): MathNode =
       debugEcho treeRepr stack[0]
       debugEcho "---------------------"
 
-  stack[0]
+  stack[0].inside

@@ -1,7 +1,7 @@
 import std/tables
 
 type
-  # TODO add fact (!) as postfix
+  # TODO add factorial (!) as postfix
   MathOperator* = enum
     # -- operation
     mlkPow = "^"
@@ -42,8 +42,9 @@ type
     mnkVar, mnkCall
     mnkPrefix, mnkInfix
 
-  MathNode* = ref object
+  MathNode* {.acyclic.} = ref object
     children*: seq[MathNode]
+    isFinal*: bool
 
     case kind*: MathNodeKind
     of mnkLit:
@@ -62,9 +63,6 @@ type
   MathVarLookup* = Table[string, float]
 
 
-func newPar*: MathNode =
-  MathNode(kind: mnkPar)
-
 func newPrefix*(o: MathOperator): MathNode =
   MathNode(kind: mnkPrefix, operator: o)
 
@@ -74,8 +72,11 @@ func newInfix*(o: MathOperator): MathNode =
 func newVar*(i: string): MathNode =
   MathNode(kind: mnkVar, ident: i)
 
+func newPar*: MathNode =
+  MathNode(kind: mnkPar, isFinal: false)
+
 func newCall*(i: string): MathNode =
-  MathNode(kind: mnkCall, ident: i)
+  MathNode(kind: mnkCall, ident: i, isFinal: false)
 
 func newLiteral*(f: float): MathNode =
   MathNode(kind: mnkLit, value: f)
