@@ -35,9 +35,8 @@ func treeReprImpl(mn: MathNode, result: var seq[string],
     of mnkVar: "VAR " & mn.ident
     of mnkCall: "CALL " & mn.ident
 
-  if mn.kind in {mnkPar, mnkCall, mnkPrefix, mnkInfix}:
-    for ch in mn.children:
-      treeReprImpl ch, result, level + 1
+  for ch in mn.children:
+    treeReprImpl ch, result, level + 1
 
 func treeRepr*(mn: MathNode): string =
   ## for debugging purposes
@@ -103,8 +102,7 @@ func eval*(mn: MathNode,
     of mokPlus: le + ri
     of mokminus: le - ri
     of mokMod:
-      assert le.trunc == le
-      assert ri.trunc == ri
+      assert le.isInt and ri.isInt
       float le.int mod ri.int
 
     of mokLarger: float le > ri
