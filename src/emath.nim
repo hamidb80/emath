@@ -20,40 +20,24 @@ func recap(mn: MathNode): string {.used.} =
   of mnkPrefix: "PREFIX " & $mn.operator
   of mnkInfix: "INFIX " & $mn.operator
 
-func treeReprImpl(mn: MathNode, result: var seq[string], level: int,
-    tab = 2) =
-
-  template incl(smth, lvl): untyped =
-    result.add indent(smth, lvl * tab)
+func treeReprImpl(mn: MathNode, result: var seq[string],
+  level: int, tab = 2) =
 
   template incl(smth): untyped =
-    incl smth, level
+    result.add indent(smth, level * tab)
 
-  template inclChildren(children): untyped =
-    for ch in children:
+  incl:
+    case mn.kind
+    of mnkLit: "LIT " & $mn.value
+    of mnkPrefix: "PREFIX " & $mn.operator
+    of mnkInfix: "INFIX " & $mn.operator
+    of mnkPar: "PAR"
+    of mnkVar: "VAR " & mn.ident
+    of mnkCall: "CALL " & mn.ident
+
+  if mn.kind in {mnkPar, mnkCall, mnkPrefix, mnkInfix}:
+    for ch in mn.children:
       treeReprImpl ch, result, level + 1
-
-  case mn.kind
-  of mnkLit:
-    incl "LIT " & $mn.value
-
-  of mnkPrefix:
-    incl "PREFIX " & $mn.operator
-    inclChildren mn.children
-
-  of mnkInfix:
-    incl "INFIX " & $mn.operator
-    inclChildren mn.children
-
-  of mnkPar:
-    incl "PAR "
-    inclChildren mn.children
-
-  of mnkVar:
-    incl "VAR " & mn.ident
-
-  # of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
-  else: discard
 
 func treeRepr*(mn: MathNode): string =
   ## for debugging purposes
@@ -277,10 +261,11 @@ func parse*(input: string): MathNode =
       elif stack.last.kind in {mnkLit, mnkVar, mnkPar, mnkCall}:
         var
           t = newInfix tk.operator
+          p = t.operator.priority
           n = goUp(stack, (mn: MathNode) =>
             isOpenPar(mn) or
             (mn.kind in {mnkInfix, mnkPrefix}) and
-            (t.operator.priority > mn.operator.priority))
+            (p > mn.operator.priority))
 
         stack.last.children[^1] = t
         t.children.add n
