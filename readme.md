@@ -34,8 +34,9 @@ Then the lexer passes tokens one-by-one to the parser. The parser is the *heart*
 The basic idea is to increamentally iterate over tokens and update the tree. Which should have `O(n)` time complexity.
 
 
-**NOTE:** the nesting means it's inside of the upper node.
-**NOTE:** I keep track of focused nodes with `#n` in the codes. it's actually a stack that contains nodes with index of `n-1`.
+**NOTEs:** 
+- the nesting means it's inside of the upper node.
+- I keep track of focused nodes with `#n` in the codes. it's actually a stack that contains nodes with index of `n-1`.
 
 Imagine you have `1 + 2 * 3 ^ 4 < 5` as the expression, your initial node is a parentheses.
 ```nim
