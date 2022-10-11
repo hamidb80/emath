@@ -1,0 +1,2 @@
+last	emath/utils.html#last.t,seq	utils: last(s: seq): untyped	
+isInt	emath/utils.html#isInt,float	utils: isInt(f: float): bool	
