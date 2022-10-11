@@ -83,14 +83,17 @@ func newLiteral*(f: float): MathNode =
 
 
 func left*(mn: MathNode): MathNode =
+  ## returns the left side of an infix operator
   assert mn.kind == mnkInfix
   mn.children[0]
 
 func right*(mn: MathNode): MathNode =
+  ## returns the right side of an infix operator
   assert mn.kind == mnkInfix
   mn.children[1]
 
 func inside*(mn: MathNode): MathNode =
+  ## returns the inside value of a parenthesis or a prefix
   assert mn.kind in {mnkPrefix, mnkPar}
   mn.children[0]
 

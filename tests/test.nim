@@ -1,4 +1,4 @@
-import std/unittest
+import std/[unittest, math]
 import emath
 
 
@@ -35,6 +35,11 @@ suite "fn call":
   const expr = "cos(3.14) + log(16, 2) * 3"
   test expr:
     matche expr, 11
+
+suite "var":
+  const expr = "PI*2"
+  test expr:
+    matche expr, TAU
 
 suite "correctness":
   for expr in [
