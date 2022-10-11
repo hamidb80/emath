@@ -47,10 +47,12 @@ func treeRepr*(mn: MathNode): string =
 
 
 func isValid*(mn: MathNode): bool =
+  ## check for any AST errors in the validity of genereated AST
   let
     numberOfChildren =
       case mn.kind
-      of mnkLit, mnkVar, mnkCall: true
+      of mnkLit, mnkVar: true
+      of mnkCall: mn.children.len > 0
       of mnkPar, mnkPrefix: mn.children.len == 1
       of mnkInfix: mn.children.len == 2
 
@@ -74,6 +76,7 @@ template evalErr(msg): untyped =
 func eval*(mn: MathNode,
   varLookup: MathVarLookup,
   fnLookup: MathFnLookup): float =
+  ## calculates the final answer
 
   template rec(n): untyped =
     eval(n, varLookup, fnLookup)
@@ -112,11 +115,13 @@ func eval*(mn: MathNode,
     of mokLess: float le < ri
 
 func eval*(mn: MathNode): float =
+  ## calculates the final answer with the default
+  ## variable lookup and function lookup
   eval mn, defaultVars, defaultFns
 
 
 type MathLexerState = enum
-  mlsReady
+  mlsInitial
   mlsInt, mlsFloat
   mlsOperator
   mlsIdent
@@ -135,7 +140,7 @@ iterator lex(input: string): MathToken =
   var
     i = 0
     anchor = 0
-    state = mlsReady
+    state = mlsInitial
 
   while i < input.len + 1:
     let ch =
@@ -158,18 +163,18 @@ iterator lex(input: string): MathToken =
 
       else: lexError "invalid state"
 
-      state = mlsReady
+      state = mlsInitial
       continue
 
     template onReady(body): untyped =
       case state
-      of mlsReady: body
+      of mlsInitial: body
       else: twist
 
     case ch
     of Whitespace, EoS:
       case state
-      of mlsReady: discard
+      of mlsInitial: discard
       else: twist
 
     of Operators:
@@ -178,19 +183,19 @@ iterator lex(input: string): MathToken =
         if ch notin {'<', '>', '='}: twist
         else: discard
 
-      of mlsReady: enterState mlsOperator
+      of mlsInitial: enterState mlsOperator
       else: twist
 
     of Digits:
       case state
-      of mlsReady: enterState mlsInt
+      of mlsInitial: enterState mlsInt
       of mlsInt, mlsFloat, mlsIdent: discard
       else: twist
 
     of Letters:
       case state
       of mlsIdent: discard
-      of mlsReady: enterState mlsIdent
+      of mlsInitial: enterState mlsIdent
       else: twist
 
     of '.':
@@ -221,7 +226,8 @@ template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
 func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
-  ## returns subTree, could be nil
+  ## goes up of a sun tree until satisfies `fn`
+  ## returns sub tree, could be nil
   while true:
     if (fn stack.last):
       return
@@ -231,6 +237,7 @@ func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
   raise newException(ValueError, "couldn't find the desired node")
 
 func parse*(input: string): MathNode =
+  ## parses the math expression from raw string into its corresponding AST
   var stack: seq[MathNode] = @[newPar()]
 
   for tk in lex input:
