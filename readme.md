@@ -16,7 +16,7 @@ echo "1 + sin(3.14)".parse.eval
 there is another form of `eval` function which also takes variable-lookup and function-lookup tables.
 
 ## Documentation
-for more information see documentations [here](https://).
+for more information see documentations [here](https://hamidb80.github.io/emath/).
 
 ## Advantages
 parsing the expression to the actual AST, gives you the power and flexibility to do whatever processings you want with that. for example you may want to remove unnecessary parentheses around the values.
