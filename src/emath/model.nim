@@ -94,8 +94,8 @@ func inside*(mn: MathNode): MathNode =
   assert mn.kind in {mnkPrefix, mnkPar}
   mn.children[0]
 
-func isOpenPar*(mn: MathNode): bool =
-  (mn.kind == mnkPar) and (not mn.isFinal)
+func isOpenWrapper*(mn: MathNode): bool =
+  (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)
 
 
 func priority*(mo: MathOperator): int =

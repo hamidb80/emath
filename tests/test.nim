@@ -31,7 +31,15 @@ suite "pars":
   test expr:
     matche expr, 3.0
 
-# suite "fn call":
-#   const expr = "cos(3.14) + log(16, 2)"
-#   test expr:
-#     matche expr, 3.0
+suite "fn call":
+  const expr = "cos(3.14) + log(16, 2) * 3"
+  test expr:
+    matche expr, 11
+
+suite "correctness":
+  for expr in [
+    ("2^1.1^1.2^1.3 == ((2^1.1)^1.2)^1.3"),
+    ("-10^2 == -(10)^2"),
+  ]:
+    test expr:
+      check expr.parse.eval == 1.0

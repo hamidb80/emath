@@ -242,7 +242,7 @@ func parse*(input: string): MathNode =
         else:
           newVar tk.ident
 
-      assert stack.last.kind in {mnkInfix, mnkPrefix, mnkPar}
+      assert stack.last.kind in {mnkInfix, mnkPrefix, mnkPar, mnkCall}
       stack.last.children.add t
       stack.add t
 
@@ -261,7 +261,7 @@ func parse*(input: string): MathNode =
           t = newInfix tk.operator
           p = t.operator.priority
           n = goUp(stack, (mn: MathNode) =>
-            isOpenPar(mn) or
+            isOpenWrapper(mn) or
             (mn.kind in {mnkInfix, mnkPrefix}) and
             (p > mn.operator.priority))
 
@@ -275,7 +275,9 @@ func parse*(input: string): MathNode =
     of mtkOpenPar:
       case stack.last.kind
       of mnkVar: # is a function call
-        discard
+        let t = newCall(stack.pop.ident)
+        stack.last.children[^1] = t
+        stack.add t
 
       of mnkInfix, mnkPrefix, mnkPar:
         let t = newPar()
@@ -283,23 +285,22 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        parserErr "invalid token: " & $tk
+        parserErr "invalid token before par: " & $tk
 
     of mtkClosePar:
-      let sub = goUp(stack, (mn: MathNode) => isOpenPar(mn))
-
+      let sub = goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
       assert sub != nil
-      assert stack.len != 1
 
-      # case stack.last.kind:
-      # of mnkPar: discard
-      # of mnkCall: discard
-      # else: assert false
+      case stack.last.kind
+      of mnkPar: assert stack.last.children.len == 1
+      of mnkCall: assert stack.last.children.len != 0
+      else: discard
 
       stack.last.isFinal = true
 
     of mtkComma:
-      discard
+      discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
+      assert stack.last.kind == mnkCall
 
 
     when defined emathDebug:
