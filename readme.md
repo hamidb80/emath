@@ -40,13 +40,13 @@ The basic idea is to increamentally iterate over tokens and update the tree. Whi
 
 Imagine you have `1 + 2 * 3 ^ 4 < 5` as the expression, your initial node is a parentheses.
 ```nim
-Par
+Par # 1
 ```
 
 The first token is number `1`. we simply add the number to the upper parenthesis:
 ```nim
-Par
-    Lit 1
+Par #1
+    Lit 1 #2
 ```
 
 Obviosly if you hit a number or a open/closed parentheses instead of an operator after a number, it would be an invalid token.
@@ -56,7 +56,7 @@ The next token is operator `+`. we are going to transfrom the tree:
 ```nim
 Par #1
     Infix + #2
-        Lit 1 #3
+        Lit 1
 ```
 
 Notice that a complete infix has 2 nodes, but here it has given one, we expect that it would be completed in next iteratations.
@@ -78,7 +78,7 @@ Par #1
     Infix + #2
         Lit 1 
         Infix * #3
-            Lit 2 #4
+            Lit 2
 ```
 
 The next token is number `3`.
@@ -101,7 +101,7 @@ Par #1
         Infix * #3
             Lit 2 
             Infix ^ #4
-                Lit 3 #5
+                Lit 3
 ```
 
 The next token is number `4`.
