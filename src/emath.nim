@@ -86,7 +86,7 @@ func isValid*(mn: MathNode): bool =
     numberOfChildren =
       case mn.kind
       of mnkLit, mnkVar: true
-      of mnkCall: mn.children.len > 0
+      of mnkCall: mn.children.len >= 0
       of mnkPar, mnkPrefix: mn.children.len == 1
       of mnkInfix: mn.children.len == 2
 
@@ -266,7 +266,9 @@ func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
 
 func parse*(input: string): MathNode =
   ## parses the math expression from raw string into its corresponding AST
-  var stack: seq[MathNode] = @[newPar()]
+  var
+    stack: seq[MathNode] = @[newPar()]
+    lastToken: MathToken
 
   for tk in lex input:
     case tk.kind
@@ -321,10 +323,12 @@ func parse*(input: string): MathNode =
         parseErr "hit '(' in unexpected place"
 
     of mtkClosePar:
-      let sub = goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
-      assert sub != nil
+      discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
-      if stack.last.kind == mnkPar and stack.last.children.len == 0:
+      if stack.len == 1:
+        parseErr "hit ')' in unexpected place"
+
+      elif stack.last.kind == mnkPar and stack.last.children.len == 0:
         parseErr "parenthesis must have 1 subnode, given 0"
 
       stack.last.isFinal = true
@@ -332,10 +336,10 @@ func parse*(input: string): MathNode =
     of mtkComma:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
-      if stack.last.kind != mnkCall:
+      if stack.last.kind != mnkCall or lastToken.kind in {mtkComma, mtkOpenPar}:
         parseErr "hit ',' in unexpected place"
 
-
+    lastToken = tk
     when defined emathDebug:
       debugEcho ">> ", tk
       debugEcho "stack: ", stack.map(recap).join ", "
@@ -343,4 +347,7 @@ func parse*(input: string): MathNode =
       debugEcho treeRepr stack[0]
       debugEcho "---------------------"
 
-  stack.first.inside
+
+  result = stack.first.inside
+  assert isValid result
+

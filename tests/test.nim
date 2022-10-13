@@ -48,3 +48,8 @@ suite "correctness":
   ]:
     test expr:
       check expr.parse.eval == 1.0
+
+
+# suite "syntax":
+#   echo treerepr parse "1)"
+#   echo treerepr parse ""
