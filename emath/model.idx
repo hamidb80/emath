@@ -38,5 +38,4 @@ newLiteral	emath/model.html#newLiteral,float	model: newLiteral(f: float): MathNo
 left	emath/model.html#left,MathNode	model: left(mn: MathNode): MathNode	
 right	emath/model.html#right,MathNode	model: right(mn: MathNode): MathNode	
 inside	emath/model.html#inside,MathNode	model: inside(mn: MathNode): MathNode	
-isOpenWrapper	emath/model.html#isOpenWrapper,MathNode	model: isOpenWrapper(mn: MathNode): bool	
 priority	emath/model.html#priority,MathOperator	model: priority(mo: MathOperator): int	

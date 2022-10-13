@@ -123,7 +123,8 @@ window.addEventListener('DOMContentLoaded', main);
                                    (1057576721, &quot;csch&quot;, :anonymous),
                                    (1055198480, &quot;arccsc&quot;, :anonymous),
                                    (2659803792, &quot;arctanh&quot;, :anonymous),
-                                   (0, &quot;&quot;, nil), (0, &quot;&quot;, nil),
+                                   (1070808661, &quot;lg&quot;, :anonymous),
+                                   (0, &quot;&quot;, nil),
                                    (2173910231, &quot;sin&quot;, :anonymous),
                                    (1500275672, &quot;arcsech&quot;, :anonymous),
                                    (1660547992, &quot;log10&quot;, :anonymous),
@@ -135,7 +136,8 @@ window.addEventListener('DOMContentLoaded', main);
                                    (3849824295, &quot;arccoth&quot;, :anonymous),
                                    (0, &quot;&quot;, nil), (0, &quot;&quot;, nil),
                                    (128442538, &quot;cosh&quot;, :anonymous),
-                                   (0, &quot;&quot;, nil), (0, &quot;&quot;, nil), (0, &quot;&quot;, nil),
+                                   (3552570154, &quot;sqrt&quot;, :anonymous),
+                                   (0, &quot;&quot;, nil), (0, &quot;&quot;, nil),
                                    (2436737454, &quot;arctan&quot;, :anonymous),
                                    (0, &quot;&quot;, nil), (0, &quot;&quot;, nil), (0, &quot;&quot;, nil),
                                    (1813402546, &quot;coth&quot;, :anonymous),
@@ -146,12 +148,12 @@ window.addEventListener('DOMContentLoaded', main);
                                    (2048052919, &quot;arcsec&quot;, :anonymous),
                                    (4231623735, &quot;arcsinh&quot;, :anonymous),
                                    (3350801465, &quot;arccot&quot;, :anonymous),
-                                   (0, &quot;&quot;, nil),
+                                   (2401766522, &quot;ln&quot;, :anonymous),
                                    (1326387387, &quot;csc&quot;, :anonymous),
                                    (3887405372, &quot;arcsin&quot;, :anonymous),
                                    (0, &quot;&quot;, nil),
                                    (1811268606, &quot;log&quot;, :anonymous),
-                                   (3941271615, &quot;cos&quot;, :anonymous)], counter: 27)">defaultFns</a></li>
+                                   (3941271615, &quot;cos&quot;, :anonymous)], counter: 30)">defaultFns</a></li>
   <li><a class="reference" href="#defaultVars"
     title="defaultVars: MathVarLookup = (data: [(0, &quot;&quot;, 0.0), (0, &quot;&quot;, 0.0), (0, &quot;&quot;, 0.0),
                                      (3726260099, &quot;TAU&quot;, 6.283185307179586),
@@ -196,7 +198,8 @@ window.addEventListener('DOMContentLoaded', main);
                                    <span class="Other">(</span><span class="DecNumber">1057576721</span><span class="Other">,</span> <span class="StringLit">&quot;csch&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">1055198480</span><span class="Other">,</span> <span class="StringLit">&quot;arccsc&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">2659803792</span><span class="Other">,</span> <span class="StringLit">&quot;arctanh&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
-                                   <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
+                                   <span class="Other">(</span><span class="DecNumber">1070808661</span><span class="Other">,</span> <span class="StringLit">&quot;lg&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
+                                   <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">2173910231</span><span class="Other">,</span> <span class="StringLit">&quot;sin&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">1500275672</span><span class="Other">,</span> <span class="StringLit">&quot;arcsech&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">1660547992</span><span class="Other">,</span> <span class="StringLit">&quot;log10&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
@@ -208,7 +211,8 @@ window.addEventListener('DOMContentLoaded', main);
                                    <span class="Other">(</span><span class="DecNumber">3849824295</span><span class="Other">,</span> <span class="StringLit">&quot;arccoth&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">128442538</span><span class="Other">,</span> <span class="StringLit">&quot;cosh&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
-                                   <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
+                                   <span class="Other">(</span><span class="DecNumber">3552570154</span><span class="Other">,</span> <span class="StringLit">&quot;sqrt&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
+                                   <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">2436737454</span><span class="Other">,</span> <span class="StringLit">&quot;arctan&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span> <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">1813402546</span><span class="Other">,</span> <span class="StringLit">&quot;coth&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
@@ -219,12 +223,12 @@ window.addEventListener('DOMContentLoaded', main);
                                    <span class="Other">(</span><span class="DecNumber">2048052919</span><span class="Other">,</span> <span class="StringLit">&quot;arcsec&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">4231623735</span><span class="Other">,</span> <span class="StringLit">&quot;arcsinh&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">3350801465</span><span class="Other">,</span> <span class="StringLit">&quot;arccot&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
-                                   <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
+                                   <span class="Other">(</span><span class="DecNumber">2401766522</span><span class="Other">,</span> <span class="StringLit">&quot;ln&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">1326387387</span><span class="Other">,</span> <span class="StringLit">&quot;csc&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">3887405372</span><span class="Other">,</span> <span class="StringLit">&quot;arcsin&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">0</span><span class="Other">,</span> <span class="StringLit">&quot;&quot;</span><span class="Other">,</span> <span class="Keyword">nil</span><span class="Other">)</span><span class="Other">,</span>
                                    <span class="Other">(</span><span class="DecNumber">1811268606</span><span class="Other">,</span> <span class="StringLit">&quot;log&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">,</span>
-                                   <span class="Other">(</span><span class="DecNumber">3941271615</span><span class="Other">,</span> <span class="StringLit">&quot;cos&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">counter</span><span class="Other">:</span> <span class="DecNumber">27</span><span class="Other">)</span></pre></dt>
+                                   <span class="Other">(</span><span class="DecNumber">3941271615</span><span class="Other">,</span> <span class="StringLit">&quot;cos&quot;</span><span class="Other">,</span> <span class="Operator">:anonymous</span><span class="Other">)</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">counter</span><span class="Other">:</span> <span class="DecNumber">30</span><span class="Other">)</span></pre></dt>
 <dd>
 
 
@@ -255,7 +259,7 @@ window.addEventListener('DOMContentLoaded', main);
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-11 18:41:04 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 03:01:46 UTC</small>
       </div>
     </div>
   </div>

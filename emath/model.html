@@ -108,7 +108,7 @@ window.addEventListener('DOMContentLoaded', main);
   <li><a class="reference" href="#MathNode"
     title="MathNode {.acyclic.} = ref object
   children*: seq[MathNode]
-  isFinal*: bool
+  isFinal*: bool             ## used for parsing and validity check
   case kind*: MathNodeKind
   of mnkLit:
       value*: float
@@ -157,11 +157,6 @@ window.addEventListener('DOMContentLoaded', main);
       <ul class="simple nested-toc-section">inside
       <li><a class="reference" href="#inside%2CMathNode"
     title="inside(mn: MathNode): MathNode">inside(mn: MathNode): MathNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">isOpenWrapper
-      <li><a class="reference" href="#isOpenWrapper%2CMathNode"
-    title="isOpenWrapper(mn: MathNode): bool">isOpenWrapper(mn: MathNode): bool</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">left
@@ -243,7 +238,7 @@ window.addEventListener('DOMContentLoaded', main);
 <div id="MathNode">
 <dt><pre><a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span class="Identifier">acyclic</span>.} <span class="Other">=</span> <span class="Keyword">ref</span> <span class="Keyword">object</span>
   <span class="Identifier">children</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">]</span>
-  <span class="Identifier">isFinal</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>
+  <span class="Identifier">isFinal</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>             <span class="Comment">## used for parsing and validity check</span>
   <span class="Keyword">case</span> <span class="Identifier">kind</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#MathNodeKind"><span class="Identifier">MathNodeKind</span></a>
   <span class="Keyword">of</span> <span class="Identifier">mnkLit</span><span class="Other">:</span>
       <span class="Identifier">value</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">float</span>
@@ -334,14 +329,6 @@ returns the inside value of a parenthesis or a prefix
 
 </dd>
 </div>
-<div id="isOpenWrapper,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#isOpenWrapper%2CMathNode"><span class="Identifier">isOpenWrapper</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
 <div id="left,MathNode">
 <dt><pre><span class="Keyword">func</span> <a href="#left%2CMathNode"><span class="Identifier">left</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
@@ -424,7 +411,7 @@ returns the right side of an infix operator
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-11 18:41:04 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 03:01:46 UTC</small>
       </div>
     </div>
   </div>
