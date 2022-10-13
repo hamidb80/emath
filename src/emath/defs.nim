@@ -2,18 +2,25 @@ import std/[math, tables, macros]
 import model
 
 
-macro toEmathFn(fnIdent: untyped, argsLen:  static[int]): untyped =
-  let 
+macro toEmathFn(fnIdent: untyped, argsLen: static[int]): untyped =
+  let
+    fnStr = fnIdent.strval
     call = newCall(fnIdent)
     argsId = ident"args"
     returnType = quote: seq[float]
-  
+
+  let argsLenCheck = quote:
+    doAssert `argsId`.len == `argsLen`:
+      "invalid number of arguments for function " & `fnStr` &
+      ". expected " & $`argsLen` & " but given " & $`argsId`.len
+
   for n in 1..argsLen:
     call.add newTree(nnkBracketExpr, argsId, newlit n-1)
 
   newProc(
-    params= @[ident"float", newIdentDefs(argsId, returnType)],
-    body = call)
+    params = @[ident"float", newIdentDefs(argsId, returnType)],
+    procType = nnkFuncDef,
+    body = newStmtList(argsLenCheck, call))
 
 
 const
@@ -24,7 +31,7 @@ const
     "cot": toEmathFn(cot, 1),
     "sec": toEmathFn(sec, 1),
     "csc": toEmathFn(csc, 1),
-    
+
     "sinh": toEmathFn(sinh, 1),
     "cosh": toEmathFn(cosh, 1),
     "tanh": toEmathFn(tanh, 1),
@@ -47,6 +54,8 @@ const
 
     "log": toEmathFn(log, 2),
     "log2": toEmathFn(log2, 1),
+    "lg": toEmathFn(log2, 1),
+    "ln": toEmathFn(ln, 1),
     "log10": toEmathFn(log10, 1),
   }
 

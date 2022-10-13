@@ -225,6 +225,9 @@ iterator lex(input: string): MathToken =
 template parserErr(msg): untyped =
   raise newException(ValueError, msg)
 
+func isOpenWrapper(mn: MathNode): bool =
+  (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)
+
 func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
   ## goes up of a sun tree until satisfies `fn`
   ## returns sub tree, could be nil

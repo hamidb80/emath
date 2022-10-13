@@ -44,7 +44,7 @@ type
 
   MathNode* {.acyclic.} = ref object
     children*: seq[MathNode]
-    isFinal*: bool
+    isFinal*: bool ## used for parsing and validity check
 
     case kind*: MathNodeKind
     of mnkLit:
@@ -58,7 +58,7 @@ type
 
     of mnkPar: discard
 
-  MathFn* = proc(args: seq[float]): float {.noSideEffect, nimcall.} # TODO remove .nimcall.
+  MathFn* = proc(args: seq[float]): float {.noSideEffect, nimcall.}
   MathFnLookup* = Table[string, MathFn]
   MathVarLookup* = Table[string, float]
 
@@ -96,9 +96,6 @@ func inside*(mn: MathNode): MathNode =
   ## returns the inside value of a parenthesis or a prefix
   assert mn.kind in {mnkPrefix, mnkPar}
   mn.children[0]
-
-func isOpenWrapper*(mn: MathNode): bool =
-  (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)
 
 
 func priority*(mo: MathOperator): int =
