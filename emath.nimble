@@ -2,7 +2,7 @@
 
 version       = "0.0.1"
 author        = "hamidb80"
-description   = "math evaluator - creates axillary Tree beforer evaluation"
+description   = "math parser/evaluator"
 license       = "MIT"
 srcDir        = "src"
 

@@ -57,6 +57,8 @@ const
     "lg": toEmathFn(log2, 1),
     "ln": toEmathFn(ln, 1),
     "log10": toEmathFn(log10, 1),
+
+    "sqrt": toEmathFn(sqrt, 1),
   }
 
   defaultVars*: MathVarLookup = toTable {
