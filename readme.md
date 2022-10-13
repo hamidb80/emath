@@ -22,7 +22,7 @@ for more information see documentations [here](https://hamidb80.github.io/emath/
 parsing the expression to the actual AST, gives you the power and flexibility to do whatever processings you want with that. for example you may want to remove unnecessary parentheses around the values.
 
 ## Implementation
-I discovered `tree-sitter` some times ago, and I watched a video on about it in which the author explained some form of `LR` parsers as the base of his library.
+I discovered `tree-sitter` some times ago, and I watched a video on youtube about it in which the author explained some form of `LR` parsers as the base of his library.
 
 Honestly despite searching on the internet about it, I couldn't understand much about it, but I could guess what it's doing by the very simple example that he provided about `LR` parsers and the generated codes from `tree-sitter` library.
 
