@@ -1,4 +1,4 @@
-mlkPow	emath/model.html#mlkPow	MathOperator.mlkPow	
+mokPow	emath/model.html#mokPow	MathOperator.mokPow	
 mokMult	emath/model.html#mokMult	MathOperator.mokMult	
 mokDiv	emath/model.html#mokDiv	MathOperator.mokDiv	
 mokPlus	emath/model.html#mokPlus	MathOperator.mokPlus	
@@ -7,6 +7,7 @@ mokMod	emath/model.html#mokMod	MathOperator.mokMod
 mokLarger	emath/model.html#mokLarger	MathOperator.mokLarger	
 mokLargerEq	emath/model.html#mokLargerEq	MathOperator.mokLargerEq	
 mokEq	emath/model.html#mokEq	MathOperator.mokEq	
+mokAlmostEq	emath/model.html#mokAlmostEq	MathOperator.mokAlmostEq	
 mokLessEq	emath/model.html#mokLessEq	MathOperator.mokLessEq	
 mokLess	emath/model.html#mokLess	MathOperator.mokLess	
 MathOperator	emath/model.html#MathOperator	model: MathOperator	
@@ -29,12 +30,6 @@ MathNode	emath/model.html#MathNode	model: MathNode
 MathFn	emath/model.html#MathFn	model: MathFn	
 MathFnLookup	emath/model.html#MathFnLookup	model: MathFnLookup	
 MathVarLookup	emath/model.html#MathVarLookup	model: MathVarLookup	
-newPrefix	emath/model.html#newPrefix,MathOperator	model: newPrefix(o: MathOperator): MathNode	
-newInfix	emath/model.html#newInfix,MathOperator	model: newInfix(o: MathOperator): MathNode	
-newVar	emath/model.html#newVar,string	model: newVar(i: string): MathNode	
-newPar	emath/model.html#newPar	model: newPar(): MathNode	
-newCall	emath/model.html#newCall,string	model: newCall(i: string): MathNode	
-newLiteral	emath/model.html#newLiteral,float	model: newLiteral(f: float): MathNode	
 left	emath/model.html#left,MathNode	model: left(mn: MathNode): MathNode	
 right	emath/model.html#right,MathNode	model: right(mn: MathNode): MathNode	
 inside	emath/model.html#inside,MathNode	model: inside(mn: MathNode): MathNode	

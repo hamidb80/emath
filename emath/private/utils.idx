@@ -1,0 +1,16 @@
+evalErr	emath/private/utils.html#evalErr.t	utils: evalErr(msg): untyped	
+lexErr	emath/private/utils.html#lexErr.t	utils: lexErr(msg): untyped	
+parseErr	emath/private/utils.html#parseErr.t	utils: parseErr(msg): untyped	
+mikFunc	emath/private/utils.html#mikFunc	MathIdentKind.mikFunc	
+mikVar	emath/private/utils.html#mikVar	MathIdentKind.mikVar	
+MathIdentKind	emath/private/utils.html#MathIdentKind	utils: MathIdentKind	
+undefinedErr	emath/private/utils.html#undefinedErr.t,string,MathIdentKind	utils: undefinedErr(name: string; kind: MathIdentKind): untyped	
+last	emath/private/utils.html#last.t,seq	utils: last(s: seq): untyped	
+first	emath/private/utils.html#first.t,seq	utils: first(s: seq): untyped	
+mtoken	emath/private/utils.html#mtoken.t,MathTokenKind	utils: mtoken(k: MathTokenKind): untyped	
+newPrefix	emath/private/utils.html#newPrefix,MathOperator	utils: newPrefix(o: MathOperator): MathNode	
+newInfix	emath/private/utils.html#newInfix,MathOperator	utils: newInfix(o: MathOperator): MathNode	
+newVar	emath/private/utils.html#newVar,string	utils: newVar(i: string): MathNode	
+newPar	emath/private/utils.html#newPar	utils: newPar(): MathNode	
+newCall	emath/private/utils.html#newCall,string	utils: newCall(i: string): MathNode	
+newLiteral	emath/private/utils.html#newLiteral,float	utils: newLiteral(f: float): MathNode	

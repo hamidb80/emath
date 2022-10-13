@@ -1,0 +1,5 @@
+EMathException	emath/exceptions.html#EMathException	exceptions: EMathException	
+EMathLexError	emath/exceptions.html#EMathLexError	exceptions: EMathLexError	
+EMathParseError	emath/exceptions.html#EMathParseError	exceptions: EMathParseError	
+EMathEvalError	emath/exceptions.html#EMathEvalError	exceptions: EMathEvalError	
+EMathNotDefined	emath/exceptions.html#EMathNotDefined	exceptions: EMathNotDefined	

@@ -102,7 +102,7 @@ window.addEventListener('DOMContentLoaded', main);
   <a class="reference reference-toplevel" href="#7" id="57">Types</a>
   <ul class="simple simple-toc-section">
       <li><a class="reference" href="#MathFn"
-    title="MathFn = proc (args: seq[float]): float {.noSideEffect, nimcall.}">MathFn</a></li>
+    title="MathFn = proc (args: seq[float]): float {.noSideEffect.}">MathFn</a></li>
   <li><a class="reference" href="#MathFnLookup"
     title="MathFnLookup = Table[string, MathFn]">MathFnLookup</a></li>
   <li><a class="reference" href="#MathNode"
@@ -126,9 +126,9 @@ window.addEventListener('DOMContentLoaded', main);
   mnkLit, mnkPar, mnkVar, mnkCall, mnkPrefix, mnkInfix">MathNodeKind</a></li>
   <li><a class="reference" href="#MathOperator"
     title="MathOperator = enum
-  mlkPow = &quot;^&quot;, mokMult = &quot;*&quot;, mokDiv = &quot;/&quot;, mokPlus = &quot;+&quot;, mokminus = &quot;-&quot;,
+  mokPow = &quot;^&quot;, mokMult = &quot;*&quot;, mokDiv = &quot;/&quot;, mokPlus = &quot;+&quot;, mokminus = &quot;-&quot;,
   mokMod = &quot;%&quot;, mokLarger = &quot;&gt;&quot;, mokLargerEq = &quot;&gt;=&quot;, mokEq = &quot;==&quot;,
-  mokLessEq = &quot;&lt;=&quot;, mokLess = &quot;&lt;&quot;">MathOperator</a></li>
+  mokAlmostEq = &quot;~=&quot;, mokLessEq = &quot;&lt;=&quot;, mokLess = &quot;&lt;&quot;">MathOperator</a></li>
   <li><a class="reference" href="#MathToken"
     title="MathToken = object
   case kind*: MathTokenKind
@@ -164,36 +164,6 @@ window.addEventListener('DOMContentLoaded', main);
     title="left(mn: MathNode): MathNode">left(mn: MathNode): MathNode</a></li>
 
   </ul>
-  <ul class="simple nested-toc-section">newCall
-      <li><a class="reference" href="#newCall%2Cstring"
-    title="newCall(i: string): MathNode">newCall(i: string): MathNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">newInfix
-      <li><a class="reference" href="#newInfix%2CMathOperator"
-    title="newInfix(o: MathOperator): MathNode">newInfix(o: MathOperator): MathNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">newLiteral
-      <li><a class="reference" href="#newLiteral%2Cfloat"
-    title="newLiteral(f: float): MathNode">newLiteral(f: float): MathNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">newPar
-      <li><a class="reference" href="#newPar"
-    title="newPar(): MathNode">newPar(): MathNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">newPrefix
-      <li><a class="reference" href="#newPrefix%2CMathOperator"
-    title="newPrefix(o: MathOperator): MathNode">newPrefix(o: MathOperator): MathNode</a></li>
-
-  </ul>
-  <ul class="simple nested-toc-section">newVar
-      <li><a class="reference" href="#newVar%2Cstring"
-    title="newVar(i: string): MathNode">newVar(i: string): MathNode</a></li>
-
-  </ul>
   <ul class="simple nested-toc-section">priority
       <li><a class="reference" href="#priority%2CMathOperator"
     title="priority(mo: MathOperator): int">priority(mo: MathOperator): int</a></li>
@@ -220,7 +190,7 @@ window.addEventListener('DOMContentLoaded', main);
 <h1><a class="toc-backref" href="#7">Types</a></h1>
 <dl class="item">
 <div id="MathFn">
-<dt><pre><a href="model.html#MathFn"><span class="Identifier">MathFn</span></a> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">args</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.<span class="Identifier">noSideEffect</span><span class="Other">,</span> <span class="Identifier">nimcall</span>.}</pre></dt>
+<dt><pre><a href="model.html#MathFn"><span class="Identifier">MathFn</span></a> <span class="Other">=</span> <span class="Keyword">proc</span> <span class="Other">(</span><span class="Identifier">args</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">float</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.<span class="Identifier">noSideEffect</span>.}</pre></dt>
 <dd>
 
 
@@ -269,9 +239,9 @@ window.addEventListener('DOMContentLoaded', main);
 </div>
 <div id="MathOperator">
 <dt><pre><a href="model.html#MathOperator"><span class="Identifier">MathOperator</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
-  <span class="Identifier">mlkPow</span> <span class="Other">=</span> <span class="StringLit">&quot;^&quot;</span><span class="Other">,</span> <span class="Identifier">mokMult</span> <span class="Other">=</span> <span class="StringLit">&quot;*&quot;</span><span class="Other">,</span> <span class="Identifier">mokDiv</span> <span class="Other">=</span> <span class="StringLit">&quot;/&quot;</span><span class="Other">,</span> <span class="Identifier">mokPlus</span> <span class="Other">=</span> <span class="StringLit">&quot;+&quot;</span><span class="Other">,</span> <span class="Identifier">mokminus</span> <span class="Other">=</span> <span class="StringLit">&quot;-&quot;</span><span class="Other">,</span>
+  <span class="Identifier">mokPow</span> <span class="Other">=</span> <span class="StringLit">&quot;^&quot;</span><span class="Other">,</span> <span class="Identifier">mokMult</span> <span class="Other">=</span> <span class="StringLit">&quot;*&quot;</span><span class="Other">,</span> <span class="Identifier">mokDiv</span> <span class="Other">=</span> <span class="StringLit">&quot;/&quot;</span><span class="Other">,</span> <span class="Identifier">mokPlus</span> <span class="Other">=</span> <span class="StringLit">&quot;+&quot;</span><span class="Other">,</span> <span class="Identifier">mokminus</span> <span class="Other">=</span> <span class="StringLit">&quot;-&quot;</span><span class="Other">,</span>
   <span class="Identifier">mokMod</span> <span class="Other">=</span> <span class="StringLit">&quot;%&quot;</span><span class="Other">,</span> <span class="Identifier">mokLarger</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;&quot;</span><span class="Other">,</span> <span class="Identifier">mokLargerEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;=&quot;</span><span class="Other">,</span> <span class="Identifier">mokEq</span> <span class="Other">=</span> <span class="StringLit">&quot;==&quot;</span><span class="Other">,</span>
-  <span class="Identifier">mokLessEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;=&quot;</span><span class="Other">,</span> <span class="Identifier">mokLess</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;&quot;</span></pre></dt>
+  <span class="Identifier">mokAlmostEq</span> <span class="Other">=</span> <span class="StringLit">&quot;~=&quot;</span><span class="Other">,</span> <span class="Identifier">mokLessEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;=&quot;</span><span class="Other">,</span> <span class="Identifier">mokLess</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;&quot;</span></pre></dt>
 <dd>
 
 
@@ -337,54 +307,6 @@ returns the left side of an infix operator
 
 </dd>
 </div>
-<div id="newCall,string">
-<dt><pre><span class="Keyword">func</span> <a href="#newCall%2Cstring"><span class="Identifier">newCall</span></a><span class="Other">(</span><span class="Identifier">i</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
-<div id="newInfix,MathOperator">
-<dt><pre><span class="Keyword">func</span> <a href="#newInfix%2CMathOperator"><span class="Identifier">newInfix</span></a><span class="Other">(</span><span class="Identifier">o</span><span class="Other">:</span> <a href="model.html#MathOperator"><span class="Identifier">MathOperator</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
-<div id="newLiteral,float">
-<dt><pre><span class="Keyword">func</span> <a href="#newLiteral%2Cfloat"><span class="Identifier">newLiteral</span></a><span class="Other">(</span><span class="Identifier">f</span><span class="Other">:</span> <span class="Identifier">float</span><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
-<div id="newPar">
-<dt><pre><span class="Keyword">func</span> <a href="#newPar"><span class="Identifier">newPar</span></a><span class="Other">(</span><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
-<div id="newPrefix,MathOperator">
-<dt><pre><span class="Keyword">func</span> <a href="#newPrefix%2CMathOperator"><span class="Identifier">newPrefix</span></a><span class="Other">(</span><span class="Identifier">o</span><span class="Other">:</span> <a href="model.html#MathOperator"><span class="Identifier">MathOperator</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
-<div id="newVar,string">
-<dt><pre><span class="Keyword">func</span> <a href="#newVar%2Cstring"><span class="Identifier">newVar</span></a><span class="Other">(</span><span class="Identifier">i</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
 <div id="priority,MathOperator">
 <dt><pre><span class="Keyword">func</span> <a href="#priority%2CMathOperator"><span class="Identifier">priority</span></a><span class="Other">(</span><span class="Identifier">mo</span><span class="Other">:</span> <a href="model.html#MathOperator"><span class="Identifier">MathOperator</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
@@ -411,7 +333,7 @@ returns the right side of an infix operator
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 03:04:45 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 10:28:04 UTC</small>
       </div>
     </div>
   </div>

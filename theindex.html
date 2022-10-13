@@ -70,18 +70,38 @@ window.addEventListener('DOMContentLoaded', main);
 <div class="document" id="documentId">
   <div class="container">
     <h1 class="title">Index</h1>
-    Modules: <a href="emath.html">emath</a>, <a href="emath/defs.html">emath/defs</a>, <a href="emath/model.html">emath/model</a>, <a href="emath/utils.html">emath/utils</a>.<br/><p /><h2>API symbols</h2>
+    Modules: <a href="emath.html">emath</a>, <a href="emath/defaults.html">emath/defaults</a>, <a href="emath/exceptions.html">emath/exceptions</a>, <a href="emath/model.html">emath/model</a>, <a href="emath/private/utils.html">emath/private/utils</a>.<br/><p /><h2>API symbols</h2>
 <dl><dt><a name="%60%24%60" href="#%60%24%60"><span>`$`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="emath: `$`(mn: MathNode): string" href="emath.html#%24%2CMathNode">emath: `$`(mn: MathNode): string</a></li>
           </ul></dd>
 <dt><a name="defaultFns" href="#defaultFns"><span>defaultFns:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="defs: defaultFns" href="emath/defs.html#defaultFns">defs: defaultFns</a></li>
+          data-doc-search-tag="defaults: defaultFns" href="emath/defaults.html#defaultFns">defaults: defaultFns</a></li>
           </ul></dd>
 <dt><a name="defaultVars" href="#defaultVars"><span>defaultVars:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="defs: defaultVars" href="emath/defs.html#defaultVars">defs: defaultVars</a></li>
+          data-doc-search-tag="defaults: defaultVars" href="emath/defaults.html#defaultVars">defaults: defaultVars</a></li>
+          </ul></dd>
+<dt><a name="EMathEvalError" href="#EMathEvalError"><span>EMathEvalError:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: EMathEvalError" href="emath/exceptions.html#EMathEvalError">exceptions: EMathEvalError</a></li>
+          </ul></dd>
+<dt><a name="EMathException" href="#EMathException"><span>EMathException:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: EMathException" href="emath/exceptions.html#EMathException">exceptions: EMathException</a></li>
+          </ul></dd>
+<dt><a name="EMathLexError" href="#EMathLexError"><span>EMathLexError:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: EMathLexError" href="emath/exceptions.html#EMathLexError">exceptions: EMathLexError</a></li>
+          </ul></dd>
+<dt><a name="EMathNotDefined" href="#EMathNotDefined"><span>EMathNotDefined:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: EMathNotDefined" href="emath/exceptions.html#EMathNotDefined">exceptions: EMathNotDefined</a></li>
+          </ul></dd>
+<dt><a name="EMathParseError" href="#EMathParseError"><span>EMathParseError:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: EMathParseError" href="emath/exceptions.html#EMathParseError">exceptions: EMathParseError</a></li>
           </ul></dd>
 <dt><a name="eval" href="#eval"><span>eval:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -89,13 +109,17 @@ window.addEventListener('DOMContentLoaded', main);
           <li><a class="reference external"
           data-doc-search-tag="emath: eval(mn: MathNode; varLookup: MathVarLookup; fnLookup: MathFnLookup): float" href="emath.html#eval%2CMathNode%2CMathVarLookup%2CMathFnLookup">emath: eval(mn: MathNode; varLookup: MathVarLookup; fnLookup: MathFnLookup): float</a></li>
           </ul></dd>
+<dt><a name="evalErr" href="#evalErr"><span>evalErr:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: evalErr(msg): untyped" href="emath/private/utils.html#evalErr.t">utils: evalErr(msg): untyped</a></li>
+          </ul></dd>
+<dt><a name="first" href="#first"><span>first:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: first(s: seq): untyped" href="emath/private/utils.html#first.t%2Cseq">utils: first(s: seq): untyped</a></li>
+          </ul></dd>
 <dt><a name="inside" href="#inside"><span>inside:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: inside(mn: MathNode): MathNode" href="emath/model.html#inside%2CMathNode">model: inside(mn: MathNode): MathNode</a></li>
-          </ul></dd>
-<dt><a name="isInt" href="#isInt"><span>isInt:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="utils: isInt(f: float): bool" href="emath/utils.html#isInt%2Cfloat">utils: isInt(f: float): bool</a></li>
           </ul></dd>
 <dt><a name="isValid" href="#isValid"><span>isValid:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -103,11 +127,15 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="last" href="#last"><span>last:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="utils: last(s: seq): untyped" href="emath/utils.html#last.t%2Cseq">utils: last(s: seq): untyped</a></li>
+          data-doc-search-tag="utils: last(s: seq): untyped" href="emath/private/utils.html#last.t%2Cseq">utils: last(s: seq): untyped</a></li>
           </ul></dd>
 <dt><a name="left" href="#left"><span>left:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: left(mn: MathNode): MathNode" href="emath/model.html#left%2CMathNode">model: left(mn: MathNode): MathNode</a></li>
+          </ul></dd>
+<dt><a name="lexErr" href="#lexErr"><span>lexErr:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: lexErr(msg): untyped" href="emath/private/utils.html#lexErr.t">utils: lexErr(msg): untyped</a></li>
           </ul></dd>
 <dt><a name="MathFn" href="#MathFn"><span>MathFn:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -116,6 +144,10 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="MathFnLookup" href="#MathFnLookup"><span>MathFnLookup:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: MathFnLookup" href="emath/model.html#MathFnLookup">model: MathFnLookup</a></li>
+          </ul></dd>
+<dt><a name="MathIdentKind" href="#MathIdentKind"><span>MathIdentKind:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: MathIdentKind" href="emath/private/utils.html#MathIdentKind">utils: MathIdentKind</a></li>
           </ul></dd>
 <dt><a name="MathNode" href="#MathNode"><span>MathNode:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -141,9 +173,13 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="model: MathVarLookup" href="emath/model.html#MathVarLookup">model: MathVarLookup</a></li>
           </ul></dd>
-<dt><a name="mlkPow" href="#mlkPow"><span>mlkPow:</span></a></dt><dd><ul class="simple">
+<dt><a name="mikFunc" href="#mikFunc"><span>mikFunc:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="MathOperator.mlkPow" href="emath/model.html#mlkPow">MathOperator.mlkPow</a></li>
+          data-doc-search-tag="MathIdentKind.mikFunc" href="emath/private/utils.html#mikFunc">MathIdentKind.mikFunc</a></li>
+          </ul></dd>
+<dt><a name="mikVar" href="#mikVar"><span>mikVar:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="MathIdentKind.mikVar" href="emath/private/utils.html#mikVar">MathIdentKind.mikVar</a></li>
           </ul></dd>
 <dt><a name="mnkCall" href="#mnkCall"><span>mnkCall:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -168,6 +204,10 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="mnkVar" href="#mnkVar"><span>mnkVar:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="MathNodeKind.mnkVar" href="emath/model.html#mnkVar">MathNodeKind.mnkVar</a></li>
+          </ul></dd>
+<dt><a name="mokAlmostEq" href="#mokAlmostEq"><span>mokAlmostEq:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="MathOperator.mokAlmostEq" href="emath/model.html#mokAlmostEq">MathOperator.mokAlmostEq</a></li>
           </ul></dd>
 <dt><a name="mokDiv" href="#mokDiv"><span>mokDiv:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -209,6 +249,10 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="MathOperator.mokPlus" href="emath/model.html#mokPlus">MathOperator.mokPlus</a></li>
           </ul></dd>
+<dt><a name="mokPow" href="#mokPow"><span>mokPow:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="MathOperator.mokPow" href="emath/model.html#mokPow">MathOperator.mokPow</a></li>
+          </ul></dd>
 <dt><a name="mtkClosePar" href="#mtkClosePar"><span>mtkClosePar:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="MathTokenKind.mtkClosePar" href="emath/model.html#mtkClosePar">MathTokenKind.mtkClosePar</a></li>
@@ -233,33 +277,41 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="MathTokenKind.mtkOperator" href="emath/model.html#mtkOperator">MathTokenKind.mtkOperator</a></li>
           </ul></dd>
+<dt><a name="mtoken" href="#mtoken"><span>mtoken:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: mtoken(k: MathTokenKind): untyped" href="emath/private/utils.html#mtoken.t%2CMathTokenKind">utils: mtoken(k: MathTokenKind): untyped</a></li>
+          </ul></dd>
 <dt><a name="newCall" href="#newCall"><span>newCall:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="model: newCall(i: string): MathNode" href="emath/model.html#newCall%2Cstring">model: newCall(i: string): MathNode</a></li>
+          data-doc-search-tag="utils: newCall(i: string): MathNode" href="emath/private/utils.html#newCall%2Cstring">utils: newCall(i: string): MathNode</a></li>
           </ul></dd>
 <dt><a name="newInfix" href="#newInfix"><span>newInfix:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="model: newInfix(o: MathOperator): MathNode" href="emath/model.html#newInfix%2CMathOperator">model: newInfix(o: MathOperator): MathNode</a></li>
+          data-doc-search-tag="utils: newInfix(o: MathOperator): MathNode" href="emath/private/utils.html#newInfix%2CMathOperator">utils: newInfix(o: MathOperator): MathNode</a></li>
           </ul></dd>
 <dt><a name="newLiteral" href="#newLiteral"><span>newLiteral:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="model: newLiteral(f: float): MathNode" href="emath/model.html#newLiteral%2Cfloat">model: newLiteral(f: float): MathNode</a></li>
+          data-doc-search-tag="utils: newLiteral(f: float): MathNode" href="emath/private/utils.html#newLiteral%2Cfloat">utils: newLiteral(f: float): MathNode</a></li>
           </ul></dd>
 <dt><a name="newPar" href="#newPar"><span>newPar:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="model: newPar(): MathNode" href="emath/model.html#newPar">model: newPar(): MathNode</a></li>
+          data-doc-search-tag="utils: newPar(): MathNode" href="emath/private/utils.html#newPar">utils: newPar(): MathNode</a></li>
           </ul></dd>
 <dt><a name="newPrefix" href="#newPrefix"><span>newPrefix:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="model: newPrefix(o: MathOperator): MathNode" href="emath/model.html#newPrefix%2CMathOperator">model: newPrefix(o: MathOperator): MathNode</a></li>
+          data-doc-search-tag="utils: newPrefix(o: MathOperator): MathNode" href="emath/private/utils.html#newPrefix%2CMathOperator">utils: newPrefix(o: MathOperator): MathNode</a></li>
           </ul></dd>
 <dt><a name="newVar" href="#newVar"><span>newVar:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="model: newVar(i: string): MathNode" href="emath/model.html#newVar%2Cstring">model: newVar(i: string): MathNode</a></li>
+          data-doc-search-tag="utils: newVar(i: string): MathNode" href="emath/private/utils.html#newVar%2Cstring">utils: newVar(i: string): MathNode</a></li>
           </ul></dd>
 <dt><a name="parse" href="#parse"><span>parse:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="emath: parse(input: string): MathNode" href="emath.html#parse%2Cstring">emath: parse(input: string): MathNode</a></li>
+          </ul></dd>
+<dt><a name="parseErr" href="#parseErr"><span>parseErr:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: parseErr(msg): untyped" href="emath/private/utils.html#parseErr.t">utils: parseErr(msg): untyped</a></li>
           </ul></dd>
 <dt><a name="priority" href="#priority"><span>priority:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -273,12 +325,16 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="emath: treeRepr(mn: MathNode): string" href="emath.html#treeRepr%2CMathNode">emath: treeRepr(mn: MathNode): string</a></li>
           </ul></dd>
+<dt><a name="undefinedErr" href="#undefinedErr"><span>undefinedErr:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="utils: undefinedErr(name: string; kind: MathIdentKind): untyped" href="emath/private/utils.html#undefinedErr.t%2Cstring%2CMathIdentKind">utils: undefinedErr(name: string; kind: MathIdentKind): untyped</a></li>
+          </ul></dd>
 </dl>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 03:04:45 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 10:28:05 UTC</small>
       </div>
     </div>
   </div>
