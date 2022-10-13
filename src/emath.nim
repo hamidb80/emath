@@ -1,7 +1,7 @@
 ## ``emath`` is a math parser/evaluator library.
-## it first converts raw expression [which is given as string] into AST and then evaluates it.
+## it first converts raw expression [which is given as ``string``] into AST and then evaluates it.
 ## 
-## ``emath`` allows you to manipulate the generated AST, so it would not limit your power as a Nim programmer 👑.
+## ``emath`` allows you to manipulate the generated AST, so it would not limit your POWER as a Nim programmer 👑.
 ## 
 ## Here's the flow:
 ## 
@@ -27,8 +27,7 @@ runnableExamples:
     args[0] * args[0]
 
   let ans = "myvar * pow2(3)".parse.eval(vars, fns)
-  assert ans == (6.6 * 9) # 59.4
-  echo ans
+  echo ans # 59.4
 
 
 import std/[tables, strutils, sequtils, math, sugar]
@@ -115,14 +114,23 @@ func eval*(mn: MathNode,
   case mn.kind
   of mnkLit: mn.value
   of mnkPar: rec mn.children[0]
-  of mnkVar: varLookup[mn.ident]
-  of mnkCall: fnLookup[mn.ident](mn.children.mapit(rec it))
+  of mnkVar:
+    try: varLookup[mn.ident]
+    except KeyError: undefinedErr(mn.ident, mikVar)
+
+  of mnkCall:
+    let fn =
+      try: fnLookup[mn.ident]
+      except KeyError: undefinedErr(mn.ident, mikFunc)
+
+    fn(mn.children.mapit(rec it))
+
   of mnkPrefix:
     let v = rec mn.children[0]
     case mn.operator
     of mokPlus: v
     of mokminus: -v
-    else: evalErr "invalid prefix"
+    else: evalErr "invalid prefix: " & $v
 
   of mnkInfix:
     let
@@ -130,18 +138,16 @@ func eval*(mn: MathNode,
       ri = rec mn.children[1]
 
     case mn.operator
-    of mlkPow: pow(le, ri)
+    of mokPow: pow(le, ri)
     of mokMult: le * ri
     of mokDiv: le / ri
     of mokPlus: le + ri
     of mokminus: le - ri
-    of mokMod:
-      assert le.isInt and ri.isInt
-      float le.int mod ri.int
-
+    of mokMod: floorMod(le, ri)
     of mokLarger: float le > ri
     of mokLargerEq: float le >= ri
     of mokEq: float le == ri
+    of mokAlmostEq: float almostEqual(le, ri)
     of mokLessEq: float le <= ri
     of mokLess: float le < ri
 
@@ -151,7 +157,7 @@ func eval*(mn: MathNode): float =
 
 
 const
-  Operators = {'+', '-', '*', '/', '^', '=', '<', '>', '%'}
+  Operators = {'+', '-', '*', '/', '^', '~', '=', '<', '>', '%'}
   EoS = '\0' # End of String
 
 type MathLexerState = enum
@@ -185,7 +191,7 @@ iterator lex(input: string): MathToken =
         yield MathToken(kind: mtkOperator,
           operator: parseEnum[MathOperator](input[anchor ..< i]))
 
-      else: lexError "invalid state"
+      else: lexErr "invalid state"
 
       state = mlsInitial
       continue
@@ -225,7 +231,7 @@ iterator lex(input: string): MathToken =
     of '.':
       case state
       of mlsInt: state = mlsFloat
-      else: lexError ". ?"
+      else: lexErr "hit . in wrong place"
 
     of ',':
       onReady:
@@ -240,7 +246,7 @@ iterator lex(input: string): MathToken =
         yield mtoken mtkClosePar
 
     else:
-      lexError "invalid character: " & ch
+      lexErr "invalid character: " & ch
 
 
     inc i
@@ -253,10 +259,8 @@ func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
   ## goes up of a sun tree until satisfies `fn`
   ## returns sub tree, could be nil
   while true:
-    if (fn stack.last):
-      return
-    else:
-      result = stack.pop
+    if (fn stack.last): return
+    else: result = stack.pop
 
   raise newException(ValueError, "couldn't find the desired node")
 
@@ -268,10 +272,8 @@ func parse*(input: string): MathNode =
     case tk.kind
     of mtkNumber, mtkIdent:
       let t =
-        if tk.kind == mtkNumber:
-          newLiteral tk.number
-        else:
-          newVar tk.ident
+        if tk.kind == mtkNumber: newLiteral tk.number
+        else: newVar tk.ident
 
       assert stack.last.kind in {mnkInfix, mnkPrefix, mnkPar, mnkCall}
       stack.last.children.add t
@@ -301,7 +303,7 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        parserErr "what?"
+        parseErr "operator" & $tk.operator & " in unexpected place"
 
     of mtkOpenPar:
       case stack.last.kind
@@ -316,22 +318,22 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        parserErr "invalid token before par: " & $tk
+        parseErr "hit '(' in unexpected place"
 
     of mtkClosePar:
       let sub = goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
       assert sub != nil
 
-      case stack.last.kind
-      of mnkPar: assert stack.last.children.len == 1
-      of mnkCall: assert stack.last.children.len != 0
-      else: discard
+      if stack.last.kind == mnkPar and stack.last.children.len == 0:
+        parseErr "parenthesis must have 1 subnode, given 0"
 
       stack.last.isFinal = true
 
     of mtkComma:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
-      assert stack.last.kind == mnkCall
+
+      if stack.last.kind != mnkCall:
+        parseErr "hit ',' in unexpected place"
 
 
     when defined emathDebug:
@@ -341,4 +343,4 @@ func parse*(input: string): MathNode =
       debugEcho treeRepr stack[0]
       debugEcho "---------------------"
 
-  stack[0].inside
+  stack.first.inside

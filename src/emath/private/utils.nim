@@ -3,18 +3,31 @@ import ../model, ../exceptions
 # --- errors
 
 template evalErr*(msg): untyped =
-  raise newException(ValueError, msg)
+  raise newException(EMathEvalError, msg)
 
-template lexError*(msg): untyped =
-  raise newException(ValueError, msg)
+template lexErr*(msg): untyped =
+  raise newException(EMathLexError, msg)
 
-template parserErr*(msg): untyped =
-  raise newException(ValueError, msg)
+template parseErr*(msg): untyped =
+  raise newException(EMathParseError, msg)
+
+
+type MathIdentKind* = enum
+  mikFunc = "function"
+  mikVar = "variable"
+
+template undefinedErr*(name: string, kind: MathIdentKind): untyped =
+  raise newException(EMathNotDefined, "the " & $kind & " '" & name  & "' is not defined")
+  
 
 # --- conventions
 
 template last*(s: seq): untyped =
   s[^1]
+
+template first*(s: seq): untyped =
+  s[0]
+
 
 template mtoken*(k: MathTokenKind): untyped =
   MathToken(kind: k)
@@ -38,8 +51,3 @@ func newCall*(i: string): MathNode =
 
 func newLiteral*(f: float): MathNode =
   MathNode(kind: mnkLit, value: f)
-
-# --- others
-
-func isInt*(f: float): bool =
-  f.int.float == f

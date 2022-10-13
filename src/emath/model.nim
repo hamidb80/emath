@@ -4,7 +4,7 @@ type
   # TODO add factorial (!) as postfix
   MathOperator* = enum
     # -- operation
-    mlkPow = "^"
+    mokPow = "^"
     mokMult = "*"
     mokDiv = "/"
     mokPlus = "+"
@@ -14,6 +14,7 @@ type
     mokLarger = ">"
     mokLargerEq = ">="
     mokEq = "=="
+    mokAlmostEq = "~="
     mokLessEq = "<="
     mokLess = "<"
 
@@ -81,8 +82,8 @@ func inside*(mn: MathNode): MathNode =
 
 func priority*(mo: MathOperator): int =
   case mo:
-  of mlkPow: 4
+  of mokPow: 4
   of mokMult, mokDiv: 3
   of mokPlus, mokminus: 2
   of mokMod: 1
-  of mokLarger, mokLargerEq, mokEq, mokLessEq, mokLess: 0
+  of mokLarger, mokLargerEq, mokAlmostEq, mokEq, mokLessEq, mokLess: 0
