@@ -1,11 +1,18 @@
-## This module is a sample.
+## ``emath`` is a math parser/evaluator library.
+## it first converts raw expression [which is given as string] into AST and then evaluates it.
 ## 
+## ``emath`` allows you to manipulate the generated AST, so it would not limit your power as a Nim programmer 👑.
+## 
+## Here's the flow:
+## 
+##    string   ──parsing──►   AST   ──evaluating──►   number
+
 
 runnableExamples:
   import emath
 
   # evaluating with default functions and variables
-  echo "1 + sin(PI)".parse.eval
+  echo "1 + sin(PI)".parse.eval # 1.0
 
   # using custom variables and functions
   import std/tables
@@ -20,15 +27,13 @@ runnableExamples:
     args[0] * args[0]
 
   let ans = "myvar * pow2(3)".parse.eval(vars, fns)
-  assert ans == (6.6 * 9)
+  assert ans == (6.6 * 9) # 59.4
   echo ans
 
 
 import std/[tables, strutils, sequtils, math, sugar]
 import emath/[model, defaults]
 import emath/private/utils
-
-
 
 
 func `$`*(mn: MathNode): string =
@@ -68,15 +73,16 @@ func treeReprImpl(mn: MathNode, result: var seq[string],
     treeReprImpl ch, result, level + 1
 
 func treeRepr*(mn: MathNode): string =
-  ## for debugging purposes
+  ## converts a `MathNode` into its corresponding tree representation.
+  ##
+  ## can be used for debugging purposes.
   var acc: seq[string]
   treeReprImpl mn, acc, 0
-
   acc.join "\n"
 
 
 func isValid*(mn: MathNode): bool =
-  ## check for any AST errors in the validity of genereated AST
+  ## check for any AST errors in genereated AST
   let
     numberOfChildren =
       case mn.kind
@@ -140,8 +146,7 @@ func eval*(mn: MathNode,
     of mokLess: float le < ri
 
 func eval*(mn: MathNode): float =
-  ## calculates the final answer with the default
-  ## variable lookup and function lookup
+  ## calculates the final answer with default variables and default functions
   eval mn, defaultVars, defaultFns
 
 
