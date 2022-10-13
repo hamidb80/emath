@@ -1,8 +1,8 @@
 # Package
 
-version       = "0.0.3"
+version       = "0.0.5"
 author        = "hamidb80"
-description   = "math parser/evaluator"
+description   = "math parser/evaluator library"
 license       = "MIT"
 srcDir        = "src"
 
