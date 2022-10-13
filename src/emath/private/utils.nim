@@ -11,13 +11,12 @@ template parseTokErr*(m, s): untyped =
 template evalErr*(msg): untyped =
   raise newException(EMathEvalError, msg)
 
-type MathIdentKind* = enum
-  mikFunc = "function"
-  mikVar = "variable"
-
-template undefinedErr*(name: string, kind: MathIdentKind): untyped =
-  raise newException(EMathNotDefined, "the " & $kind & " '" & name & "' is not defined")
-
+template undefinedErr*(name: string, k: MathSymbolKind): untyped =
+  var e = new EMathNotDefined
+  e.msg = "the " & $k & " '" & name & "' is not defined"
+  e.ident = name
+  e.kind = k
+  e
 
 # --- conventions
 

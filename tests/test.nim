@@ -1,5 +1,5 @@
-import std/[unittest, math]
-import emath, emath/exceptions
+import std/[unittest, math, tables]
+import emath, emath/exceptions, emath/defaults
 
 
 func `~=`(f1, f2: float): bool =
@@ -30,14 +30,38 @@ suite "pars":
     matche expr, 3.0
 
 suite "fn call":
-  const expr = "cos(3.14) + log(16, 2) * 3"
+  var
+    fns = defaultfns
+    vars = defaultvars
+
+  fns["nine"] = proc(a: seq[float]): float =
+    assert a.len == 0
+    9.0
+
+  const expr = "cos(0) + log(16, 2) - nine() + 10"
   test expr:
-    matche expr, 11
+    check expr.parse.eval(vars, fns) == +6.0
 
 suite "var":
-  const expr = "PI*2"
-  test expr:
-    matche expr, TAU
+  test "exists":
+    matche "PI*2", TAU
+
+  template checkUndef(k, n, body): untyped =
+    var raised = false
+
+    try:    body
+    except EMathNotDefined:
+      raised = true
+      var e = (ref EMathNotDefined)(getCurrentException())
+      check e.kind == k
+      check e.ident == n
+
+    check raised
+
+  test "not exists":
+    checkUndef mskVar, "me":
+      discard "me + 2 * 3".parse.eval
+    
 
 suite "correctness":
   for expr in [
@@ -53,7 +77,7 @@ suite "syntax errors":
     for expr in ["(", "1 + "]:
       doAssertRaises EMathParseError:
         discard parse expr
-  
+
 
   template checkTokenErr(slc, body): untyped =
     var raised = false
@@ -71,8 +95,7 @@ suite "syntax errors":
       "==1": 0..1,
       "(,)": 1..1,
       "1(": 1..1,
-      "(2))": 3..3,
+      "(2))": 3..3
     }:
       checkTokenErr slc:
         discard parse expr
-  

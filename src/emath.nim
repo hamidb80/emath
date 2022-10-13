@@ -116,12 +116,12 @@ func eval*(mn: MathNode,
   of mnkPar: rec mn.children[0]
   of mnkVar:
     try: varLookup[mn.ident]
-    except KeyError: undefinedErr(mn.ident, mikVar)
+    except KeyError: raise undefinedErr(mn.ident, mskVar)
 
   of mnkCall:
     let fn =
       try: fnLookup[mn.ident]
-      except KeyError: undefinedErr(mn.ident, mikFunc)
+      except KeyError: raise undefinedErr(mn.ident, mskFunc)
 
     fn(mn.children.mapit(rec it))
 
