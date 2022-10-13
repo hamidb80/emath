@@ -1,8 +1,8 @@
 type
     EMathException* = object of ValueError
 
-    EMathLexError* = object of EMathException
     EMathParseError* = object of EMathException
+        slice*: Slice[int]
 
     EMathEvalError* = object of EMathException
     EMathNotDefined* = object of EMathEvalError

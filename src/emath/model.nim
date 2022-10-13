@@ -25,6 +25,8 @@ type
     mtkComma
 
   MathToken* = object
+    slice*: Slice[int]
+
     case kind*: MathTokenKind
     of mtkNumber:
       number*: float

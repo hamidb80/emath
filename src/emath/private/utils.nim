@@ -2,23 +2,22 @@ import ../model, ../exceptions
 
 # --- errors
 
+template parseErr*(m, s): untyped =
+  var e = new EMathParseError
+  e.msg = m & " at indexes: " & $s
+  e.slice = s
+  e
+
 template evalErr*(msg): untyped =
   raise newException(EMathEvalError, msg)
-
-template lexErr*(msg): untyped =
-  raise newException(EMathLexError, msg)
-
-template parseErr*(msg): untyped =
-  raise newException(EMathParseError, msg)
-
 
 type MathIdentKind* = enum
   mikFunc = "function"
   mikVar = "variable"
 
 template undefinedErr*(name: string, kind: MathIdentKind): untyped =
-  raise newException(EMathNotDefined, "the " & $kind & " '" & name  & "' is not defined")
-  
+  raise newException(EMathNotDefined, "the " & $kind & " '" & name & "' is not defined")
+
 
 # --- conventions
 
@@ -28,9 +27,6 @@ template last*(s: seq): untyped =
 template first*(s: seq): untyped =
   s[0]
 
-
-template mtoken*(k: MathTokenKind): untyped =
-  MathToken(kind: k)
 
 # --- math node
 

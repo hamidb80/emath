@@ -166,6 +166,9 @@ type MathLexerState = enum
   mlsOperator
   mlsIdent
 
+template mtoken*(k: MathTokenKind, i: Slice[int]): untyped =
+  MathToken(kind: k, slice: i)
+
 iterator lex(input: string): MathToken =
   var
     i = 0
@@ -184,14 +187,17 @@ iterator lex(input: string): MathToken =
     template twist: untyped =
       case state
       of mlsFloat, mlsInt:
-        yield MathToken(kind: mtkNumber, number: parseFloat input[anchor ..< i])
+        yield MathToken(kind: mtkNumber, number: parseFloat input[anchor ..< i],
+            slice: anchor ..< i)
       of mlsIdent:
-        yield MathToken(kind: mtkIdent, ident: input[anchor ..< i])
+        yield MathToken(kind: mtkIdent, ident: input[anchor ..< i],
+            slice: anchor ..< i)
       of mlsOperator:
         yield MathToken(kind: mtkOperator,
-          operator: parseEnum[MathOperator](input[anchor ..< i]))
+          operator: parseEnum[MathOperator](input[anchor ..< i]),
+          slice: anchor ..< i)
 
-      else: lexErr "invalid state"
+      else: assert false
 
       state = mlsInitial
       continue
@@ -231,22 +237,22 @@ iterator lex(input: string): MathToken =
     of '.':
       case state
       of mlsInt: state = mlsFloat
-      else: lexErr "hit . in wrong place"
+      else: raise parseErr("hit . in wrong place", i..i)
 
     of ',':
       onReady:
-        yield mtoken mtkComma
+        yield mtoken(mtkComma, i..i)
 
     of '(':
       onReady:
-        yield mtoken mtkOpenPar
+        yield mtoken(mtkOpenPar, i..i)
 
     of ')':
       onReady:
-        yield mtoken mtkClosePar
+        yield mtoken(mtkClosePar, i..i)
 
     else:
-      lexErr "invalid character: " & ch
+      raise parseErr("invalid character: " & ch, i..i)
 
 
     inc i
@@ -283,15 +289,23 @@ func parse*(input: string): MathNode =
 
     of mtkOperator:
       if
-        (stack.last.kind == mnkPar) and
-        (stack.last.children.len == 0) or
-        (stack.last.kind in {mnkInfix, mnkprefix}):
+        (stack.last.kind == mnkPar) and (stack.last.children.len == 0) or
+        (stack.last.kind in {mnkInfix, mnkprefix}) or
+        ((stack.last.kind == mnkCall) and not stack.last.isFinal):
 
-        let t = newPrefix tk.operator
-        stack.last.children.add t
-        stack.add t
+        case tk.operator
+        of mokPlus, mokminus:
+          let t = newPrefix tk.operator
+          stack.last.children.add t
+          stack.add t
 
-      elif stack.last.kind in {mnkLit, mnkVar, mnkPar, mnkCall}:
+        else:
+          raise parseErr("invalid prefix operator " & $tk.operator, tk.slice)
+
+
+      elif stack.last.kind in {mnkLit, mnkVar} or
+          stack.last.kind in {mnkPar, mnkCall} and stack.last.isFinal:
+
         var
           t = newInfix tk.operator
           p = t.operator.priority
@@ -305,7 +319,7 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        parseErr "operator" & $tk.operator & " in unexpected place"
+        raise parseErr("hit operator " & $tk.operator & " in unexpected place", tk.slice)
 
     of mtkOpenPar:
       case stack.last.kind
@@ -320,16 +334,16 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        parseErr "hit '(' in unexpected place"
+        raise parseErr("hit '(' in unexpected place", tk.slice)
 
     of mtkClosePar:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
       if stack.len == 1:
-        parseErr "hit ')' in unexpected place"
+        raise parseErr("hit ')' in unexpected place", tk.slice)
 
       elif stack.last.kind == mnkPar and stack.last.children.len == 0:
-        parseErr "parenthesis must have 1 subnode, given 0"
+        raise parseErr("parenthesis must have 1 subnode, given 0", tk.slice)
 
       stack.last.isFinal = true
 
@@ -337,7 +351,7 @@ func parse*(input: string): MathNode =
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
       if stack.last.kind != mnkCall or lastToken.kind in {mtkComma, mtkOpenPar}:
-        parseErr "hit ',' in unexpected place"
+        raise parseErr("hit ',' in unexpected place", tk.slice)
 
     lastToken = tk
     when defined emathDebug:
