@@ -2,8 +2,8 @@ import ../model, ../exceptions
 
 # --- errors
 
-template parseErr*(m, s): untyped =
-  var e = new EMathParseError
+template parseTokErr*(m, s): untyped =
+  var e = new EMathTokenError
   e.msg = m & " at indexes: " & $s
   e.slice = s
   e

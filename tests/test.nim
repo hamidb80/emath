@@ -1,5 +1,5 @@
 import std/[unittest, math]
-import emath
+import emath, emath/exceptions
 
 
 func `~=`(f1, f2: float): bool =
@@ -7,9 +7,7 @@ func `~=`(f1, f2: float): bool =
 
 template matche(expr, answer): untyped =
   let ast = parse expr
-  check:
-    isvalid ast
-    answer ~= eval ast
+  check answer ~= eval ast
 
 
 suite "operator priority":
@@ -50,6 +48,31 @@ suite "correctness":
       check expr.parse.eval == 1.0
 
 
-# suite "syntax":
-#   echo treerepr parse "1)"
-#   echo treerepr parse ""
+suite "syntax errors":
+  test "incomplete":
+    for expr in ["(", "1 + "]:
+      doAssertRaises EMathParseError:
+        discard parse expr
+  
+
+  template checkTokenErr(slc, body): untyped =
+    var raised = false
+
+    try: body
+    except EMathTokenError:
+      raised = true
+      let e = (ref EMathTokenError)(getCurrentException())
+      check e.slice == slc
+
+    check raised
+
+  test "token":
+    for (expr, slc) in {
+      "==1": 0..1,
+      "(,)": 1..1,
+      "1(": 1..1,
+      "(2))": 3..3,
+    }:
+      checkTokenErr slc:
+        discard parse expr
+  

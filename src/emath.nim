@@ -31,7 +31,7 @@ runnableExamples:
 
 
 import std/[tables, strutils, sequtils, math, sugar]
-import emath/[model, defaults]
+import emath/[model, defaults, exceptions]
 import emath/private/utils
 
 
@@ -237,7 +237,7 @@ iterator lex(input: string): MathToken =
     of '.':
       case state
       of mlsInt: state = mlsFloat
-      else: raise parseErr("hit . in wrong place", i..i)
+      else: raise parseTokErr("hit . in wrong place", i..i)
 
     of ',':
       onReady:
@@ -252,7 +252,7 @@ iterator lex(input: string): MathToken =
         yield mtoken(mtkClosePar, i..i)
 
     else:
-      raise parseErr("invalid character: " & ch, i..i)
+      raise parseTokErr("invalid character: " & ch, i..i)
 
 
     inc i
@@ -300,7 +300,7 @@ func parse*(input: string): MathNode =
           stack.add t
 
         else:
-          raise parseErr("invalid prefix operator " & $tk.operator, tk.slice)
+          raise parseTokErr("invalid prefix operator " & $tk.operator, tk.slice)
 
 
       elif stack.last.kind in {mnkLit, mnkVar} or
@@ -319,7 +319,8 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        raise parseErr("hit operator " & $tk.operator & " in unexpected place", tk.slice)
+        raise parseTokErr("hit operator " & $tk.operator &
+            " in unexpected place", tk.slice)
 
     of mtkOpenPar:
       case stack.last.kind
@@ -334,16 +335,16 @@ func parse*(input: string): MathNode =
         stack.add t
 
       else:
-        raise parseErr("hit '(' in unexpected place", tk.slice)
+        raise parseTokErr("hit '(' in unexpected place", tk.slice)
 
     of mtkClosePar:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
       if stack.len == 1:
-        raise parseErr("hit ')' in unexpected place", tk.slice)
+        raise parseTokErr("hit ')' in unexpected place", tk.slice)
 
       elif stack.last.kind == mnkPar and stack.last.children.len == 0:
-        raise parseErr("parenthesis must have 1 subnode, given 0", tk.slice)
+        raise parseTokErr("parenthesis must have 1 subnode, given 0", tk.slice)
 
       stack.last.isFinal = true
 
@@ -351,7 +352,7 @@ func parse*(input: string): MathNode =
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
       if stack.last.kind != mnkCall or lastToken.kind in {mtkComma, mtkOpenPar}:
-        raise parseErr("hit ',' in unexpected place", tk.slice)
+        raise parseTokErr("hit ',' in unexpected place", tk.slice)
 
     lastToken = tk
     when defined emathDebug:
@@ -363,5 +364,6 @@ func parse*(input: string): MathNode =
 
 
   result = stack.first.inside
-  assert isValid result
 
+  if not isValid result:
+    raise newException(EMathParseError, "the expression is incomplete, either closing parenthesis are not enough or there are some infixes without right side")
