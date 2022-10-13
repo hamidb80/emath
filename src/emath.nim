@@ -302,7 +302,6 @@ func parse*(input: string): MathNode =
         else:
           raise parseTokErr("invalid prefix operator " & $tk.operator, tk.slice)
 
-
       elif stack.last.kind in {mnkLit, mnkVar} or
           stack.last.kind in {mnkPar, mnkCall} and stack.last.isFinal:
 

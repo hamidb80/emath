@@ -29,7 +29,7 @@ Honestly despite searching on the internet about it, I couldn't understand much,
 
 First, the lexer groups the raw exression (which is given as an `string`) to tokens. Tokens are one of these 6 types, either a `number` or an ident (like `var`) or `operator` or `(` or `)` or `,`.
 
-Then the lexer passes tokens one-by-one to the parser. The parser is the *heart* of the library, it creates an AST with a parenthesis as its child, then it increamentally updates that. the generated AST could be consisted of some simple Nodes like **literals** (like `1.2`) and variable names (like `PI`) or some compound nodes like parentheses `()` (which must contain only 1 sub node) or a function call which is consists of the caller name and its arguments, and prefix which has an operator and a node or an infix which has a operator and 2 sub nodes.
+Then the lexer passes tokens one-by-one to the parser. The parser is the *heart* of the library, it first creates an AST with an empty parenthesis as its child, then it increamentally updates that. the generated AST could be consisted of some simple Nodes like **literals** (like `1.2`) and **variable names** (like `PI`) or some compound nodes like **parentheses** `()` (which must contain only 1 sub node) or a **function call** which is consists of the caller name and its arguments, and **prefix** which has an operator and a node, and **infix** which has a operator and 2 sub nodes.
 
 ### Time complexity
 as parser increamentally iterate over tokens and update the AST, it should have `O(n)` time complexity.
