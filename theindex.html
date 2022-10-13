@@ -91,10 +91,6 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="exceptions: EMathException" href="emath/exceptions.html#EMathException">exceptions: EMathException</a></li>
           </ul></dd>
-<dt><a name="EMathLexError" href="#EMathLexError"><span>EMathLexError:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="exceptions: EMathLexError" href="emath/exceptions.html#EMathLexError">exceptions: EMathLexError</a></li>
-          </ul></dd>
 <dt><a name="EMathNotDefined" href="#EMathNotDefined"><span>EMathNotDefined:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="exceptions: EMathNotDefined" href="emath/exceptions.html#EMathNotDefined">exceptions: EMathNotDefined</a></li>
@@ -102,6 +98,10 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="EMathParseError" href="#EMathParseError"><span>EMathParseError:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="exceptions: EMathParseError" href="emath/exceptions.html#EMathParseError">exceptions: EMathParseError</a></li>
+          </ul></dd>
+<dt><a name="EMathTokenError" href="#EMathTokenError"><span>EMathTokenError:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: EMathTokenError" href="emath/exceptions.html#EMathTokenError">exceptions: EMathTokenError</a></li>
           </ul></dd>
 <dt><a name="eval" href="#eval"><span>eval:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -133,10 +133,6 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="model: left(mn: MathNode): MathNode" href="emath/model.html#left%2CMathNode">model: left(mn: MathNode): MathNode</a></li>
           </ul></dd>
-<dt><a name="lexErr" href="#lexErr"><span>lexErr:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="utils: lexErr(msg): untyped" href="emath/private/utils.html#lexErr.t">utils: lexErr(msg): untyped</a></li>
-          </ul></dd>
 <dt><a name="MathFn" href="#MathFn"><span>MathFn:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: MathFn" href="emath/model.html#MathFn">model: MathFn</a></li>
@@ -144,10 +140,6 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="MathFnLookup" href="#MathFnLookup"><span>MathFnLookup:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: MathFnLookup" href="emath/model.html#MathFnLookup">model: MathFnLookup</a></li>
-          </ul></dd>
-<dt><a name="MathIdentKind" href="#MathIdentKind"><span>MathIdentKind:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="utils: MathIdentKind" href="emath/private/utils.html#MathIdentKind">utils: MathIdentKind</a></li>
           </ul></dd>
 <dt><a name="MathNode" href="#MathNode"><span>MathNode:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -161,6 +153,10 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="model: MathOperator" href="emath/model.html#MathOperator">model: MathOperator</a></li>
           </ul></dd>
+<dt><a name="MathSymbolKind" href="#MathSymbolKind"><span>MathSymbolKind:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="exceptions: MathSymbolKind" href="emath/exceptions.html#MathSymbolKind">exceptions: MathSymbolKind</a></li>
+          </ul></dd>
 <dt><a name="MathToken" href="#MathToken"><span>MathToken:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: MathToken" href="emath/model.html#MathToken">model: MathToken</a></li>
@@ -172,14 +168,6 @@ window.addEventListener('DOMContentLoaded', main);
 <dt><a name="MathVarLookup" href="#MathVarLookup"><span>MathVarLookup:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="model: MathVarLookup" href="emath/model.html#MathVarLookup">model: MathVarLookup</a></li>
-          </ul></dd>
-<dt><a name="mikFunc" href="#mikFunc"><span>mikFunc:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="MathIdentKind.mikFunc" href="emath/private/utils.html#mikFunc">MathIdentKind.mikFunc</a></li>
-          </ul></dd>
-<dt><a name="mikVar" href="#mikVar"><span>mikVar:</span></a></dt><dd><ul class="simple">
-<li><a class="reference external"
-          data-doc-search-tag="MathIdentKind.mikVar" href="emath/private/utils.html#mikVar">MathIdentKind.mikVar</a></li>
           </ul></dd>
 <dt><a name="mnkCall" href="#mnkCall"><span>mnkCall:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -253,6 +241,14 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="MathOperator.mokPow" href="emath/model.html#mokPow">MathOperator.mokPow</a></li>
           </ul></dd>
+<dt><a name="mskFunc" href="#mskFunc"><span>mskFunc:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="MathSymbolKind.mskFunc" href="emath/exceptions.html#mskFunc">MathSymbolKind.mskFunc</a></li>
+          </ul></dd>
+<dt><a name="mskVar" href="#mskVar"><span>mskVar:</span></a></dt><dd><ul class="simple">
+<li><a class="reference external"
+          data-doc-search-tag="MathSymbolKind.mskVar" href="emath/exceptions.html#mskVar">MathSymbolKind.mskVar</a></li>
+          </ul></dd>
 <dt><a name="mtkClosePar" href="#mtkClosePar"><span>mtkClosePar:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="MathTokenKind.mtkClosePar" href="emath/model.html#mtkClosePar">MathTokenKind.mtkClosePar</a></li>
@@ -279,7 +275,7 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="mtoken" href="#mtoken"><span>mtoken:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="utils: mtoken(k: MathTokenKind): untyped" href="emath/private/utils.html#mtoken.t%2CMathTokenKind">utils: mtoken(k: MathTokenKind): untyped</a></li>
+          data-doc-search-tag="emath: mtoken(k: MathTokenKind; i: Slice[int]): untyped" href="emath.html#mtoken.t%2CMathTokenKind%2CSlice%5Bint%5D">emath: mtoken(k: MathTokenKind; i: Slice[int]): untyped</a></li>
           </ul></dd>
 <dt><a name="newCall" href="#newCall"><span>newCall:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -309,9 +305,9 @@ window.addEventListener('DOMContentLoaded', main);
 <li><a class="reference external"
           data-doc-search-tag="emath: parse(input: string): MathNode" href="emath.html#parse%2Cstring">emath: parse(input: string): MathNode</a></li>
           </ul></dd>
-<dt><a name="parseErr" href="#parseErr"><span>parseErr:</span></a></dt><dd><ul class="simple">
+<dt><a name="parseTokErr" href="#parseTokErr"><span>parseTokErr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="utils: parseErr(msg): untyped" href="emath/private/utils.html#parseErr.t">utils: parseErr(msg): untyped</a></li>
+          data-doc-search-tag="utils: parseTokErr(m, s): untyped" href="emath/private/utils.html#parseTokErr.t%2C%2C">utils: parseTokErr(m, s): untyped</a></li>
           </ul></dd>
 <dt><a name="priority" href="#priority"><span>priority:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -327,14 +323,14 @@ window.addEventListener('DOMContentLoaded', main);
           </ul></dd>
 <dt><a name="undefinedErr" href="#undefinedErr"><span>undefinedErr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
-          data-doc-search-tag="utils: undefinedErr(name: string; kind: MathIdentKind): untyped" href="emath/private/utils.html#undefinedErr.t%2Cstring%2CMathIdentKind">utils: undefinedErr(name: string; kind: MathIdentKind): untyped</a></li>
+          data-doc-search-tag="utils: undefinedErr(name: string; k: MathSymbolKind): untyped" href="emath/private/utils.html#undefinedErr.t%2Cstring%2CMathSymbolKind">utils: undefinedErr(name: string; k: MathSymbolKind): untyped</a></li>
           </ul></dd>
 </dl>
     <div class="row">
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 10:28:05 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 13:23:23 UTC</small>
       </div>
     </div>
   </div>

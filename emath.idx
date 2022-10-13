@@ -3,4 +3,5 @@ treeRepr	emath.html#treeRepr,MathNode	emath: treeRepr(mn: MathNode): string
 isValid	emath.html#isValid,MathNode	emath: isValid(mn: MathNode): bool	
 eval	emath.html#eval,MathNode,MathVarLookup,MathFnLookup	emath: eval(mn: MathNode; varLookup: MathVarLookup; fnLookup: MathFnLookup): float	
 eval	emath.html#eval,MathNode	emath: eval(mn: MathNode): float	
+mtoken	emath.html#mtoken.t,MathTokenKind,Slice[int]	emath: mtoken(k: MathTokenKind; i: Slice[int]): untyped	
 parse	emath.html#parse,string	emath: parse(input: string): MathNode	

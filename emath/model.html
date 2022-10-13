@@ -131,6 +131,7 @@ window.addEventListener('DOMContentLoaded', main);
   mokAlmostEq = &quot;~=&quot;, mokLessEq = &quot;&lt;=&quot;, mokLess = &quot;&lt;&quot;">MathOperator</a></li>
   <li><a class="reference" href="#MathToken"
     title="MathToken = object
+  slice*: Slice[int]
   case kind*: MathTokenKind
   of mtkNumber:
       number*: float
@@ -250,6 +251,7 @@ window.addEventListener('DOMContentLoaded', main);
 </div>
 <div id="MathToken">
 <dt><pre><a href="model.html#MathToken"><span class="Identifier">MathToken</span></a> <span class="Other">=</span> <span class="Keyword">object</span>
+  <span class="Identifier">slice</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">Slice</span><span class="Other">[</span><span class="Identifier">int</span><span class="Other">]</span>
   <span class="Keyword">case</span> <span class="Identifier">kind</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#MathTokenKind"><span class="Identifier">MathTokenKind</span></a>
   <span class="Keyword">of</span> <span class="Identifier">mtkNumber</span><span class="Other">:</span>
       <span class="Identifier">number</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">float</span>
@@ -333,7 +335,7 @@ returns the right side of an infix operator
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 10:28:04 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 13:23:21 UTC</small>
       </div>
     </div>
   </div>
