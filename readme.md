@@ -24,16 +24,17 @@ parsing the expression to the actual AST, gives you the power and flexibility to
 ## Implementation
 I discovered `tree-sitter` some times ago, and I watched a video on youtube about it in which the author explained some form of `LR` parsers as the base of his library.
 
-Honestly despite searching on the internet about it, I couldn't understand much about it, but I could guess what it's doing by the very simple example that he provided about `LR` parsers and the generated codes from `tree-sitter` library.
+Honestly despite searching on the internet about it, I couldn't understand much, but I could guess what it's doing by the very simple example that he provided about `LR` parsers and the generated codes from `tree-sitter` library.
 
 
-First, the lexer groups the raw exression (which is given as an `string`) to tokens. Tokens are just 6 types, either a `number` or an ident (like `var`) or `operator` or `(` or `)` or `,`.
+First, the lexer groups the raw exression (which is given as an `string`) to tokens. Tokens are one of these 6 types, either a `number` or an ident (like `var`) or `operator` or `(` or `)` or `,`.
 
-Then the lexer passes tokens one-by-one to the parser. The parser is the *heart* of the library, it increamentally creates a Math Tree which is consists of some simple Nodes like **literals** (like `1.2`) and variable names (like `PI`) or some compound nodes parentheses `()` (which must contain only 1 sub node) or a function call which is consists of the caller name and its arguments, and prefix which has a operator and a node or an infix which has a operator and 2 sub nodes.
+Then the lexer passes tokens one-by-one to the parser. The parser is the *heart* of the library, it creates an AST with a parenthesis as its child, then it increamentally updates that. the generated AST could be consisted of some simple Nodes like **literals** (like `1.2`) and variable names (like `PI`) or some compound nodes like parentheses `()` (which must contain only 1 sub node) or a function call which is consists of the caller name and its arguments, and prefix which has an operator and a node or an infix which has a operator and 2 sub nodes.
 
-The basic idea is to increamentally iterate over tokens and update the tree. Which should have `O(n)` time complexity.
+### Time complexity
+as parser increamentally iterate over tokens and update the AST, it should have `O(n)` time complexity.
 
-
+### Example
 **NOTEs:** 
 - the nesting means it's inside of the upper node.
 - I keep track of focused nodes with `#n` in the codes. it's actually a stack that contains nodes with index of `n-1`.
