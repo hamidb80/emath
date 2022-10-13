@@ -166,7 +166,7 @@ type MathLexerState = enum
   mlsOperator
   mlsIdent
 
-template mtoken*(k: MathTokenKind, i: Slice[int]): untyped =
+template mtoken(k: MathTokenKind, i: Slice[int]): untyped =
   MathToken(kind: k, slice: i)
 
 iterator lex(input: string): MathToken =
