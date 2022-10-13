@@ -8,11 +8,10 @@ macro toEmathFn(fnIdent: untyped, argsLen: static[int]): untyped =
     call = newCall(fnIdent)
     argsId = ident"args"
     returnType = quote: seq[float]
-
-  let argsLenCheck = quote:
-    doAssert `argsId`.len == `argsLen`:
-      "invalid number of arguments for function " & `fnStr` &
-      ". expected " & $`argsLen` & " but given " & $`argsId`.len
+    argsLenCheck = quote:
+      doAssert `argsId`.len == `argsLen`:
+        "invalid number of arguments for function " & `fnStr` &
+        ". expected " & $`argsLen` & " but given " & $`argsId`.len
 
   for n in 1..argsLen:
     call.add newTree(nnkBracketExpr, argsId, newlit n-1)
@@ -24,42 +23,39 @@ macro toEmathFn(fnIdent: untyped, argsLen: static[int]): untyped =
 
 
 const
-  defaultFns*: MathFnLookup = toTable {
-    "sin": toEmathFn(sin, 1),
-    "cos": toEmathFn(cos, 1),
-    "tan": toEmathFn(tan, 1),
-    "cot": toEmathFn(cot, 1),
-    "sec": toEmathFn(sec, 1),
-    "csc": toEmathFn(csc, 1),
-
-    "sinh": toEmathFn(sinh, 1),
-    "cosh": toEmathFn(cosh, 1),
-    "tanh": toEmathFn(tanh, 1),
-    "coth": toEmathFn(coth, 1),
-    "sech": toEmathFn(sech, 1),
-    "csch": toEmathFn(csch, 1),
-
-    "arcsin": toEmathFn(arcsin, 1),
-    "arccos": toEmathFn(arccos, 1),
-    "arctan": toEmathFn(arctan, 1),
-    "arccot": toEmathFn(arccot, 1),
-    "arcsec": toEmathFn(arcsec, 1),
-    "arccsc": toEmathFn(arccsc, 1),
-    "arcsinh": toEmathFn(arcsinh, 1),
-    "arccosh": toEmathFn(arccosh, 1),
-    "arctanh": toEmathFn(arctanh, 1),
-    "arccoth": toEmathFn(arccoth, 1),
-    "arcsech": toEmathFn(arcsech, 1),
-    "arccsch": toEmathFn(arccsch, 1),
-
-    "log": toEmathFn(log, 2),
-    "log2": toEmathFn(log2, 1),
-    "lg": toEmathFn(log2, 1),
-    "ln": toEmathFn(ln, 1),
-    "log10": toEmathFn(log10, 1),
-
-    "sqrt": toEmathFn(sqrt, 1),
-  }
+  defaultFns*: MathFnLookup = block:
+    var res: MathFnLookup
+    res["sin"] = toEmathFn(sin, 1)
+    res["cos"] = toEmathFn(cos, 1)
+    res["tan"] = toEmathFn(tan, 1)
+    res["cot"] = toEmathFn(cot, 1)
+    res["sec"] = toEmathFn(sec, 1)
+    res["csc"] = toEmathFn(csc, 1)
+    res["sinh"] = toEmathFn(sinh, 1)
+    res["cosh"] = toEmathFn(cosh, 1)
+    res["tanh"] = toEmathFn(tanh, 1)
+    res["coth"] = toEmathFn(coth, 1)
+    res["sech"] = toEmathFn(sech, 1)
+    res["csch"] = toEmathFn(csch, 1)
+    res["arcsin"] = toEmathFn(arcsin, 1)
+    res["arccos"] = toEmathFn(arccos, 1)
+    res["arctan"] = toEmathFn(arctan, 1)
+    res["arccot"] = toEmathFn(arccot, 1)
+    res["arcsec"] = toEmathFn(arcsec, 1)
+    res["arccsc"] = toEmathFn(arccsc, 1)
+    res["arcsinh"] = toEmathFn(arcsinh, 1)
+    res["arccosh"] = toEmathFn(arccosh, 1)
+    res["arctanh"] = toEmathFn(arctanh, 1)
+    res["arccoth"] = toEmathFn(arccoth, 1)
+    res["arcsech"] = toEmathFn(arcsech, 1)
+    res["arccsch"] = toEmathFn(arccsch, 1)
+    res["log"] = toEmathFn(log, 2)
+    res["log2"] = toEmathFn(log2, 1)
+    res["lg"] = toEmathFn(log2, 1)
+    res["ln"] = toEmathFn(ln, 1)
+    res["log10"] = toEmathFn(log10, 1)
+    res["sqrt"] = toEmathFn(sqrt, 1)
+    res
 
   defaultVars*: MathVarLookup = toTable {
     "PI": PI,

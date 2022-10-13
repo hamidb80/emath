@@ -1,6 +1,34 @@
+## This module is a sample.
+## 
+
+runnableExamples:
+  import emath
+
+  # evaluating with default functions and variables
+  echo "1 + sin(PI)".parse.eval
+
+  # using custom variables and functions
+  import std/tables
+  import emath/defaults
+
+  let vars = toTable {
+    "myvar": 6.6
+  }
+
+  var fns = defaultFns
+  fns["pow2"] = proc(args: seq[float]): float =
+    args[0] * args[0]
+
+  let ans = "myvar * pow2(3)".parse.eval(vars, fns)
+  assert ans == (6.6 * 9)
+  echo ans
+
+
 import std/[tables, strutils, sequtils, math, sugar]
 import emath/[model, defaults]
 import emath/private/utils
+
+
 
 
 func `$`*(mn: MathNode): string =

@@ -58,7 +58,7 @@ type
 
     of mnkPar: discard
 
-  MathFn* = proc(args: seq[float]): float {.noSideEffect, nimcall.}
+  MathFn* = proc(args: seq[float]): float {.noSideEffect.}
   MathFnLookup* = Table[string, MathFn]
   MathVarLookup* = Table[string, float]
 

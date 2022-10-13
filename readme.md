@@ -10,7 +10,7 @@ string  ─────────►  AST ────────────
 ## Usage
 the API functions should be used in this way:
 ```nim
-echo "1 + sin(3.14)".parse.eval
+echo "1 + sin(PI)".parse.eval
 ```
 
 there is another form of `eval` function which also takes variable-lookup and function-lookup tables.
