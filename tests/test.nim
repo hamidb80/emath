@@ -3,7 +3,7 @@ import emath, emath/exceptions, emath/defaults
 
 
 func `~=`(f1, f2: float): bool =
-  0.01 > abs f1 - f2
+  0.0001 > abs f1 - f2
 
 template matche(expr, answer): untyped =
   let ast = parse expr
@@ -24,10 +24,10 @@ suite "operator priority":
       matche expr, answer
 
 suite "pars":
-  const expr = "(1) + (2 * 3) - 4"
+  const expr = "(((((((1)))))-1)) + (-(-2) * 4) ^ -3 + 2"
 
   test expr:
-    matche expr, 3.0
+    matche expr, 2.001953125
 
 suite "fn call":
   var
@@ -38,7 +38,7 @@ suite "fn call":
     assert a.len == 0
     9.0
 
-  const expr = "cos(0) + log(16, 2) - nine() + 10"
+  const expr = "cos(-(0 * 4)) + log(16, 2) - nine() + 10"
   test expr:
     check expr.parse.eval(vars, fns) == +6.0
 
@@ -49,7 +49,7 @@ suite "var":
   template checkUndef(k, n, body): untyped =
     var raised = false
 
-    try:    body
+    try: body
     except EMathNotDefined:
       raised = true
       var e = (ref EMathNotDefined)(getCurrentException())
@@ -61,7 +61,7 @@ suite "var":
   test "not exists":
     checkUndef mskVar, "me":
       discard "me + 2 * 3".parse.eval
-    
+
 
 suite "correctness":
   for expr in [
