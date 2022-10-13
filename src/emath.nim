@@ -1,5 +1,6 @@
 import std/[tables, strutils, sequtils, math, sugar]
-import emath/[model, utils, defs]
+import emath/[model, defaults]
+import emath/private/utils
 
 
 func `$`*(mn: MathNode): string =
@@ -69,10 +70,6 @@ func isValid*(mn: MathNode): bool =
 
   numberOfChildren and subNodes and closed
 
-
-template evalErr(msg): untyped =
-  raise newException(ValueError, msg)
-
 func eval*(mn: MathNode,
   varLookup: MathVarLookup,
   fnLookup: MathFnLookup): float =
@@ -120,21 +117,15 @@ func eval*(mn: MathNode): float =
   eval mn, defaultVars, defaultFns
 
 
+const
+  Operators = {'+', '-', '*', '/', '^', '=', '<', '>', '%'}
+  EoS = '\0' # End of String
+
 type MathLexerState = enum
   mlsInitial
   mlsInt, mlsFloat
   mlsOperator
   mlsIdent
-
-const
-  Operators = {'+', '-', '*', '/', '^', '=', '<', '>', '%'}
-  EoS = '\0' # End of String
-
-template mtoken(k: MathTokenKind): untyped =
-  MathToken(kind: k)
-
-template lexError(msg): untyped =
-  raise newException(ValueError, msg)
 
 iterator lex(input: string): MathToken =
   var
@@ -221,9 +212,6 @@ iterator lex(input: string): MathToken =
 
     inc i
 
-
-template parserErr(msg): untyped =
-  raise newException(ValueError, msg)
 
 func isOpenWrapper(mn: MathNode): bool =
   (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)

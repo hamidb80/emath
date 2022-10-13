@@ -63,25 +63,6 @@ type
   MathVarLookup* = Table[string, float]
 
 
-func newPrefix*(o: MathOperator): MathNode =
-  MathNode(kind: mnkPrefix, operator: o)
-
-func newInfix*(o: MathOperator): MathNode =
-  MathNode(kind: mnkInfix, operator: o)
-
-func newVar*(i: string): MathNode =
-  MathNode(kind: mnkVar, ident: i)
-
-func newPar*: MathNode =
-  MathNode(kind: mnkPar, isFinal: false)
-
-func newCall*(i: string): MathNode =
-  MathNode(kind: mnkCall, ident: i, isFinal: false)
-
-func newLiteral*(f: float): MathNode =
-  MathNode(kind: mnkLit, value: f)
-
-
 func left*(mn: MathNode): MathNode =
   ## returns the left side of an infix operator
   assert mn.kind == mnkInfix
