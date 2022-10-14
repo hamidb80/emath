@@ -8,8 +8,8 @@ type
   EMathEvalError* = object of EMathException
   EMathNotDefined* = object of EMathEvalError
     ident*: string
-    kind*: MathSymbolKind
+    kind*: EMathSymbolKind
 
-  MathSymbolKind* = enum
+  EMathSymbolKind* = enum
     mskFunc = "function"
     mskVar = "variable"

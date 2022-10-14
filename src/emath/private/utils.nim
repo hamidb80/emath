@@ -14,7 +14,7 @@ template parseTokErr*(m, s): untyped =
 template evalErr*(msg): untyped =
   raise newException(EMathEvalError, msg)
 
-template undefinedErr*(name: string, k: MathSymbolKind): untyped =
+template undefinedErr*(name: string, k: EMathSymbolKind): untyped =
   var e = new EMathNotDefined
   e.msg = "the " & $k & " '" & name & "' is not defined"
   e.ident = name
