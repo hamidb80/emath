@@ -151,5 +151,7 @@ Par #1
 
 We made our correct AST! I didn't convered a lot of things like prefixes and function calls, but they are not that much hard to think of.
 
-## Origin
-This library originally created for the need of evaluating math expressions. Since `nim-mathexpr` [had this issue](https://github.com/Yardanico/nim-mathexpr/issues/7), I came to the point of creating brand new library with different approach.
+## Similar Projects
+- [nimkalc](https://github.com/nocturn9x/nimkalc)
+- [mathexpr](https://github.com/Yardanico/nim-mathexpr/)
+- [kexpr](https://github.com/brentp/kexpr-nim)
