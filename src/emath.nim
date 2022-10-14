@@ -129,7 +129,7 @@ func eval*(mn: MathNode,
   of mnkPostfix:
     let v = rec mn.inside
     case mn.operator
-    of mokFact:
+    of mokNotFact:
       if isInt v: float fac v.toInt
       else: evalErr "factorial only works for integers, got float " & $v
     else: evalErr "invalid postfix: " & $v
@@ -138,7 +138,8 @@ func eval*(mn: MathNode,
     let v = rec mn.inside
     case mn.operator
     of mokPlus: v
-    of mokminus: -v
+    of mokMinus: -v
+    of mokNotFact: float not v.toBinary
     else: evalErr "invalid prefix: " & $mn.operator
 
   of mnkInfix:
@@ -151,7 +152,7 @@ func eval*(mn: MathNode,
     of mokMult: le * ri
     of mokDiv: le / ri
     of mokPlus: le + ri
-    of mokminus: le - ri
+    of mokMinus: le - ri
     of mokMod: floorMod(le, ri)
     of mokLarger: float le > ri
     of mokLargerEq: float le >= ri
@@ -159,8 +160,8 @@ func eval*(mn: MathNode,
     of mokAlmostEq: float almostEqual(le, ri)
     of mokLessEq: float le <= ri
     of mokLess: float le < ri
-    of mokAnd: float (le == 1.0) and (ri == 1.0)
-    of mokOr: float (le == 1.0) or (ri == 1.0)
+    of mokAnd: float le.toBinary and ri.toBinary
+    of mokOr: float le.toBinary or ri.toBinary
     else: evalErr "invalid infix operator " & $mn.operator
 
 func eval*(mn: MathNode): float =
@@ -304,7 +305,7 @@ func parse*(input: string): MathNode =
     of mtkOperator:
       if isFinalValue stack.last:
 
-        if tk.operator == mokFact:
+        if tk.operator == mokNotFact:
           let t = newPostfix(tk.operator, stack.pop)
           stack.last.children[^1] = t
           stack.add t
@@ -324,7 +325,7 @@ func parse*(input: string): MathNode =
 
       else:
         case tk.operator
-        of mokPlus, mokminus:
+        of mokPlus, mokMinus, mokNotFact:
           let t = newPrefix tk.operator
           stack.last.children.add t
           stack.add t

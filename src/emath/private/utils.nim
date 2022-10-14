@@ -31,8 +31,11 @@ template first*(s: seq): untyped =
 
 # --- numbers
 
-func isInt*(f: float): bool = 
+func isInt*(f: float): bool =
   f.toInt.toFloat == f
+
+func toBinary*(f: float): bool =
+  f != 0.0
 
 # --- math node
 

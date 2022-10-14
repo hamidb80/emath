@@ -7,10 +7,10 @@ type
     mokMult = "*"
     mokDiv = "/"
     mokPlus = "+"
-    mokminus = "-"
+    mokMinus = "-"
     mokMod = "%"
-    mokFact = "!"
     # -- logical
+    mokNotFact = "!"
     mokAnd = "&"
     mokOr = "|"
     # -- comparison
@@ -87,10 +87,10 @@ func inside*(mn: MathNode): MathNode =
 
 func priority*(mo: MathOperator): int =
   case mo
-  of mokFact: 6
-  of mokPow: 5
-  of mokMult, mokDiv: 4
-  of mokPlus, mokminus: 3
-  of mokMod: 2
+  of mokPow: 6
+  of mokMult, mokDiv: 5
+  of mokPlus, mokMinus: 4
+  of mokMod: 3
+  of mokNotFact: 2
   of mokAnd, mokOr: 1
   of mokLarger, mokLargerEq, mokAlmostEq, mokEq, mokLessEq, mokLess: 0

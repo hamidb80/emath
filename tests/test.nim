@@ -20,6 +20,8 @@ suite "operator priority":
     "2 ^ 8 + -3 * 7": 235.0,
     "-10^2": -100.0,
     "-3! ^ 2 + 1": -35.0,
+    "-4!": -24.0,
+    "!4!": 0.0,
   }:
     test expr:
       matche expr, answer
