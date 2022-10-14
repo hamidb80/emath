@@ -32,26 +32,27 @@ import std/[tables, strutils, sequtils, math, sugar]
 import emath/[model, defaults, exceptions]
 import emath/private/utils
 
+export exceptions, model
 
 func `$`*(mn: MathNode): string =
   case mn.kind
-  of mnkLit: $mn.value
-  of mnkPar: '(' & $mn.inside & ')'
-  of mnkVar: mn.ident
-  of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
-  of mnkPrefix: $mn.operator & $mn.inside
-  of mnkPostfix: $mn.inside & $mn.operator
-  of mnkInfix: $mn.left & ' ' & $mn.operator & ' ' & $mn.right
+  of emnkLit: $mn.value
+  of emnkPar: '(' & $mn.inside & ')'
+  of emnkVar: mn.ident
+  of emnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
+  of emnkPrefix: $mn.operator & $mn.inside
+  of emnkPostfix: $mn.inside & $mn.operator
+  of emnkInfix: $mn.left & ' ' & $mn.operator & ' ' & $mn.right
 
 func recap(mn: MathNode): string {.used.} =
   case mn.kind
-  of mnkLit: "LIT " & $mn.value
-  of mnkPar: "PAR"
-  of mnkVar: "IDENT " & mn.ident
-  of mnkCall: "CALL " & mn.ident
-  of mnkPrefix: "PREFIX " & $mn.operator
-  of mnkPostfix: "POSTFIX " & $mn.operator
-  of mnkInfix: "INFIX " & $mn.operator
+  of emnkLit: "LIT " & $mn.value
+  of emnkPar: "PAR"
+  of emnkVar: "IDENT " & mn.ident
+  of emnkCall: "CALL " & mn.ident
+  of emnkPrefix: "PREFIX " & $mn.operator
+  of emnkPostfix: "POSTFIX " & $mn.operator
+  of emnkInfix: "INFIX " & $mn.operator
 
 func treeReprImpl(mn: MathNode, result: var seq[string],
   level: int, tab = 2) =
@@ -61,13 +62,13 @@ func treeReprImpl(mn: MathNode, result: var seq[string],
 
   incl:
     case mn.kind
-    of mnkLit: "LIT " & $mn.value
-    of mnkPrefix: "PREFIX " & $mn.operator
-    of mnkPostfix: "POSTFIX " & $mn.operator
-    of mnkInfix: "INFIX " & $mn.operator
-    of mnkPar: "PAR"
-    of mnkVar: "VAR " & mn.ident
-    of mnkCall: "CALL " & mn.ident
+    of emnkLit: "LIT " & $mn.value
+    of emnkPrefix: "PREFIX " & $mn.operator
+    of emnkPostfix: "POSTFIX " & $mn.operator
+    of emnkInfix: "INFIX " & $mn.operator
+    of emnkPar: "PAR"
+    of emnkVar: "VAR " & mn.ident
+    of emnkCall: "CALL " & mn.ident
 
   for ch in mn.children:
     treeReprImpl ch, result, level + 1
@@ -86,20 +87,20 @@ func isValid*(mn: MathNode): bool =
   let
     numberOfChildren =
       case mn.kind
-      of mnkLit, mnkVar: true
-      of mnkCall: mn.children.len >= 0
-      of mnkPar, mnkPrefix, mnkPostfix: mn.children.len == 1
-      of mnkInfix: mn.children.len == 2
+      of emnkLit, emnkVar: true
+      of emnkCall: mn.children.len >= 0
+      of emnkPar, emnkPrefix, emnkPostfix: mn.children.len == 1
+      of emnkInfix: mn.children.len == 2
 
     subNodes =
       case mn.kind
-      of mnkLit, mnkVar: true
-      of mnkPar, mnkCall, mnkPostfix, mnkPrefix, mnkInfix:
+      of emnkLit, emnkVar: true
+      of emnkPar, emnkCall, emnkPostfix, emnkPrefix, emnkInfix:
         mn.children.allIt isValid it
 
     closed =
       case mn.kind
-      of mnkPar, mnkCall: mn.isFinal
+      of emnkPar, emnkCall: mn.isFinal
       else: true
 
   numberOfChildren and subNodes and closed
@@ -113,55 +114,56 @@ func eval*(mn: MathNode,
     eval(n, varLookup, fnLookup)
 
   case mn.kind
-  of mnkLit: mn.value
-  of mnkPar: rec mn.inside
-  of mnkVar:
+  of emnkLit: mn.value
+  of emnkPar: rec mn.inside
+  of emnkVar:
     try: varLookup[mn.ident]
     except KeyError: raise undefinedErr(mn.ident, mskVar)
 
-  of mnkCall:
+  of emnkCall:
     let fn =
       try: fnLookup[mn.ident]
       except KeyError: raise undefinedErr(mn.ident, mskFunc)
 
     fn(mn.children.mapit(rec it))
 
-  of mnkPostfix:
+  of emnkPostfix:
     let v = rec mn.inside
     case mn.operator
-    of mokNotFact:
+    of emokNotFact:
       if isInt v: float fac v.toInt
       else: evalErr "factorial only works for integers, got float " & $v
     else: evalErr "invalid postfix: " & $v
 
-  of mnkPrefix:
+  of emnkPrefix:
     let v = rec mn.inside
     case mn.operator
-    of mokPlus: v
-    of mokMinus: -v
-    of mokNotFact: float not v.toBinary
+    of emokPlus: v
+    of emokMinus: -v
+    of emokNotFact: float not v.toBinary
     else: evalErr "invalid prefix: " & $mn.operator
 
-  of mnkInfix:
+  of emnkInfix:
     let
       le = rec mn.left
       ri = rec mn.right
 
     case mn.operator
-    of mokPow: pow(le, ri)
-    of mokMult: le * ri
-    of mokDiv: le / ri
-    of mokPlus: le + ri
-    of mokMinus: le - ri
-    of mokMod: floorMod(le, ri)
-    of mokLarger: float le > ri
-    of mokLargerEq: float le >= ri
-    of mokEq: float le == ri
-    of mokAlmostEq: float almostEqual(le, ri)
-    of mokLessEq: float le <= ri
-    of mokLess: float le < ri
-    of mokAnd: float le.toBinary and ri.toBinary
-    of mokOr: float le.toBinary or ri.toBinary
+    of emokPow: pow(le, ri)
+    of emokMult: le * ri
+    of emokDiv: le / ri
+    of emokPlus: le + ri
+    of emokMinus: le - ri
+    of emokMod: floorMod(le, ri)
+    of emokLarger: float le > ri
+    of emokLargerEq: float le >= ri
+    of emokEq: float le == ri
+    of emokNotEq: float le != ri
+    of emokAlmostEq: float almostEqual(le, ri)
+    of emokLessEq: float le <= ri
+    of emokLess: float le < ri
+    of emokAnd: float le.toBinary and ri.toBinary
+    of emokOr: float le.toBinary or ri.toBinary
     else: evalErr "invalid infix operator " & $mn.operator
 
 func eval*(mn: MathNode): float =
@@ -179,10 +181,10 @@ type MathLexerState = enum
   mlsOperator
   mlsIdent
 
-template mtoken(k: MathTokenKind, i: Slice[int]): untyped =
-  MathToken(kind: k, slice: i)
+template mtoken(k: EMathTokenKind, i: Slice[int]): untyped =
+  EMathToken(kind: k, slice: i)
 
-iterator lex(input: string): MathToken =
+iterator lex(input: string): EMathToken =
   var
     i = 0
     anchor = 0
@@ -200,16 +202,16 @@ iterator lex(input: string): MathToken =
     template switch: untyped =
       case state
       of mlsFloat, mlsInt:
-        yield MathToken(kind: mtkNumber, number: parseFloat input[anchor ..< i],
-            slice: anchor ..< i)
+        yield EMathToken(kind: emtkNumber, number: parseFloat input[anchor ..<
+            i], slice: anchor ..< i)
 
       of mlsIdent:
-        yield MathToken(kind: mtkIdent, ident: input[anchor ..< i],
+        yield EMathToken(kind: emtkIdent, ident: input[anchor ..< i],
             slice: anchor ..< i)
 
       of mlsOperator:
-        yield MathToken(kind: mtkOperator,
-          operator: parseEnum[MathOperator](input[anchor ..< i]),
+        yield EMathToken(kind: emtkOperator,
+          operator: parseEnum[EMathOperator](input[anchor ..< i]),
           slice: anchor ..< i)
 
       else: raise parseErr("invalid state")
@@ -256,15 +258,15 @@ iterator lex(input: string): MathToken =
 
     of ',':
       onReady:
-        yield mtoken(mtkComma, i..i)
+        yield mtoken(emtkComma, i..i)
 
     of '(':
       onReady:
-        yield mtoken(mtkOpenPar, i..i)
+        yield mtoken(emtkOpenPar, i..i)
 
     of ')':
       onReady:
-        yield mtoken(mtkClosePar, i..i)
+        yield mtoken(emtkClosePar, i..i)
 
     else:
       raise parseTokErr("invalid character: " & ch, i..i)
@@ -286,26 +288,26 @@ func parse*(input: string): MathNode =
   ## parses the math expression from raw string into its corresponding AST
   var
     stack: seq[MathNode] = @[newPar()]
-    lastToken: MathToken
+    lastToken: EMathToken
 
   for tk in lex input:
     case tk.kind
-    of mtkNumber, mtkIdent:
+    of emtkNumber, emtkIdent:
       if isFinalValue stack.last:
         raise parseTokErr("got token of kind '" & $tk.kind & "' in wrong place", tk.slice)
 
       else:
         let t =
-          if tk.kind == mtkNumber: newLiteral tk.number
+          if tk.kind == emtkNumber: newLiteral tk.number
           else: newVar tk.ident
 
         stack.last.children.add t
         stack.add t
 
-    of mtkOperator:
+    of emtkOperator:
       if isFinalValue stack.last:
 
-        if tk.operator == mokNotFact:
+        if tk.operator == emokNotFact:
           let t = newPostfix(tk.operator, stack.pop)
           stack.last.children[^1] = t
           stack.add t
@@ -316,7 +318,7 @@ func parse*(input: string): MathNode =
             p = t.operator.priority
             n = goUp(stack, (mn: MathNode) =>
               isOpenWrapper(mn) or
-              (mn.kind in {mnkInfix, mnkPrefix}) and
+              (mn.kind in {emnkInfix, emnkPrefix}) and
               (p > mn.operator.priority))
 
           stack.last.children[^1] = t
@@ -325,7 +327,7 @@ func parse*(input: string): MathNode =
 
       else:
         case tk.operator
-        of mokPlus, mokMinus, mokNotFact:
+        of emokPlus, emokMinus, emokNotFact:
           let t = newPrefix tk.operator
           stack.last.children.add t
           stack.add t
@@ -333,14 +335,14 @@ func parse*(input: string): MathNode =
         else:
           raise parseTokErr("invalid prefix operator " & $tk.operator, tk.slice)
 
-    of mtkOpenPar:
+    of emtkOpenPar:
       case stack.last.kind
-      of mnkVar: # is a function call
+      of emnkVar: # is a function call
         let t = newCall(stack.pop.ident)
         stack.last.children[^1] = t
         stack.add t
 
-      of mnkInfix, mnkPrefix, mnkPar:
+      of emnkInfix, emnkPrefix, emnkPar:
         let t = newPar()
         stack.last.children.add t
         stack.add t
@@ -348,21 +350,22 @@ func parse*(input: string): MathNode =
       else:
         raise parseTokErr("hit '(' in unexpected place", tk.slice)
 
-    of mtkClosePar:
+    of emtkClosePar:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
       if stack.len == 1:
         raise parseTokErr("hit ')' in unexpected place", tk.slice)
 
-      elif stack.last.kind == mnkPar and stack.last.children.len == 0:
+      elif stack.last.kind == emnkPar and stack.last.children.len == 0:
         raise parseTokErr("parenthesis must have 1 subnode, given 0", tk.slice)
 
       stack.last.isFinal = true
 
-    of mtkComma:
+    of emtkComma:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
-      if stack.last.kind != mnkCall or lastToken.kind in {mtkComma, mtkOpenPar, mtkOperator}:
+      if stack.last.kind != emnkCall or lastToken.kind in {emtkComma,
+          emtkOpenPar, emtkOperator}:
         raise parseTokErr("hit ',' in unexpected place", tk.slice)
 
     lastToken = tk

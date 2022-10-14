@@ -21,6 +21,8 @@ suite "operator priority":
     "-10^2": -100.0,
     "-3! ^ 2 + 1": -35.0,
     "!4!": 0.0,
+    "2 != 2": 0.0,
+    "2 == 2": 1.0,
   }:
     test expr:
       matche expr, answer

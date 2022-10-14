@@ -39,31 +39,31 @@ func toBinary*(f: float): bool =
 
 # --- math node
 
-func newPrefix*(o: MathOperator): MathNode =
-  MathNode(kind: mnkPrefix, operator: o)
+func newPrefix*(o: EMathOperator): MathNode =
+  MathNode(kind: emnkPrefix, operator: o)
 
-func newPostfix*(o: MathOperator, sub: MathNode): MathNode =
-  MathNode(kind: mnkPostfix, operator: o, children: @[sub])
+func newPostfix*(o: EMathOperator, sub: MathNode): MathNode =
+  MathNode(kind: emnkPostfix, operator: o, children: @[sub])
 
-func newInfix*(o: MathOperator): MathNode =
-  MathNode(kind: mnkInfix, operator: o)
+func newInfix*(o: EMathOperator): MathNode =
+  MathNode(kind: emnkInfix, operator: o)
 
 func newVar*(i: string): MathNode =
-  MathNode(kind: mnkVar, ident: i)
+  MathNode(kind: emnkVar, ident: i)
 
 func newPar*: MathNode =
-  MathNode(kind: mnkPar, isFinal: false)
+  MathNode(kind: emnkPar, isFinal: false)
 
 func newCall*(i: string): MathNode =
-  MathNode(kind: mnkCall, ident: i, isFinal: false)
+  MathNode(kind: emnkCall, ident: i, isFinal: false)
 
 func newLiteral*(f: float): MathNode =
-  MathNode(kind: mnkLit, value: f)
+  MathNode(kind: emnkLit, value: f)
 
 
 func isOpenWrapper*(mn: MathNode): bool =
-  (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)
+  (mn.kind in {emnkPar, emnkCall}) and (not mn.isFinal)
 
 func isFinalValue*(mn: MathNode): bool =
-  mn.kind in {mnkLit, mnkVar, mnkPostfix} or
-  mn.kind in {mnkPar, mnkCall} and mn.isFinal
+  mn.kind in {emnkLit, emnkVar, emnkPostfix} or
+  mn.kind in {emnkPar, emnkCall} and mn.isFinal

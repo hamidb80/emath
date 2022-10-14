@@ -13,4 +13,3 @@ type
   MathSymbolKind* = enum
     mskFunc = "function"
     mskVar = "variable"
-
