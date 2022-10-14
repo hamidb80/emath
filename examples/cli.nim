@@ -67,7 +67,7 @@ while true:
 
 
                 else:
-                    echo "Logic Error: Left side of assignment must be a raw ident"
+                    echo "Syntax Error: invalid style of left side of assignment"
 
             else:
                 echo "<< ", ast.eval(vars, fns)
