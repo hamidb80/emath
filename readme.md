@@ -32,7 +32,7 @@ First, the lexer groups the raw exression (which is given as an `string`) to tok
 Then the lexer passes tokens one-by-one to the parser. The parser is the *heart* of the library, it first creates an AST with an empty parenthesis as its child, then it increamentally updates that. the generated AST could be consisted of some simple Nodes like **literals** (like `1.2`) and **variable names** (like `PI`) or some compound nodes like **parentheses** `()` (which must contain only 1 sub node) or a **function call** which is consists of the caller name and its arguments, and **prefix** which has an operator and a node, and **infix** which has a operator and 2 sub nodes.
 
 ### Time complexity
-as parser increamentally iterate over tokens and update the AST, it should have `O(n)` time complexity.
+as parser increamentally iterates over tokens and updates the AST, it should have `O(n)` time complexity.
 
 ### Example
 **NOTEs:** 
