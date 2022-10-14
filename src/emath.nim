@@ -9,8 +9,6 @@
 
 
 runnableExamples:
-  import emath
-
   # evaluating with default functions and variables
   echo "1 + sin(PI)".parse.eval # 1.0
 
@@ -38,11 +36,11 @@ import emath/private/utils
 func `$`*(mn: MathNode): string =
   case mn.kind
   of mnkLit: $mn.value
-  of mnkPar: '(' & $mn.children[0] & ')'
+  of mnkPar: '(' & $mn.inside & ')'
   of mnkVar: mn.ident
   of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
-  of mnkPrefix: $mn.operator & $mn.children[0]
-  of mnkInfix: $mn.children[0] & ' ' & $mn.operator & ' ' & $mn.children[1]
+  of mnkPrefix: $mn.operator & $mn.inside
+  of mnkInfix: $mn.left & ' ' & $mn.operator & ' ' & $mn.right
 
 func recap(mn: MathNode): string {.used.} =
   case mn.kind
@@ -113,7 +111,7 @@ func eval*(mn: MathNode,
 
   case mn.kind
   of mnkLit: mn.value
-  of mnkPar: rec mn.children[0]
+  of mnkPar: rec mn.inside
   of mnkVar:
     try: varLookup[mn.ident]
     except KeyError: raise undefinedErr(mn.ident, mskVar)
@@ -126,7 +124,7 @@ func eval*(mn: MathNode,
     fn(mn.children.mapit(rec it))
 
   of mnkPrefix:
-    let v = rec mn.children[0]
+    let v = rec mn.inside
     case mn.operator
     of mokPlus: v
     of mokminus: -v
@@ -134,8 +132,8 @@ func eval*(mn: MathNode,
 
   of mnkInfix:
     let
-      le = rec mn.children[0]
-      ri = rec mn.children[1]
+      le = rec mn.left
+      ri = rec mn.right
 
     case mn.operator
     of mokPow: pow(le, ri)
@@ -184,20 +182,22 @@ iterator lex(input: string): MathToken =
       anchor = i
       state = s
 
-    template twist: untyped =
+    template switch: untyped =
       case state
       of mlsFloat, mlsInt:
         yield MathToken(kind: mtkNumber, number: parseFloat input[anchor ..< i],
             slice: anchor ..< i)
+
       of mlsIdent:
         yield MathToken(kind: mtkIdent, ident: input[anchor ..< i],
             slice: anchor ..< i)
+
       of mlsOperator:
         yield MathToken(kind: mtkOperator,
           operator: parseEnum[MathOperator](input[anchor ..< i]),
           slice: anchor ..< i)
 
-      else: assert false
+      else: raise parseErr("invalid state")
 
       state = mlsInitial
       continue
@@ -205,34 +205,34 @@ iterator lex(input: string): MathToken =
     template onReady(body): untyped =
       case state
       of mlsInitial: body
-      else: twist
+      else: switch
 
     case ch
     of Whitespace, EoS:
       case state
       of mlsInitial: discard
-      else: twist
+      else: switch
 
     of Operators:
       case state
       of mlsOperator:
-        if ch notin {'<', '>', '='}: twist
+        if ch notin {'<', '>', '='}: switch
         else: discard
 
       of mlsInitial: enterState mlsOperator
-      else: twist
+      else: switch
 
     of Digits:
       case state
       of mlsInitial: enterState mlsInt
       of mlsInt, mlsFloat, mlsIdent: discard
-      else: twist
+      else: switch
 
     of Letters:
       case state
       of mlsIdent: discard
       of mlsInitial: enterState mlsIdent
-      else: twist
+      else: switch
 
     of '.':
       case state
@@ -283,7 +283,6 @@ func parse*(input: string): MathNode =
         if tk.kind == mtkNumber: newLiteral tk.number
         else: newVar tk.ident
 
-      assert stack.last.kind in {mnkInfix, mnkPrefix, mnkPar, mnkCall}
       stack.last.children.add t
       stack.add t
 
@@ -365,4 +364,4 @@ func parse*(input: string): MathNode =
   result = stack.first.inside
 
   if not isValid result:
-    raise newException(EMathParseError, "the expression is incomplete, either closing parenthesis are not enough or there are some infixes without right side")
+    raise parseErr "the expression is incomplete, either closing parenthesis are not enough or there are some infixes without right side"

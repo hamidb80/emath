@@ -1,7 +1,6 @@
 import std/tables
 
 type
-  # TODO add factorial (!) as postfix
   MathOperator* = enum
     # -- operation
     mokPow = "^"
@@ -83,7 +82,7 @@ func inside*(mn: MathNode): MathNode =
 
 
 func priority*(mo: MathOperator): int =
-  case mo:
+  case mo
   of mokPow: 4
   of mokMult, mokDiv: 3
   of mokPlus, mokminus: 2

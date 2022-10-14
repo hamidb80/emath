@@ -2,6 +2,9 @@ import ../model, ../exceptions
 
 # --- errors
 
+template parseErr*(msg): untyped =
+  newException(EMathParseError, msg)
+
 template parseTokErr*(m, s): untyped =
   var e = new EMathTokenError
   e.msg = m & " at indexes: " & $s
