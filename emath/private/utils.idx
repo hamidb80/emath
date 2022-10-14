@@ -1,11 +1,16 @@
+parseErr	emath/private/utils.html#parseErr.t	utils: parseErr(msg): untyped	
 parseTokErr	emath/private/utils.html#parseTokErr.t,,	utils: parseTokErr(m, s): untyped	
 evalErr	emath/private/utils.html#evalErr.t	utils: evalErr(msg): untyped	
 undefinedErr	emath/private/utils.html#undefinedErr.t,string,MathSymbolKind	utils: undefinedErr(name: string; k: MathSymbolKind): untyped	
 last	emath/private/utils.html#last.t,seq	utils: last(s: seq): untyped	
 first	emath/private/utils.html#first.t,seq	utils: first(s: seq): untyped	
+isInt	emath/private/utils.html#isInt,float	utils: isInt(f: float): bool	
 newPrefix	emath/private/utils.html#newPrefix,MathOperator	utils: newPrefix(o: MathOperator): MathNode	
+newPostfix	emath/private/utils.html#newPostfix,MathOperator,MathNode	utils: newPostfix(o: MathOperator; sub: MathNode): MathNode	
 newInfix	emath/private/utils.html#newInfix,MathOperator	utils: newInfix(o: MathOperator): MathNode	
 newVar	emath/private/utils.html#newVar,string	utils: newVar(i: string): MathNode	
 newPar	emath/private/utils.html#newPar	utils: newPar(): MathNode	
 newCall	emath/private/utils.html#newCall,string	utils: newCall(i: string): MathNode	
 newLiteral	emath/private/utils.html#newLiteral,float	utils: newLiteral(f: float): MathNode	
+isOpenWrapper	emath/private/utils.html#isOpenWrapper,MathNode	utils: isOpenWrapper(mn: MathNode): bool	
+isFinalValue	emath/private/utils.html#isFinalValue,MathNode	utils: isFinalValue(mn: MathNode): bool	

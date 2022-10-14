@@ -4,6 +4,9 @@ mokDiv	emath/model.html#mokDiv	MathOperator.mokDiv
 mokPlus	emath/model.html#mokPlus	MathOperator.mokPlus	
 mokminus	emath/model.html#mokminus	MathOperator.mokminus	
 mokMod	emath/model.html#mokMod	MathOperator.mokMod	
+mokFact	emath/model.html#mokFact	MathOperator.mokFact	
+mokAnd	emath/model.html#mokAnd	MathOperator.mokAnd	
+mokOr	emath/model.html#mokOr	MathOperator.mokOr	
 mokLarger	emath/model.html#mokLarger	MathOperator.mokLarger	
 mokLargerEq	emath/model.html#mokLargerEq	MathOperator.mokLargerEq	
 mokEq	emath/model.html#mokEq	MathOperator.mokEq	
@@ -24,6 +27,7 @@ mnkPar	emath/model.html#mnkPar	MathNodeKind.mnkPar
 mnkVar	emath/model.html#mnkVar	MathNodeKind.mnkVar	
 mnkCall	emath/model.html#mnkCall	MathNodeKind.mnkCall	
 mnkPrefix	emath/model.html#mnkPrefix	MathNodeKind.mnkPrefix	
+mnkPostfix	emath/model.html#mnkPostfix	MathNodeKind.mnkPostfix	
 mnkInfix	emath/model.html#mnkInfix	MathNodeKind.mnkInfix	
 MathNodeKind	emath/model.html#MathNodeKind	model: MathNodeKind	
 MathNode	emath/model.html#MathNode	model: MathNode	

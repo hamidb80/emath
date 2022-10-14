@@ -116,19 +116,20 @@ window.addEventListener('DOMContentLoaded', main);
   of mnkCall, mnkVar:
       ident*: string
 
-  of mnkPrefix, mnkInfix:
+  of mnkPrefix, mnkPostfix, mnkInfix:
       operator*: MathOperator
 
   of mnkPar:
     nil">MathNode</a></li>
   <li><a class="reference" href="#MathNodeKind"
     title="MathNodeKind = enum
-  mnkLit, mnkPar, mnkVar, mnkCall, mnkPrefix, mnkInfix">MathNodeKind</a></li>
+  mnkLit, mnkPar, mnkVar, mnkCall, mnkPrefix, mnkPostfix, mnkInfix">MathNodeKind</a></li>
   <li><a class="reference" href="#MathOperator"
     title="MathOperator = enum
   mokPow = &quot;^&quot;, mokMult = &quot;*&quot;, mokDiv = &quot;/&quot;, mokPlus = &quot;+&quot;, mokminus = &quot;-&quot;,
-  mokMod = &quot;%&quot;, mokLarger = &quot;&gt;&quot;, mokLargerEq = &quot;&gt;=&quot;, mokEq = &quot;==&quot;,
-  mokAlmostEq = &quot;~=&quot;, mokLessEq = &quot;&lt;=&quot;, mokLess = &quot;&lt;&quot;">MathOperator</a></li>
+  mokMod = &quot;%&quot;, mokFact = &quot;!&quot;, mokAnd = &quot;&amp;&quot;, mokOr = &quot;|&quot;, mokLarger = &quot;&gt;&quot;,
+  mokLargerEq = &quot;&gt;=&quot;, mokEq = &quot;==&quot;, mokAlmostEq = &quot;~=&quot;, mokLessEq = &quot;&lt;=&quot;,
+  mokLess = &quot;&lt;&quot;">MathOperator</a></li>
   <li><a class="reference" href="#MathToken"
     title="MathToken = object
   slice*: Slice[int]
@@ -217,7 +218,7 @@ window.addEventListener('DOMContentLoaded', main);
   <span class="Keyword">of</span> <span class="Identifier">mnkCall</span><span class="Other">,</span> <span class="Identifier">mnkVar</span><span class="Other">:</span>
       <span class="Identifier">ident</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">string</span>
 
-  <span class="Keyword">of</span> <span class="Identifier">mnkPrefix</span><span class="Other">,</span> <span class="Identifier">mnkInfix</span><span class="Other">:</span>
+  <span class="Keyword">of</span> <span class="Identifier">mnkPrefix</span><span class="Other">,</span> <span class="Identifier">mnkPostfix</span><span class="Other">,</span> <span class="Identifier">mnkInfix</span><span class="Other">:</span>
       <span class="Identifier">operator</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#MathOperator"><span class="Identifier">MathOperator</span></a>
 
   <span class="Keyword">of</span> <span class="Identifier">mnkPar</span><span class="Other">:</span>
@@ -231,7 +232,7 @@ window.addEventListener('DOMContentLoaded', main);
 </div>
 <div id="MathNodeKind">
 <dt><pre><a href="model.html#MathNodeKind"><span class="Identifier">MathNodeKind</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
-  <span class="Identifier">mnkLit</span><span class="Other">,</span> <span class="Identifier">mnkPar</span><span class="Other">,</span> <span class="Identifier">mnkVar</span><span class="Other">,</span> <span class="Identifier">mnkCall</span><span class="Other">,</span> <span class="Identifier">mnkPrefix</span><span class="Other">,</span> <span class="Identifier">mnkInfix</span></pre></dt>
+  <span class="Identifier">mnkLit</span><span class="Other">,</span> <span class="Identifier">mnkPar</span><span class="Other">,</span> <span class="Identifier">mnkVar</span><span class="Other">,</span> <span class="Identifier">mnkCall</span><span class="Other">,</span> <span class="Identifier">mnkPrefix</span><span class="Other">,</span> <span class="Identifier">mnkPostfix</span><span class="Other">,</span> <span class="Identifier">mnkInfix</span></pre></dt>
 <dd>
 
 
@@ -241,8 +242,9 @@ window.addEventListener('DOMContentLoaded', main);
 <div id="MathOperator">
 <dt><pre><a href="model.html#MathOperator"><span class="Identifier">MathOperator</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
   <span class="Identifier">mokPow</span> <span class="Other">=</span> <span class="StringLit">&quot;^&quot;</span><span class="Other">,</span> <span class="Identifier">mokMult</span> <span class="Other">=</span> <span class="StringLit">&quot;*&quot;</span><span class="Other">,</span> <span class="Identifier">mokDiv</span> <span class="Other">=</span> <span class="StringLit">&quot;/&quot;</span><span class="Other">,</span> <span class="Identifier">mokPlus</span> <span class="Other">=</span> <span class="StringLit">&quot;+&quot;</span><span class="Other">,</span> <span class="Identifier">mokminus</span> <span class="Other">=</span> <span class="StringLit">&quot;-&quot;</span><span class="Other">,</span>
-  <span class="Identifier">mokMod</span> <span class="Other">=</span> <span class="StringLit">&quot;%&quot;</span><span class="Other">,</span> <span class="Identifier">mokLarger</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;&quot;</span><span class="Other">,</span> <span class="Identifier">mokLargerEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;=&quot;</span><span class="Other">,</span> <span class="Identifier">mokEq</span> <span class="Other">=</span> <span class="StringLit">&quot;==&quot;</span><span class="Other">,</span>
-  <span class="Identifier">mokAlmostEq</span> <span class="Other">=</span> <span class="StringLit">&quot;~=&quot;</span><span class="Other">,</span> <span class="Identifier">mokLessEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;=&quot;</span><span class="Other">,</span> <span class="Identifier">mokLess</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;&quot;</span></pre></dt>
+  <span class="Identifier">mokMod</span> <span class="Other">=</span> <span class="StringLit">&quot;%&quot;</span><span class="Other">,</span> <span class="Identifier">mokFact</span> <span class="Other">=</span> <span class="StringLit">&quot;!&quot;</span><span class="Other">,</span> <span class="Identifier">mokAnd</span> <span class="Other">=</span> <span class="StringLit">&quot;&amp;&quot;</span><span class="Other">,</span> <span class="Identifier">mokOr</span> <span class="Other">=</span> <span class="StringLit">&quot;|&quot;</span><span class="Other">,</span> <span class="Identifier">mokLarger</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;&quot;</span><span class="Other">,</span>
+  <span class="Identifier">mokLargerEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;=&quot;</span><span class="Other">,</span> <span class="Identifier">mokEq</span> <span class="Other">=</span> <span class="StringLit">&quot;==&quot;</span><span class="Other">,</span> <span class="Identifier">mokAlmostEq</span> <span class="Other">=</span> <span class="StringLit">&quot;~=&quot;</span><span class="Other">,</span> <span class="Identifier">mokLessEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;=&quot;</span><span class="Other">,</span>
+  <span class="Identifier">mokLess</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;&quot;</span></pre></dt>
 <dd>
 
 
@@ -335,7 +337,7 @@ returns the right side of an infix operator
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 13:27:18 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 14:16:05 UTC</small>
       </div>
     </div>
   </div>

@@ -152,8 +152,6 @@ window.addEventListener('DOMContentLoaded', main);
 
 <p><strong class="examples_text">Example:</strong></p>
 <pre class="listing"><span class="Keyword">import</span> <span class="Identifier">src</span><span class="Operator">/</span><span class="Identifier">emath</span>
-<span class="Keyword">import</span> <span class="Identifier">emath</span>
-
 <span class="Comment"># evaluating with default functions and variables</span>
 <span class="Identifier">echo</span> <span class="StringLit">&quot;1 + sin(PI)&quot;</span><span class="Operator">.</span><span class="Identifier">parse</span><span class="Operator">.</span><span class="Identifier">eval</span> <span class="Comment"># 1.0</span>
 
@@ -215,8 +213,8 @@ check for any AST errors in genereated AST
 </dd>
 </div>
 <div id="parse,string">
-<dt><pre><span class="Keyword">func</span> <a href="#parse%2Cstring"><span class="Identifier">parse</span></a><span class="Other">(</span><span class="Identifier">input</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">EMathTokenError</span><span class="Other">,</span>
-    <span class="Identifier">EMathParseError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<dt><pre><span class="Keyword">func</span> <a href="#parse%2Cstring"><span class="Identifier">parse</span></a><span class="Other">(</span><span class="Identifier">input</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">EMathParseError</span><span class="Other">,</span>
+    <span class="Identifier">EMathTokenError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 parses the math expression from raw string into its corresponding AST
@@ -243,7 +241,7 @@ parses the math expression from raw string into its corresponding AST
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-13 13:27:20 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 14:16:08 UTC</small>
       </div>
     </div>
   </div>
