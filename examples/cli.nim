@@ -3,10 +3,15 @@
 ## by entering math expression you get its final calculated value
 ##
 ## you can define a variable by:
-##   myvar = <expression>
+##   <ident> = <expression>
+## like:
+##   hpi = sin(PI/2)
 ##
 ## you can also define a function by:
-##   fn(x, y) = sin(x) + y
+##   <ident>(...[params]) = <expression>
+## like:
+##   sum(x, y) = x + y
+##
 
 
 import std/[tables, sugar]
