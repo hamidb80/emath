@@ -106,8 +106,8 @@ func isValid*(mn: MathNode): bool =
   numberOfChildren and subNodes and closed
 
 func eval*(mn: MathNode,
-  varLookup: MathVarLookup,
-  fnLookup: MathFnLookup): float =
+  varLookup: EMathVarLookup,
+  fnLookup: EMathFnLookup): float =
   ## calculates the final answer
 
   template rec(n): untyped =

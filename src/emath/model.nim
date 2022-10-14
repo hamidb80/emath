@@ -67,9 +67,9 @@ type
 
     of emnkPar: discard
 
-  MathFn* = proc(args: seq[float]): float {.noSideEffect.}
-  MathFnLookup* = Table[string, MathFn]
-  MathVarLookup* = Table[string, float]
+  EMathFn* = proc(args: seq[float]): float {.noSideEffect.}
+  EMathFnLookup* = Table[string, EMathFn]
+  EMathVarLookup* = Table[string, float]
 
 
 func left*(mn: MathNode): MathNode =

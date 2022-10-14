@@ -23,8 +23,8 @@ macro toEMathFn(fnIdent: untyped, argsLen: static[int]): untyped =
 
 
 const
-  defaultFns*: MathFnLookup = block:
-    var res: MathFnLookup
+  defaultFns*: EMathFnLookup = block:
+    var res: EMathFnLookup
     res["sin"] = toEMathFn(sin, 1)
     res["cos"] = toEMathFn(cos, 1)
     res["tan"] = toEMathFn(tan, 1)
@@ -57,7 +57,7 @@ const
     res["sqrt"] = toEMathFn(sqrt, 1)
     res
 
-  defaultVars*: MathVarLookup = toTable {
+  defaultVars*: EMathVarLookup = toTable {
     "PI": PI,
     "TAU": TAU,
     "e": E
