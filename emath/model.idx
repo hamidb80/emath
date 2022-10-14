@@ -1,35 +1,37 @@
-mokPow	emath/model.html#mokPow	MathOperator.mokPow	
-mokMult	emath/model.html#mokMult	MathOperator.mokMult	
-mokDiv	emath/model.html#mokDiv	MathOperator.mokDiv	
-mokPlus	emath/model.html#mokPlus	MathOperator.mokPlus	
-mokMinus	emath/model.html#mokMinus	MathOperator.mokMinus	
-mokMod	emath/model.html#mokMod	MathOperator.mokMod	
-mokNotFact	emath/model.html#mokNotFact	MathOperator.mokNotFact	
-mokAnd	emath/model.html#mokAnd	MathOperator.mokAnd	
-mokOr	emath/model.html#mokOr	MathOperator.mokOr	
-mokLarger	emath/model.html#mokLarger	MathOperator.mokLarger	
-mokLargerEq	emath/model.html#mokLargerEq	MathOperator.mokLargerEq	
-mokEq	emath/model.html#mokEq	MathOperator.mokEq	
-mokAlmostEq	emath/model.html#mokAlmostEq	MathOperator.mokAlmostEq	
-mokLessEq	emath/model.html#mokLessEq	MathOperator.mokLessEq	
-mokLess	emath/model.html#mokLess	MathOperator.mokLess	
-MathOperator	emath/model.html#MathOperator	model: MathOperator	
-mtkNumber	emath/model.html#mtkNumber	MathTokenKind.mtkNumber	
-mtkOperator	emath/model.html#mtkOperator	MathTokenKind.mtkOperator	
-mtkIdent	emath/model.html#mtkIdent	MathTokenKind.mtkIdent	
-mtkOpenPar	emath/model.html#mtkOpenPar	MathTokenKind.mtkOpenPar	
-mtkClosePar	emath/model.html#mtkClosePar	MathTokenKind.mtkClosePar	
-mtkComma	emath/model.html#mtkComma	MathTokenKind.mtkComma	
-MathTokenKind	emath/model.html#MathTokenKind	model: MathTokenKind	
-MathToken	emath/model.html#MathToken	model: MathToken	
-mnkLit	emath/model.html#mnkLit	MathNodeKind.mnkLit	
-mnkPar	emath/model.html#mnkPar	MathNodeKind.mnkPar	
-mnkVar	emath/model.html#mnkVar	MathNodeKind.mnkVar	
-mnkCall	emath/model.html#mnkCall	MathNodeKind.mnkCall	
-mnkPrefix	emath/model.html#mnkPrefix	MathNodeKind.mnkPrefix	
-mnkPostfix	emath/model.html#mnkPostfix	MathNodeKind.mnkPostfix	
-mnkInfix	emath/model.html#mnkInfix	MathNodeKind.mnkInfix	
-MathNodeKind	emath/model.html#MathNodeKind	model: MathNodeKind	
+emokPow	emath/model.html#emokPow	EMathOperator.emokPow	
+emokMult	emath/model.html#emokMult	EMathOperator.emokMult	
+emokDiv	emath/model.html#emokDiv	EMathOperator.emokDiv	
+emokPlus	emath/model.html#emokPlus	EMathOperator.emokPlus	
+emokMinus	emath/model.html#emokMinus	EMathOperator.emokMinus	
+emokMod	emath/model.html#emokMod	EMathOperator.emokMod	
+emokNotFact	emath/model.html#emokNotFact	EMathOperator.emokNotFact	
+emokAnd	emath/model.html#emokAnd	EMathOperator.emokAnd	
+emokOr	emath/model.html#emokOr	EMathOperator.emokOr	
+emokLarger	emath/model.html#emokLarger	EMathOperator.emokLarger	
+emokLargerEq	emath/model.html#emokLargerEq	EMathOperator.emokLargerEq	
+emokEq	emath/model.html#emokEq	EMathOperator.emokEq	
+emokNotEq	emath/model.html#emokNotEq	EMathOperator.emokNotEq	
+emokAlmostEq	emath/model.html#emokAlmostEq	EMathOperator.emokAlmostEq	
+emokLessEq	emath/model.html#emokLessEq	EMathOperator.emokLessEq	
+emokLess	emath/model.html#emokLess	EMathOperator.emokLess	
+emokAssign	emath/model.html#emokAssign	EMathOperator.emokAssign	
+EMathOperator	emath/model.html#EMathOperator	model: EMathOperator	
+emtkNumber	emath/model.html#emtkNumber	EMathTokenKind.emtkNumber	
+emtkOperator	emath/model.html#emtkOperator	EMathTokenKind.emtkOperator	
+emtkIdent	emath/model.html#emtkIdent	EMathTokenKind.emtkIdent	
+emtkOpenPar	emath/model.html#emtkOpenPar	EMathTokenKind.emtkOpenPar	
+emtkClosePar	emath/model.html#emtkClosePar	EMathTokenKind.emtkClosePar	
+emtkComma	emath/model.html#emtkComma	EMathTokenKind.emtkComma	
+EMathTokenKind	emath/model.html#EMathTokenKind	model: EMathTokenKind	
+EMathToken	emath/model.html#EMathToken	model: EMathToken	
+emnkLit	emath/model.html#emnkLit	EMathNodeKind.emnkLit	
+emnkPar	emath/model.html#emnkPar	EMathNodeKind.emnkPar	
+emnkVar	emath/model.html#emnkVar	EMathNodeKind.emnkVar	
+emnkCall	emath/model.html#emnkCall	EMathNodeKind.emnkCall	
+emnkPrefix	emath/model.html#emnkPrefix	EMathNodeKind.emnkPrefix	
+emnkPostfix	emath/model.html#emnkPostfix	EMathNodeKind.emnkPostfix	
+emnkInfix	emath/model.html#emnkInfix	EMathNodeKind.emnkInfix	
+EMathNodeKind	emath/model.html#EMathNodeKind	model: EMathNodeKind	
 MathNode	emath/model.html#MathNode	model: MathNode	
 MathFn	emath/model.html#MathFn	model: MathFn	
 MathFnLookup	emath/model.html#MathFnLookup	model: MathFnLookup	
@@ -37,4 +39,4 @@ MathVarLookup	emath/model.html#MathVarLookup	model: MathVarLookup
 left	emath/model.html#left,MathNode	model: left(mn: MathNode): MathNode	
 right	emath/model.html#right,MathNode	model: right(mn: MathNode): MathNode	
 inside	emath/model.html#inside,MathNode	model: inside(mn: MathNode): MathNode	
-priority	emath/model.html#priority,MathOperator	model: priority(mo: MathOperator): int	
+priority	emath/model.html#priority,EMathOperator	model: priority(mo: EMathOperator): int	

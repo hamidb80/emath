@@ -108,15 +108,15 @@ window.addEventListener('DOMContentLoaded', main);
   <li><a class="reference" href="#EMathNotDefined"
     title="EMathNotDefined = object of EMathEvalError
   ident*: string
-  kind*: MathSymbolKind">EMathNotDefined</a></li>
+  kind*: EMathSymbolKind">EMathNotDefined</a></li>
   <li><a class="reference" href="#EMathParseError"
     title="EMathParseError = object of EMathException">EMathParseError</a></li>
+  <li><a class="reference" href="#EMathSymbolKind"
+    title="EMathSymbolKind = enum
+  mskFunc = &quot;function&quot;, mskVar = &quot;variable&quot;">EMathSymbolKind</a></li>
   <li><a class="reference" href="#EMathTokenError"
     title="EMathTokenError = object of EMathParseError
   slice*: Slice[int]">EMathTokenError</a></li>
-  <li><a class="reference" href="#MathSymbolKind"
-    title="MathSymbolKind = enum
-  mskFunc = &quot;function&quot;, mskVar = &quot;variable&quot;">MathSymbolKind</a></li>
 
   </ul>
 </li>
@@ -151,7 +151,7 @@ window.addEventListener('DOMContentLoaded', main);
 <div id="EMathNotDefined">
 <dt><pre><a href="exceptions.html#EMathNotDefined"><span class="Identifier">EMathNotDefined</span></a> <span class="Other">=</span> <span class="Keyword">object</span> <span class="Keyword">of</span> <a href="exceptions.html#EMathEvalError"><span class="Identifier">EMathEvalError</span></a>
   <span class="Identifier">ident</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">string</span>
-  <span class="Identifier">kind</span><span class="Operator">*</span><span class="Other">:</span> <a href="exceptions.html#MathSymbolKind"><span class="Identifier">MathSymbolKind</span></a>
+  <span class="Identifier">kind</span><span class="Operator">*</span><span class="Other">:</span> <a href="exceptions.html#EMathSymbolKind"><span class="Identifier">EMathSymbolKind</span></a>
 </pre></dt>
 <dd>
 
@@ -161,6 +161,15 @@ window.addEventListener('DOMContentLoaded', main);
 </div>
 <div id="EMathParseError">
 <dt><pre><a href="exceptions.html#EMathParseError"><span class="Identifier">EMathParseError</span></a> <span class="Other">=</span> <span class="Keyword">object</span> <span class="Keyword">of</span> <a href="exceptions.html#EMathException"><span class="Identifier">EMathException</span></a></pre></dt>
+<dd>
+
+
+
+</dd>
+</div>
+<div id="EMathSymbolKind">
+<dt><pre><a href="exceptions.html#EMathSymbolKind"><span class="Identifier">EMathSymbolKind</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
+  <span class="Identifier">mskFunc</span> <span class="Other">=</span> <span class="StringLit">&quot;function&quot;</span><span class="Other">,</span> <span class="Identifier">mskVar</span> <span class="Other">=</span> <span class="StringLit">&quot;variable&quot;</span></pre></dt>
 <dd>
 
 
@@ -177,15 +186,6 @@ window.addEventListener('DOMContentLoaded', main);
 
 </dd>
 </div>
-<div id="MathSymbolKind">
-<dt><pre><a href="exceptions.html#MathSymbolKind"><span class="Identifier">MathSymbolKind</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
-  <span class="Identifier">mskFunc</span> <span class="Other">=</span> <span class="StringLit">&quot;function&quot;</span><span class="Other">,</span> <span class="Identifier">mskVar</span> <span class="Other">=</span> <span class="StringLit">&quot;variable&quot;</span></pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
 
 </dl></div>
 
@@ -196,7 +196,7 @@ window.addEventListener('DOMContentLoaded', main);
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 15:21:52 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 17:32:21 UTC</small>
       </div>
     </div>
   </div>

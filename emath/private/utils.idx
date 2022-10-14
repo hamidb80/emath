@@ -1,14 +1,14 @@
 parseErr	emath/private/utils.html#parseErr.t	utils: parseErr(msg): untyped	
 parseTokErr	emath/private/utils.html#parseTokErr.t,,	utils: parseTokErr(m, s): untyped	
 evalErr	emath/private/utils.html#evalErr.t	utils: evalErr(msg): untyped	
-undefinedErr	emath/private/utils.html#undefinedErr.t,string,MathSymbolKind	utils: undefinedErr(name: string; k: MathSymbolKind): untyped	
+undefinedErr	emath/private/utils.html#undefinedErr.t,string,EMathSymbolKind	utils: undefinedErr(name: string; k: EMathSymbolKind): untyped	
 last	emath/private/utils.html#last.t,seq	utils: last(s: seq): untyped	
 first	emath/private/utils.html#first.t,seq	utils: first(s: seq): untyped	
 isInt	emath/private/utils.html#isInt,float	utils: isInt(f: float): bool	
 toBinary	emath/private/utils.html#toBinary,float	utils: toBinary(f: float): bool	
-newPrefix	emath/private/utils.html#newPrefix,MathOperator	utils: newPrefix(o: MathOperator): MathNode	
-newPostfix	emath/private/utils.html#newPostfix,MathOperator,MathNode	utils: newPostfix(o: MathOperator; sub: MathNode): MathNode	
-newInfix	emath/private/utils.html#newInfix,MathOperator	utils: newInfix(o: MathOperator): MathNode	
+newPrefix	emath/private/utils.html#newPrefix,EMathOperator	utils: newPrefix(o: EMathOperator): MathNode	
+newPostfix	emath/private/utils.html#newPostfix,EMathOperator,MathNode	utils: newPostfix(o: EMathOperator; sub: MathNode): MathNode	
+newInfix	emath/private/utils.html#newInfix,EMathOperator	utils: newInfix(o: EMathOperator): MathNode	
 newVar	emath/private/utils.html#newVar,string	utils: newVar(i: string): MathNode	
 newPar	emath/private/utils.html#newPar	utils: newPar(): MathNode	
 newCall	emath/private/utils.html#newCall,string	utils: newCall(i: string): MathNode	
