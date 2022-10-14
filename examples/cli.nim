@@ -8,7 +8,7 @@
 ##   hpi = sin(PI/2)
 ##
 ## you can also define a function by:
-##   <ident>(...[params]) = <expression>
+##   <ident>(...<ident>) = <expression>
 ## like:
 ##   sum(x, y) = x + y
 ##
@@ -30,7 +30,7 @@ while true:
         try:
             let ast = parse input
 
-            if ast.kind == emnkInfix and ast.operator == emokAssign:
+            if ast.kind == emnkInfix and ast.operator == emoAssign:
                 case ast.left.kind
                 of emnkVar:
                     vars[ast.left.ident] = ast.right.eval(vars, fns)

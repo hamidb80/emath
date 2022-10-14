@@ -3,26 +3,26 @@ import std/tables
 type
   EMathOperator* = enum
     # -- operation
-    emokPow = "^"
-    emokMult = "*"
-    emokDiv = "/"
-    emokPlus = "+"
-    emokMinus = "-"
-    emokMod = "%"
+    emoPow = "^"
+    emoMult = "*"
+    emoDiv = "/"
+    emoPlus = "+"
+    emoMinus = "-"
+    emoMod = "%"
     # -- logical
-    emokNotFact = "!"
-    emokAnd = "&"
-    emokOr = "|"
+    emoNotFact = "!"
+    emoAnd = "&"
+    emoOr = "|"
     # -- comparison
-    emokLarger = ">"
-    emokLargerEq = ">="
-    emokEq = "=="
-    emokNotEq = "!="
-    emokAlmostEq = "~="
-    emokLessEq = "<="
-    emokLess = "<"
+    emoLarger = ">"
+    emoLargerEq = ">="
+    emoEq = "=="
+    emoNotEq = "!="
+    emoAlmostEq = "~="
+    emoLessEq = "<="
+    emoLess = "<"
     # -- others
-    emokAssign = "="
+    emoAssign = "="
 
   EMathTokenKind* = enum
     emtkNumber
@@ -90,11 +90,11 @@ func inside*(mn: MathNode): MathNode =
 
 func priority*(mo: EMathOperator): int =
   case mo
-  of emokPow: 6
-  of emokMult, emokDiv: 5
-  of emokPlus, emokMinus: 4
-  of emokMod: 3
-  of emokNotFact: 2
-  of emokAnd, emokOr: 1
-  of emokLarger, emokLargerEq, emokAlmostEq, emokEq, emokNotEq, emokLessEq, emokLess: 0
-  of emokAssign: -1
+  of emoPow: 6
+  of emoMult, emoDiv: 5
+  of emoPlus, emoMinus: 4
+  of emoMod: 3
+  of emoNotFact: 2
+  of emoAnd, emoOr: 1
+  of emoLarger, emoLargerEq, emoAlmostEq, emoEq, emoNotEq, emoLessEq, emoLess: 0
+  of emoAssign: -1

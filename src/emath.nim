@@ -130,7 +130,7 @@ func eval*(mn: MathNode,
   of emnkPostfix:
     let v = rec mn.inside
     case mn.operator
-    of emokNotFact:
+    of emoNotFact:
       if isInt v: float fac v.toInt
       else: evalErr "factorial only works for integers, got float " & $v
     else: evalErr "invalid postfix: " & $v
@@ -138,9 +138,9 @@ func eval*(mn: MathNode,
   of emnkPrefix:
     let v = rec mn.inside
     case mn.operator
-    of emokPlus: v
-    of emokMinus: -v
-    of emokNotFact: float not v.toBinary
+    of emoPlus: v
+    of emoMinus: -v
+    of emoNotFact: float not v.toBinary
     else: evalErr "invalid prefix: " & $mn.operator
 
   of emnkInfix:
@@ -149,21 +149,21 @@ func eval*(mn: MathNode,
       ri = rec mn.right
 
     case mn.operator
-    of emokPow: pow(le, ri)
-    of emokMult: le * ri
-    of emokDiv: le / ri
-    of emokPlus: le + ri
-    of emokMinus: le - ri
-    of emokMod: floorMod(le, ri)
-    of emokLarger: float le > ri
-    of emokLargerEq: float le >= ri
-    of emokEq: float le == ri
-    of emokNotEq: float le != ri
-    of emokAlmostEq: float almostEqual(le, ri)
-    of emokLessEq: float le <= ri
-    of emokLess: float le < ri
-    of emokAnd: float le.toBinary and ri.toBinary
-    of emokOr: float le.toBinary or ri.toBinary
+    of emoPow: pow(le, ri)
+    of emoMult: le * ri
+    of emoDiv: le / ri
+    of emoPlus: le + ri
+    of emoMinus: le - ri
+    of emoMod: floorMod(le, ri)
+    of emoLarger: float le > ri
+    of emoLargerEq: float le >= ri
+    of emoEq: float le == ri
+    of emoNotEq: float le != ri
+    of emoAlmostEq: float almostEqual(le, ri)
+    of emoLessEq: float le <= ri
+    of emoLess: float le < ri
+    of emoAnd: float le.toBinary and ri.toBinary
+    of emoOr: float le.toBinary or ri.toBinary
     else: evalErr "invalid infix operator " & $mn.operator
 
 func eval*(mn: MathNode): float =
@@ -307,7 +307,7 @@ func parse*(input: string): MathNode =
     of emtkOperator:
       if isFinalValue stack.last:
 
-        if tk.operator == emokNotFact:
+        if tk.operator == emoNotFact:
           let t = newPostfix(tk.operator, stack.pop)
           stack.last.children[^1] = t
           stack.add t
@@ -327,7 +327,7 @@ func parse*(input: string): MathNode =
 
       else:
         case tk.operator
-        of emokPlus, emokMinus, emokNotFact:
+        of emoPlus, emoMinus, emoNotFact:
           let t = newPrefix tk.operator
           stack.last.children.add t
           stack.add t
