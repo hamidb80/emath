@@ -11,5 +11,5 @@ type
     kind*: EMathSymbolKind
 
   EMathSymbolKind* = enum
-    mskFunc = "function"
-    mskVar = "variable"
+    emskFunc = "function"
+    emskVar = "variable"

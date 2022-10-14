@@ -63,7 +63,7 @@ suite "var":
     check raised
 
   test "not exists":
-    checkUndef mskVar, "me":
+    checkUndef emskVar, "me":
       discard "me + 2 * 3".parse.eval
 
 
