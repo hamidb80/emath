@@ -2,9 +2,9 @@ mokPow	emath/model.html#mokPow	MathOperator.mokPow
 mokMult	emath/model.html#mokMult	MathOperator.mokMult	
 mokDiv	emath/model.html#mokDiv	MathOperator.mokDiv	
 mokPlus	emath/model.html#mokPlus	MathOperator.mokPlus	
-mokminus	emath/model.html#mokminus	MathOperator.mokminus	
+mokMinus	emath/model.html#mokMinus	MathOperator.mokMinus	
 mokMod	emath/model.html#mokMod	MathOperator.mokMod	
-mokFact	emath/model.html#mokFact	MathOperator.mokFact	
+mokNotFact	emath/model.html#mokNotFact	MathOperator.mokNotFact	
 mokAnd	emath/model.html#mokAnd	MathOperator.mokAnd	
 mokOr	emath/model.html#mokOr	MathOperator.mokOr	
 mokLarger	emath/model.html#mokLarger	MathOperator.mokLarger	
