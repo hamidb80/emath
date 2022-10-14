@@ -9,6 +9,10 @@ type
     mokPlus = "+"
     mokminus = "-"
     mokMod = "%"
+    mokFact = "!"
+    # -- logical
+    mokAnd = "&"
+    mokOr = "|"
     # -- comparison
     mokLarger = ">"
     mokLargerEq = ">="
@@ -42,7 +46,7 @@ type
     mnkLit
     mnkPar
     mnkVar, mnkCall
-    mnkPrefix, mnkInfix
+    mnkPrefix, mnkPostfix, mnkInfix
 
   MathNode* {.acyclic.} = ref object
     children*: seq[MathNode]
@@ -55,7 +59,7 @@ type
     of mnkCall, mnkVar:
       ident*: string
 
-    of mnkPrefix, mnkInfix:
+    of mnkPrefix, mnkPostfix, mnkInfix:
       operator*: MathOperator
 
     of mnkPar: discard
@@ -77,14 +81,16 @@ func right*(mn: MathNode): MathNode =
 
 func inside*(mn: MathNode): MathNode =
   ## returns the inside value of a parenthesis or a prefix
-  assert mn.kind in {mnkPrefix, mnkPar}
+  assert mn.kind in {mnkPrefix, mnkPostfix, mnkPar}
   mn.children[0]
 
 
 func priority*(mo: MathOperator): int =
   case mo
-  of mokPow: 4
-  of mokMult, mokDiv: 3
-  of mokPlus, mokminus: 2
-  of mokMod: 1
+  of mokFact: 6
+  of mokPow: 5
+  of mokMult, mokDiv: 4
+  of mokPlus, mokminus: 3
+  of mokMod: 2
+  of mokAnd, mokOr: 1
   of mokLarger, mokLargerEq, mokAlmostEq, mokEq, mokLessEq, mokLess: 0

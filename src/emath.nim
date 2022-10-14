@@ -40,6 +40,7 @@ func `$`*(mn: MathNode): string =
   of mnkVar: mn.ident
   of mnkCall: mn.ident & '(' & mn.children.map(`$`).join(", ") & ')'
   of mnkPrefix: $mn.operator & $mn.inside
+  of mnkPostfix: $mn.inside & $mn.operator
   of mnkInfix: $mn.left & ' ' & $mn.operator & ' ' & $mn.right
 
 func recap(mn: MathNode): string {.used.} =
@@ -49,6 +50,7 @@ func recap(mn: MathNode): string {.used.} =
   of mnkVar: "IDENT " & mn.ident
   of mnkCall: "CALL " & mn.ident
   of mnkPrefix: "PREFIX " & $mn.operator
+  of mnkPostfix: "POSTFIX " & $mn.operator
   of mnkInfix: "INFIX " & $mn.operator
 
 func treeReprImpl(mn: MathNode, result: var seq[string],
@@ -61,6 +63,7 @@ func treeReprImpl(mn: MathNode, result: var seq[string],
     case mn.kind
     of mnkLit: "LIT " & $mn.value
     of mnkPrefix: "PREFIX " & $mn.operator
+    of mnkPostfix: "POSTFIX " & $mn.operator
     of mnkInfix: "INFIX " & $mn.operator
     of mnkPar: "PAR"
     of mnkVar: "VAR " & mn.ident
@@ -85,13 +88,13 @@ func isValid*(mn: MathNode): bool =
       case mn.kind
       of mnkLit, mnkVar: true
       of mnkCall: mn.children.len >= 0
-      of mnkPar, mnkPrefix: mn.children.len == 1
+      of mnkPar, mnkPrefix, mnkPostfix: mn.children.len == 1
       of mnkInfix: mn.children.len == 2
 
     subNodes =
       case mn.kind
       of mnkLit, mnkVar: true
-      of mnkPar, mnkPrefix, mnkCall, mnkInfix:
+      of mnkPar, mnkCall, mnkPostfix, mnkPrefix, mnkInfix:
         mn.children.allIt isValid it
 
     closed =
@@ -123,12 +126,20 @@ func eval*(mn: MathNode,
 
     fn(mn.children.mapit(rec it))
 
+  of mnkPostfix:
+    let v = rec mn.inside
+    case mn.operator
+    of mokFact:
+      if isInt v: float fac v.toInt
+      else: evalErr "factorial only works for integers, got float " & $v
+    else: evalErr "invalid postfix: " & $v
+
   of mnkPrefix:
     let v = rec mn.inside
     case mn.operator
     of mokPlus: v
     of mokminus: -v
-    else: evalErr "invalid prefix: " & $v
+    else: evalErr "invalid prefix: " & $mn.operator
 
   of mnkInfix:
     let
@@ -148,6 +159,9 @@ func eval*(mn: MathNode,
     of mokAlmostEq: float almostEqual(le, ri)
     of mokLessEq: float le <= ri
     of mokLess: float le < ri
+    of mokAnd: float (le == 1.0) and (ri == 1.0)
+    of mokOr: float (le == 1.0) or (ri == 1.0)
+    else: evalErr "invalid infix operator " & $mn.operator
 
 func eval*(mn: MathNode): float =
   ## calculates the final answer with default variables and default functions
@@ -155,7 +169,7 @@ func eval*(mn: MathNode): float =
 
 
 const
-  Operators = {'+', '-', '*', '/', '^', '~', '=', '<', '>', '%'}
+  Operators = {'+', '-', '*', '/', '^', '~', '=', '<', '>', '%', '&', '|', '!'}
   EoS = '\0' # End of String
 
 type MathLexerState = enum
@@ -258,9 +272,6 @@ iterator lex(input: string): MathToken =
     inc i
 
 
-func isOpenWrapper(mn: MathNode): bool =
-  (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)
-
 func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
   ## goes up of a sun tree until satisfies `fn`
   ## returns sub tree, could be nil
@@ -279,19 +290,39 @@ func parse*(input: string): MathNode =
   for tk in lex input:
     case tk.kind
     of mtkNumber, mtkIdent:
-      let t =
-        if tk.kind == mtkNumber: newLiteral tk.number
-        else: newVar tk.ident
+      if isFinalValue stack.last:
+        raise parseTokErr("got token of kind '" & $tk.kind & "' in wrong place", tk.slice)
 
-      stack.last.children.add t
-      stack.add t
+      else:
+        let t =
+          if tk.kind == mtkNumber: newLiteral tk.number
+          else: newVar tk.ident
+
+        stack.last.children.add t
+        stack.add t
 
     of mtkOperator:
-      if
-        (stack.last.kind == mnkPar) and (stack.last.children.len == 0) or
-        (stack.last.kind in {mnkInfix, mnkprefix}) or
-        ((stack.last.kind == mnkCall) and not stack.last.isFinal):
+      if isFinalValue stack.last:
 
+        if tk.operator == mokFact:
+          let t = newPostfix(tk.operator, stack.pop)
+          stack.last.children[^1] = t
+          stack.add t
+
+        else:
+          var
+            t = newInfix tk.operator
+            p = t.operator.priority
+            n = goUp(stack, (mn: MathNode) =>
+              isOpenWrapper(mn) or
+              (mn.kind in {mnkInfix, mnkPrefix}) and
+              (p > mn.operator.priority))
+
+          stack.last.children[^1] = t
+          t.children.add n
+          stack.add t
+
+      else:
         case tk.operator
         of mokPlus, mokminus:
           let t = newPrefix tk.operator
@@ -300,25 +331,6 @@ func parse*(input: string): MathNode =
 
         else:
           raise parseTokErr("invalid prefix operator " & $tk.operator, tk.slice)
-
-      elif stack.last.kind in {mnkLit, mnkVar} or
-          stack.last.kind in {mnkPar, mnkCall} and stack.last.isFinal:
-
-        var
-          t = newInfix tk.operator
-          p = t.operator.priority
-          n = goUp(stack, (mn: MathNode) =>
-            isOpenWrapper(mn) or
-            (mn.kind in {mnkInfix, mnkPrefix}) and
-            (p > mn.operator.priority))
-
-        stack.last.children[^1] = t
-        t.children.add n
-        stack.add t
-
-      else:
-        raise parseTokErr("hit operator " & $tk.operator &
-            " in unexpected place", tk.slice)
 
     of mtkOpenPar:
       case stack.last.kind

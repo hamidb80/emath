@@ -19,6 +19,7 @@ suite "operator priority":
     "--1 - 2 - 3": -4.0,
     "2 ^ 8 + -3 * 7": 235.0,
     "-10^2": -100.0,
+    "-3! ^ 2 + 1": -35.0,
   }:
     test expr:
       matche expr, answer
@@ -97,6 +98,7 @@ suite "syntax errors":
       "1(": 1..1,
       "(2))": 3..3,
       "(2+,)": 3..3,
+      "3! 4": 3..3,
     }:
       checkTokenErr slc:
         discard parse expr

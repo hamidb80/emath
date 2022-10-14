@@ -29,11 +29,18 @@ template last*(s: seq): untyped =
 template first*(s: seq): untyped =
   s[0]
 
+# --- numbers
+
+func isInt*(f: float): bool = 
+  f.toInt.toFloat == f
 
 # --- math node
 
 func newPrefix*(o: MathOperator): MathNode =
   MathNode(kind: mnkPrefix, operator: o)
+
+func newPostfix*(o: MathOperator, sub: MathNode): MathNode =
+  MathNode(kind: mnkPostfix, operator: o, children: @[sub])
 
 func newInfix*(o: MathOperator): MathNode =
   MathNode(kind: mnkInfix, operator: o)
@@ -49,3 +56,11 @@ func newCall*(i: string): MathNode =
 
 func newLiteral*(f: float): MathNode =
   MathNode(kind: mnkLit, value: f)
+
+
+func isOpenWrapper*(mn: MathNode): bool =
+  (mn.kind in {mnkPar, mnkCall}) and (not mn.isFinal)
+
+func isFinalValue*(mn: MathNode): bool =
+  mn.kind in {mnkLit, mnkVar, mnkPostfix} or
+  mn.kind in {mnkPar, mnkCall} and mn.isFinal
