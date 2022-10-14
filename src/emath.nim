@@ -349,7 +349,7 @@ func parse*(input: string): MathNode =
     of mtkComma:
       discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
 
-      if stack.last.kind != mnkCall or lastToken.kind in {mtkComma, mtkOpenPar}:
+      if stack.last.kind != mnkCall or lastToken.kind in {mtkComma, mtkOpenPar, mtkOperator}:
         raise parseTokErr("hit ',' in unexpected place", tk.slice)
 
     lastToken = tk

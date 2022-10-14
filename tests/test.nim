@@ -95,7 +95,8 @@ suite "syntax errors":
       "==1": 0..1,
       "(,)": 1..1,
       "1(": 1..1,
-      "(2))": 3..3
+      "(2))": 3..3,
+      "(2+,)": 3..3,
     }:
       checkTokenErr slc:
         discard parse expr
