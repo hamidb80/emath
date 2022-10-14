@@ -110,10 +110,10 @@ window.addEventListener('DOMContentLoaded', main);
   emnkLit, emnkPar, emnkVar, emnkCall, emnkPrefix, emnkPostfix, emnkInfix">EMathNodeKind</a></li>
   <li><a class="reference" href="#EMathOperator"
     title="EMathOperator = enum
-  emokPow = &quot;^&quot;, emokMult = &quot;*&quot;, emokDiv = &quot;/&quot;, emokPlus = &quot;+&quot;, emokMinus = &quot;-&quot;,
-  emokMod = &quot;%&quot;, emokNotFact = &quot;!&quot;, emokAnd = &quot;&amp;&quot;, emokOr = &quot;|&quot;,
-  emokLarger = &quot;&gt;&quot;, emokLargerEq = &quot;&gt;=&quot;, emokEq = &quot;==&quot;, emokNotEq = &quot;!=&quot;,
-  emokAlmostEq = &quot;~=&quot;, emokLessEq = &quot;&lt;=&quot;, emokLess = &quot;&lt;&quot;, emokAssign = &quot;=&quot;">EMathOperator</a></li>
+  emoPow = &quot;^&quot;, emoMult = &quot;*&quot;, emoDiv = &quot;/&quot;, emoPlus = &quot;+&quot;, emoMinus = &quot;-&quot;,
+  emoMod = &quot;%&quot;, emoNotFact = &quot;!&quot;, emoAnd = &quot;&amp;&quot;, emoOr = &quot;|&quot;, emoLarger = &quot;&gt;&quot;,
+  emoLargerEq = &quot;&gt;=&quot;, emoEq = &quot;==&quot;, emoNotEq = &quot;!=&quot;, emoAlmostEq = &quot;~=&quot;,
+  emoLessEq = &quot;&lt;=&quot;, emoLess = &quot;&lt;&quot;, emoAssign = &quot;=&quot;">EMathOperator</a></li>
   <li><a class="reference" href="#EMathToken"
     title="EMathToken = object
   slice*: Slice[int]
@@ -218,10 +218,10 @@ window.addEventListener('DOMContentLoaded', main);
 </div>
 <div id="EMathOperator">
 <dt><pre><a href="model.html#EMathOperator"><span class="Identifier">EMathOperator</span></a> <span class="Other">=</span> <span class="Keyword">enum</span>
-  <span class="Identifier">emokPow</span> <span class="Other">=</span> <span class="StringLit">&quot;^&quot;</span><span class="Other">,</span> <span class="Identifier">emokMult</span> <span class="Other">=</span> <span class="StringLit">&quot;*&quot;</span><span class="Other">,</span> <span class="Identifier">emokDiv</span> <span class="Other">=</span> <span class="StringLit">&quot;/&quot;</span><span class="Other">,</span> <span class="Identifier">emokPlus</span> <span class="Other">=</span> <span class="StringLit">&quot;+&quot;</span><span class="Other">,</span> <span class="Identifier">emokMinus</span> <span class="Other">=</span> <span class="StringLit">&quot;-&quot;</span><span class="Other">,</span>
-  <span class="Identifier">emokMod</span> <span class="Other">=</span> <span class="StringLit">&quot;%&quot;</span><span class="Other">,</span> <span class="Identifier">emokNotFact</span> <span class="Other">=</span> <span class="StringLit">&quot;!&quot;</span><span class="Other">,</span> <span class="Identifier">emokAnd</span> <span class="Other">=</span> <span class="StringLit">&quot;&amp;&quot;</span><span class="Other">,</span> <span class="Identifier">emokOr</span> <span class="Other">=</span> <span class="StringLit">&quot;|&quot;</span><span class="Other">,</span>
-  <span class="Identifier">emokLarger</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;&quot;</span><span class="Other">,</span> <span class="Identifier">emokLargerEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;=&quot;</span><span class="Other">,</span> <span class="Identifier">emokEq</span> <span class="Other">=</span> <span class="StringLit">&quot;==&quot;</span><span class="Other">,</span> <span class="Identifier">emokNotEq</span> <span class="Other">=</span> <span class="StringLit">&quot;!=&quot;</span><span class="Other">,</span>
-  <span class="Identifier">emokAlmostEq</span> <span class="Other">=</span> <span class="StringLit">&quot;~=&quot;</span><span class="Other">,</span> <span class="Identifier">emokLessEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;=&quot;</span><span class="Other">,</span> <span class="Identifier">emokLess</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;&quot;</span><span class="Other">,</span> <span class="Identifier">emokAssign</span> <span class="Other">=</span> <span class="StringLit">&quot;=&quot;</span></pre></dt>
+  <span class="Identifier">emoPow</span> <span class="Other">=</span> <span class="StringLit">&quot;^&quot;</span><span class="Other">,</span> <span class="Identifier">emoMult</span> <span class="Other">=</span> <span class="StringLit">&quot;*&quot;</span><span class="Other">,</span> <span class="Identifier">emoDiv</span> <span class="Other">=</span> <span class="StringLit">&quot;/&quot;</span><span class="Other">,</span> <span class="Identifier">emoPlus</span> <span class="Other">=</span> <span class="StringLit">&quot;+&quot;</span><span class="Other">,</span> <span class="Identifier">emoMinus</span> <span class="Other">=</span> <span class="StringLit">&quot;-&quot;</span><span class="Other">,</span>
+  <span class="Identifier">emoMod</span> <span class="Other">=</span> <span class="StringLit">&quot;%&quot;</span><span class="Other">,</span> <span class="Identifier">emoNotFact</span> <span class="Other">=</span> <span class="StringLit">&quot;!&quot;</span><span class="Other">,</span> <span class="Identifier">emoAnd</span> <span class="Other">=</span> <span class="StringLit">&quot;&amp;&quot;</span><span class="Other">,</span> <span class="Identifier">emoOr</span> <span class="Other">=</span> <span class="StringLit">&quot;|&quot;</span><span class="Other">,</span> <span class="Identifier">emoLarger</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;&quot;</span><span class="Other">,</span>
+  <span class="Identifier">emoLargerEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&gt;=&quot;</span><span class="Other">,</span> <span class="Identifier">emoEq</span> <span class="Other">=</span> <span class="StringLit">&quot;==&quot;</span><span class="Other">,</span> <span class="Identifier">emoNotEq</span> <span class="Other">=</span> <span class="StringLit">&quot;!=&quot;</span><span class="Other">,</span> <span class="Identifier">emoAlmostEq</span> <span class="Other">=</span> <span class="StringLit">&quot;~=&quot;</span><span class="Other">,</span>
+  <span class="Identifier">emoLessEq</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;=&quot;</span><span class="Other">,</span> <span class="Identifier">emoLess</span> <span class="Other">=</span> <span class="StringLit">&quot;&lt;&quot;</span><span class="Other">,</span> <span class="Identifier">emoAssign</span> <span class="Other">=</span> <span class="StringLit">&quot;=&quot;</span></pre></dt>
 <dd>
 
 
@@ -337,7 +337,7 @@ returns the right side of an infix operator
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 18:09:17 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 18:14:46 UTC</small>
       </div>
     </div>
   </div>
