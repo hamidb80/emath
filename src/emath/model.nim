@@ -80,7 +80,7 @@ func right*(mn: MathNode): MathNode =
   mn.children[1]
 
 func inside*(mn: MathNode): MathNode =
-  ## returns the inside value of a parenthesis or a prefix
+  ## returns the inside value of a parenthesis/prefix/postfix
   assert mn.kind in {mnkPrefix, mnkPostfix, mnkPar}
   mn.children[0]
 
