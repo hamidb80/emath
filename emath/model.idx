@@ -33,9 +33,9 @@ emnkPostfix	emath/model.html#emnkPostfix	EMathNodeKind.emnkPostfix
 emnkInfix	emath/model.html#emnkInfix	EMathNodeKind.emnkInfix	
 EMathNodeKind	emath/model.html#EMathNodeKind	model: EMathNodeKind	
 MathNode	emath/model.html#MathNode	model: MathNode	
-MathFn	emath/model.html#MathFn	model: MathFn	
-MathFnLookup	emath/model.html#MathFnLookup	model: MathFnLookup	
-MathVarLookup	emath/model.html#MathVarLookup	model: MathVarLookup	
+EMathFn	emath/model.html#EMathFn	model: EMathFn	
+EMathFnLookup	emath/model.html#EMathFnLookup	model: EMathFnLookup	
+EMathVarLookup	emath/model.html#EMathVarLookup	model: EMathVarLookup	
 left	emath/model.html#left,MathNode	model: left(mn: MathNode): MathNode	
 right	emath/model.html#right,MathNode	model: right(mn: MathNode): MathNode	
 inside	emath/model.html#inside,MathNode	model: inside(mn: MathNode): MathNode	

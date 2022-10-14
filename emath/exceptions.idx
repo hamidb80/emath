@@ -3,6 +3,6 @@ EMathParseError	emath/exceptions.html#EMathParseError	exceptions: EMathParseErro
 EMathTokenError	emath/exceptions.html#EMathTokenError	exceptions: EMathTokenError	
 EMathEvalError	emath/exceptions.html#EMathEvalError	exceptions: EMathEvalError	
 EMathNotDefined	emath/exceptions.html#EMathNotDefined	exceptions: EMathNotDefined	
-mskFunc	emath/exceptions.html#mskFunc	EMathSymbolKind.mskFunc	
-mskVar	emath/exceptions.html#mskVar	EMathSymbolKind.mskVar	
+emskFunc	emath/exceptions.html#emskFunc	EMathSymbolKind.emskFunc	
+emskVar	emath/exceptions.html#emskVar	EMathSymbolKind.emskVar	
 EMathSymbolKind	emath/exceptions.html#EMathSymbolKind	exceptions: EMathSymbolKind	
