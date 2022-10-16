@@ -163,7 +163,10 @@ func eval*(mn: MathNode,
     of emoLessEq: float le <= ri
     of emoLess: float le < ri
     of emoAnd: float le.toBinary and ri.toBinary
-    of emoOr: float le.toBinary or ri.toBinary
+    of emoOr:
+      if le.toBinary: le
+      elif ri.toBinary: ri
+      else: 0.0
     else: evalErr "invalid infix operator " & $mn.operator
 
 func eval*(mn: MathNode): float =

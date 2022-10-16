@@ -90,11 +90,12 @@ func inside*(mn: MathNode): MathNode =
 
 func priority*(mo: EMathOperator): int =
   case mo
-  of emoPow: 6
-  of emoMult, emoDiv: 5
-  of emoPlus, emoMinus: 4
-  of emoMod: 3
-  of emoNotFact: 2
-  of emoAnd, emoOr: 1
-  of emoLarger, emoLargerEq, emoAlmostEq, emoEq, emoNotEq, emoLessEq, emoLess: 0
-  of emoAssign: -1
+  of emoPow: 8
+  of emoMult, emoDiv: 7
+  of emoPlus, emoMinus: 6
+  of emoMod: 5
+  of emoNotFact: 4
+  of emoAnd: 3
+  of emoOr: 2
+  of emoLarger, emoLargerEq, emoAlmostEq, emoEq, emoNotEq, emoLessEq, emoLess: 1
+  of emoAssign: 0
