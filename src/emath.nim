@@ -34,7 +34,7 @@ import emath/private/utils
 
 export exceptions, model
 
-func `$`*(mn: MathNode): string =
+func `$`*(mn: EMathNode): string =
   case mn.kind
   of emnkLit: $mn.value
   of emnkPar: '(' & $mn.inside & ')'
@@ -44,7 +44,7 @@ func `$`*(mn: MathNode): string =
   of emnkPostfix: $mn.inside & $mn.operator
   of emnkInfix: $mn.left & ' ' & $mn.operator & ' ' & $mn.right
 
-func recap(mn: MathNode): string {.used.} =
+func recap(mn: EMathNode): string {.used.} =
   case mn.kind
   of emnkLit: "LIT " & $mn.value
   of emnkPar: "PAR"
@@ -54,7 +54,7 @@ func recap(mn: MathNode): string {.used.} =
   of emnkPostfix: "POSTFIX " & $mn.operator
   of emnkInfix: "INFIX " & $mn.operator
 
-func treeReprImpl(mn: MathNode, result: var seq[string],
+func treeReprImpl(mn: EMathNode, result: var seq[string],
   level: int, tab = 2) =
 
   template incl(smth): untyped =
@@ -73,8 +73,8 @@ func treeReprImpl(mn: MathNode, result: var seq[string],
   for ch in mn.children:
     treeReprImpl ch, result, level + 1
 
-func treeRepr*(mn: MathNode): string =
-  ## converts a `MathNode` into its corresponding tree representation.
+func treeRepr*(mn: EMathNode): string =
+  ## converts a `EMathNode` into its corresponding tree representation.
   ##
   ## can be used for debugging purposes.
   var acc: seq[string]
@@ -82,7 +82,7 @@ func treeRepr*(mn: MathNode): string =
   acc.join "\n"
 
 
-func isValid*(mn: MathNode): bool =
+func isValid*(mn: EMathNode): bool =
   ## check for any AST errors in genereated AST
   let
     numberOfChildren =
@@ -105,7 +105,7 @@ func isValid*(mn: MathNode): bool =
 
   numberOfChildren and subNodes and closed
 
-func eval*(mn: MathNode,
+func eval*(mn: EMathNode,
   varLookup: EMathVarLookup,
   fnLookup: EMathFnLookup): float =
   ## calculates the final answer
@@ -169,7 +169,7 @@ func eval*(mn: MathNode,
       else: 0.0
     else: evalErr "invalid infix operator " & $mn.operator
 
-func eval*(mn: MathNode): float =
+func eval*(mn: EMathNode): float =
   ## calculates the final answer with default variables and default functions
   eval mn, defaultVars, defaultFns
 
@@ -278,7 +278,7 @@ iterator lex(input: string): EMathToken =
     inc i
 
 
-func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
+func goUp(stack: var seq[EMathNode], fn: EMathNode -> bool): EMathNode =
   ## goes up of a sun tree until satisfies `fn`
   ## returns sub tree, could be nil
   while true:
@@ -287,10 +287,10 @@ func goUp(stack: var seq[MathNode], fn: MathNode -> bool): MathNode =
 
   raise newException(ValueError, "couldn't find the desired node")
 
-func parse*(input: string): MathNode =
+func parse*(input: string): EMathNode =
   ## parses the math expression from raw string into its corresponding AST
   var
-    stack: seq[MathNode] = @[newPar()]
+    stack: seq[EMathNode] = @[newPar()]
     lastToken: EMathToken
 
   for tk in lex input:
@@ -319,7 +319,7 @@ func parse*(input: string): MathNode =
           var
             t = newInfix tk.operator
             p = t.operator.priority
-            n = goUp(stack, (mn: MathNode) =>
+            n = goUp(stack, (mn: EMathNode) =>
               isOpenWrapper(mn) or
               (mn.kind in {emnkInfix, emnkPrefix}) and
               (p > mn.operator.priority))
@@ -354,7 +354,7 @@ func parse*(input: string): MathNode =
         raise parseTokErr("hit '(' in unexpected place", tk.slice)
 
     of emtkClosePar:
-      discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
+      discard goUp(stack, (mn: EMathNode) => isOpenWrapper(mn))
 
       if stack.len == 1:
         raise parseTokErr("hit ')' in unexpected place", tk.slice)
@@ -365,7 +365,7 @@ func parse*(input: string): MathNode =
       stack.last.isFinal = true
 
     of emtkComma:
-      discard goUp(stack, (mn: MathNode) => isOpenWrapper(mn))
+      discard goUp(stack, (mn: EMathNode) => isOpenWrapper(mn))
 
       if stack.last.kind != emnkCall or lastToken.kind in {emtkComma,
           emtkOpenPar, emtkOperator}:

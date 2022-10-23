@@ -39,31 +39,31 @@ func toBinary*(f: float): bool =
 
 # --- math node
 
-func newPrefix*(o: EMathOperator): MathNode =
-  MathNode(kind: emnkPrefix, operator: o)
+func newPrefix*(o: EMathOperator): EMathNode =
+  EMathNode(kind: emnkPrefix, operator: o)
 
-func newPostfix*(o: EMathOperator, sub: MathNode): MathNode =
-  MathNode(kind: emnkPostfix, operator: o, children: @[sub])
+func newPostfix*(o: EMathOperator, sub: EMathNode): EMathNode =
+  EMathNode(kind: emnkPostfix, operator: o, children: @[sub])
 
-func newInfix*(o: EMathOperator): MathNode =
-  MathNode(kind: emnkInfix, operator: o)
+func newInfix*(o: EMathOperator): EMathNode =
+  EMathNode(kind: emnkInfix, operator: o)
 
-func newVar*(i: string): MathNode =
-  MathNode(kind: emnkVar, ident: i)
+func newVar*(i: string): EMathNode =
+  EMathNode(kind: emnkVar, ident: i)
 
-func newPar*: MathNode =
-  MathNode(kind: emnkPar, isFinal: false)
+func newPar*: EMathNode =
+  EMathNode(kind: emnkPar, isFinal: false)
 
-func newCall*(i: string): MathNode =
-  MathNode(kind: emnkCall, ident: i, isFinal: false)
+func newCall*(i: string): EMathNode =
+  EMathNode(kind: emnkCall, ident: i, isFinal: false)
 
-func newLiteral*(f: float): MathNode =
-  MathNode(kind: emnkLit, value: f)
+func newLiteral*(f: float): EMathNode =
+  EMathNode(kind: emnkLit, value: f)
 
 
-func isOpenWrapper*(mn: MathNode): bool =
+func isOpenWrapper*(mn: EMathNode): bool =
   (mn.kind in {emnkPar, emnkCall}) and (not mn.isFinal)
 
-func isFinalValue*(mn: MathNode): bool =
+func isFinalValue*(mn: EMathNode): bool =
   mn.kind in {emnkLit, emnkVar, emnkPostfix} or
   mn.kind in {emnkPar, emnkCall} and mn.isFinal

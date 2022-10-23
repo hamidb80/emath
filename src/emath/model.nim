@@ -51,8 +51,8 @@ type
     emnkVar, emnkCall
     emnkPrefix, emnkPostfix, emnkInfix
 
-  MathNode* {.acyclic.} = ref object
-    children*: seq[MathNode]
+  EMathNode* {.acyclic.} = ref object
+    children*: seq[EMathNode]
     isFinal*: bool ## used for parsing and validity check
 
     case kind*: EMathNodeKind
@@ -72,17 +72,17 @@ type
   EMathVarLookup* = Table[string, float]
 
 
-func left*(mn: MathNode): MathNode =
+func left*(mn: EMathNode): EMathNode =
   ## returns the left side of an infix operator
   assert mn.kind == emnkInfix
   mn.children[0]
 
-func right*(mn: MathNode): MathNode =
+func right*(mn: EMathNode): EMathNode =
   ## returns the right side of an infix operator
   assert mn.kind == emnkInfix
   mn.children[1]
 
-func inside*(mn: MathNode): MathNode =
+func inside*(mn: EMathNode): EMathNode =
   ## returns the inside value of a parenthesis/prefix/postfix
   assert mn.kind in {emnkPrefix, emnkPostfix, emnkPar}
   mn.children[0]
