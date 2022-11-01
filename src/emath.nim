@@ -82,16 +82,17 @@ func treeRepr*(mn: EMathNode): string =
   acc.join "\n"
 
 
+func checkNumberOfChildren(mn: EMathNode): bool =
+  case mn.kind
+  of emnkLit, emnkVar: mn.children.len == 0
+  of emnkCall: mn.children.len >= 0
+  of emnkPar, emnkPrefix, emnkPostfix: mn.children.len == 1
+  of emnkInfix: mn.children.len == 2
+
 func isValid*(mn: EMathNode): bool =
   ## check for any AST errors in genereated AST
   let
-    numberOfChildren =
-      case mn.kind
-      of emnkLit, emnkVar: true
-      of emnkCall: mn.children.len >= 0
-      of emnkPar, emnkPrefix, emnkPostfix: mn.children.len == 1
-      of emnkInfix: mn.children.len == 2
-
+    numberOfChildren = checkNumberOfChildren mn
     subNodes =
       case mn.kind
       of emnkLit, emnkVar: true
@@ -217,7 +218,7 @@ iterator lex(input: string): EMathToken =
           operator: parseEnum[EMathOperator](input[anchor ..< i]),
           slice: anchor ..< i)
 
-      else: raise parseErr("invalid state")
+      else: raise parseErr "invalid state"
 
       state = mlsInitial
       continue
@@ -278,20 +279,27 @@ iterator lex(input: string): EMathToken =
     inc i
 
 
-func goUp(stack: var seq[EMathNode], fn: EMathNode -> bool): EMathNode =
-  ## goes up of a sun tree until satisfies `fn`
+func goUp(stack: var seq[EMathNode], tkrange: Slice[int], fn: EMathNode -> bool): EMathNode =
+  ## goes up of a sub tree until satisfies `fn`
   ## returns sub tree, could be nil
   while true:
-    if (fn stack.last): return
-    else: result = stack.pop
+    if fn stack.last:
+      return
+
+    elif not stack.last.checkNumberOfChildren:
+      raise parseTokErr("expected children, got nothing", tkrange)
+
+    else:
+      result = stack.pop
 
   raise newException(ValueError, "couldn't find the desired node")
 
 func parse*(input: string): EMathNode =
   ## parses the math expression from raw string into its corresponding AST
   var
-    stack: seq[EMathNode] = @[newPar()]
-    lastToken: EMathToken
+    mainNode = newPar()
+    stack: seq[EMathNode] = @[mainNode]
+    lastTk: EMathToken
 
   for tk in lex input:
     case tk.kind
@@ -319,7 +327,7 @@ func parse*(input: string): EMathNode =
           var
             t = newInfix tk.operator
             p = t.operator.priority
-            n = goUp(stack, (mn: EMathNode) =>
+            n = goUp(stack, tk.slice, (mn: EMathNode) =>
               isOpenWrapper(mn) or
               (mn.kind in {emnkInfix, emnkPrefix}) and
               (p > mn.operator.priority))
@@ -354,24 +362,22 @@ func parse*(input: string): EMathNode =
         raise parseTokErr("hit '(' in unexpected place", tk.slice)
 
     of emtkClosePar:
-      discard goUp(stack, (mn: EMathNode) => isOpenWrapper(mn))
+      discard goUp(stack, tk.slice, (mn: EMathNode) => isOpenWrapper(mn))
 
       if stack.len == 1:
         raise parseTokErr("hit ')' in unexpected place", tk.slice)
 
-      elif stack.last.kind == emnkPar and stack.last.children.len == 0:
-        raise parseTokErr("parenthesis must have 1 subnode, given 0", tk.slice)
-
       stack.last.isFinal = true
 
     of emtkComma:
-      discard goUp(stack, (mn: EMathNode) => isOpenWrapper(mn))
+      discard goUp(stack, tk.slice, (mn: EMathNode) => isOpenWrapper(mn))
 
-      if stack.last.kind != emnkCall or lastToken.kind in {emtkComma,
-          emtkOpenPar, emtkOperator}:
+      if stack.last.kind != emnkCall or lastTk.kind in {emtkComma, emtkOpenPar}:
         raise parseTokErr("hit ',' in unexpected place", tk.slice)
+    
+    lastTk = tk
 
-    lastToken = tk
+
     when defined emathDebug:
       debugEcho ">> ", tk
       debugEcho "stack: ", stack.map(recap).join ", "
@@ -379,8 +385,6 @@ func parse*(input: string): EMathNode =
       debugEcho treeRepr stack[0]
       debugEcho "---------------------"
 
-
-  result = stack.first.inside
-
-  if not isValid result:
-    raise parseErr "the expression is incomplete, either closing parenthesis are not enough or there are some infixes without right side"
+  result = goUp(stack, 0..0, (mn: EMathNode) => isOpenWrapper(mn))
+  if result != mainNode.inside:
+    raise parseErr "expected closing pars, but reached end of the expression"

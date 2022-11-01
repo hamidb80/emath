@@ -9,6 +9,17 @@ template matche(expr, answer): untyped =
   let ast = parse expr
   check answer ~= eval ast
 
+template checkErr(exp, trybody, errbody): untyped {.dirty.} =
+  var raised = false
+
+  try: trybody
+  except exp:
+    raised = true
+    let e {.inject.} = (ref exp)(getCurrentException())
+    errbody
+
+  check raised
+
 
 suite "operator priority":
   for (expr, answer) in {
@@ -19,7 +30,7 @@ suite "operator priority":
     "--1 - 2 - 3": -4.0,
     "2 ^ 8 + -3 * 7": 235.0,
     "-10^2": -100.0,
-    "-3! ^ 2 + 1": -35.0,
+    "-(3!) ^ 2 + 1": -35.0,
     "!4!": 0.0,
     "2 != 2": 0.0,
     "2 == 2": 1.0,
@@ -76,32 +87,25 @@ suite "correctness":
       check expr.parse.eval == 1.0
 
 
-suite "syntax errors":
-  test "incomplete":
-    for expr in ["(", "1 + "]:
+suite "incomplete":
+  for expr in ["()", "(", "1 + "]:
+    test expr:
       doAssertRaises EMathParseError:
         discard parse expr
 
-
-  template checkTokenErr(slc, body): untyped =
-    var raised = false
-
-    try: body
-    except EMathTokenError:
-      raised = true
-      let e = (ref EMathTokenError)(getCurrentException())
-      check e.slice == slc
-
-    check raised
-
-  test "token":
-    for (expr, slc) in {
-      "==1": 0..1,
-      "(,)": 1..1,
-      "1(": 1..1,
-      "(2))": 3..3,
-      "(2+,)": 3..3,
-      "3! 4": 3..3,
-    }:
-      checkTokenErr slc:
+suite "invalid syntax":
+  for (expr, slc) in {
+    "==1": 0..1,
+    "(,)": 1..1,
+    "1(": 1..1,
+    "(2))": 3..3,
+    "3! 4": 3..3,
+    "(2+,)": 3..3,
+    "sum(,)": 4..4,
+  }:
+    test expr:
+      checkErr EMathTokenError:
         discard parse expr
+      do:
+        check e.slice == slc
+
