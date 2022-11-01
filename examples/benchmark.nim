@@ -1,4 +1,5 @@
-import emath, nimkalc, mathexpr, benchy
+import std/[strutils]
+import ../src/emath, nimkalc, mathexpr, benchy
 
 ## The result on my laptop:
 ##   min time    avg time  std dv   runs name
