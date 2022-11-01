@@ -105,6 +105,22 @@ window.addEventListener('DOMContentLoaded', main);
     title="EMathFn = proc (args: seq[float]): float {.noSideEffect.}">EMathFn</a></li>
   <li><a class="reference" href="#EMathFnLookup"
     title="EMathFnLookup = Table[string, EMathFn]">EMathFnLookup</a></li>
+  <li><a class="reference" href="#EMathNode"
+    title="EMathNode {.acyclic.} = ref object
+  children*: seq[EMathNode]
+  isFinal*: bool             ## used for parsing and validity check
+  case kind*: EMathNodeKind
+  of emnkLit:
+      value*: float
+
+  of emnkCall, emnkVar:
+      ident*: string
+
+  of emnkPrefix, emnkPostfix, emnkInfix:
+      operator*: EMathOperator
+
+  of emnkPar:
+    nil">EMathNode</a></li>
   <li><a class="reference" href="#EMathNodeKind"
     title="EMathNodeKind = enum
   emnkLit, emnkPar, emnkVar, emnkCall, emnkPrefix, emnkPostfix, emnkInfix">EMathNodeKind</a></li>
@@ -134,22 +150,6 @@ window.addEventListener('DOMContentLoaded', main);
   emtkNumber, emtkOperator, emtkIdent, emtkOpenPar, emtkClosePar, emtkComma">EMathTokenKind</a></li>
   <li><a class="reference" href="#EMathVarLookup"
     title="EMathVarLookup = Table[string, float]">EMathVarLookup</a></li>
-  <li><a class="reference" href="#MathNode"
-    title="MathNode {.acyclic.} = ref object
-  children*: seq[MathNode]
-  isFinal*: bool             ## used for parsing and validity check
-  case kind*: EMathNodeKind
-  of emnkLit:
-      value*: float
-
-  of emnkCall, emnkVar:
-      ident*: string
-
-  of emnkPrefix, emnkPostfix, emnkInfix:
-      operator*: EMathOperator
-
-  of emnkPar:
-    nil">MathNode</a></li>
 
   </ul>
 </li>
@@ -157,13 +157,13 @@ window.addEventListener('DOMContentLoaded', main);
   <a class="reference reference-toplevel" href="#12" id="62">Procs</a>
   <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">inside
-      <li><a class="reference" href="#inside%2CMathNode"
-    title="inside(mn: MathNode): MathNode">inside(mn: MathNode): MathNode</a></li>
+      <li><a class="reference" href="#inside%2CEMathNode"
+    title="inside(mn: EMathNode): EMathNode">inside(mn: EMathNode): EMathNode</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">left
-      <li><a class="reference" href="#left%2CMathNode"
-    title="left(mn: MathNode): MathNode">left(mn: MathNode): MathNode</a></li>
+      <li><a class="reference" href="#left%2CEMathNode"
+    title="left(mn: EMathNode): EMathNode">left(mn: EMathNode): EMathNode</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">priority
@@ -172,8 +172,8 @@ window.addEventListener('DOMContentLoaded', main);
 
   </ul>
   <ul class="simple nested-toc-section">right
-      <li><a class="reference" href="#right%2CMathNode"
-    title="right(mn: MathNode): MathNode">right(mn: MathNode): MathNode</a></li>
+      <li><a class="reference" href="#right%2CEMathNode"
+    title="right(mn: EMathNode): EMathNode">right(mn: EMathNode): EMathNode</a></li>
 
   </ul>
 
@@ -201,6 +201,29 @@ window.addEventListener('DOMContentLoaded', main);
 </div>
 <div id="EMathFnLookup">
 <dt><pre><a href="model.html#EMathFnLookup"><span class="Identifier">EMathFnLookup</span></a> <span class="Other">=</span> <span class="Identifier">Table</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">,</span> <a href="model.html#EMathFn"><span class="Identifier">EMathFn</span></a><span class="Other">]</span></pre></dt>
+<dd>
+
+
+
+</dd>
+</div>
+<div id="EMathNode">
+<dt><pre><a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a> {.<span class="Identifier">acyclic</span>.} <span class="Other">=</span> <span class="Keyword">ref</span> <span class="Keyword">object</span>
+  <span class="Identifier">children</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">]</span>
+  <span class="Identifier">isFinal</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>             <span class="Comment">## used for parsing and validity check</span>
+  <span class="Keyword">case</span> <span class="Identifier">kind</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#EMathNodeKind"><span class="Identifier">EMathNodeKind</span></a>
+  <span class="Keyword">of</span> <span class="Identifier">emnkLit</span><span class="Other">:</span>
+      <span class="Identifier">value</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">float</span>
+
+  <span class="Keyword">of</span> <span class="Identifier">emnkCall</span><span class="Other">,</span> <span class="Identifier">emnkVar</span><span class="Other">:</span>
+      <span class="Identifier">ident</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">string</span>
+
+  <span class="Keyword">of</span> <span class="Identifier">emnkPrefix</span><span class="Other">,</span> <span class="Identifier">emnkPostfix</span><span class="Other">,</span> <span class="Identifier">emnkInfix</span><span class="Other">:</span>
+      <span class="Identifier">operator</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#EMathOperator"><span class="Identifier">EMathOperator</span></a>
+
+  <span class="Keyword">of</span> <span class="Identifier">emnkPar</span><span class="Other">:</span>
+    <span class="Keyword">nil</span>
+  </pre></dt>
 <dd>
 
 
@@ -267,44 +290,21 @@ window.addEventListener('DOMContentLoaded', main);
 
 </dd>
 </div>
-<div id="MathNode">
-<dt><pre><a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span class="Identifier">acyclic</span>.} <span class="Other">=</span> <span class="Keyword">ref</span> <span class="Keyword">object</span>
-  <span class="Identifier">children</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">]</span>
-  <span class="Identifier">isFinal</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>             <span class="Comment">## used for parsing and validity check</span>
-  <span class="Keyword">case</span> <span class="Identifier">kind</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#EMathNodeKind"><span class="Identifier">EMathNodeKind</span></a>
-  <span class="Keyword">of</span> <span class="Identifier">emnkLit</span><span class="Other">:</span>
-      <span class="Identifier">value</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">float</span>
-
-  <span class="Keyword">of</span> <span class="Identifier">emnkCall</span><span class="Other">,</span> <span class="Identifier">emnkVar</span><span class="Other">:</span>
-      <span class="Identifier">ident</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">string</span>
-
-  <span class="Keyword">of</span> <span class="Identifier">emnkPrefix</span><span class="Other">,</span> <span class="Identifier">emnkPostfix</span><span class="Other">,</span> <span class="Identifier">emnkInfix</span><span class="Other">:</span>
-      <span class="Identifier">operator</span><span class="Operator">*</span><span class="Other">:</span> <a href="model.html#EMathOperator"><span class="Identifier">EMathOperator</span></a>
-
-  <span class="Keyword">of</span> <span class="Identifier">emnkPar</span><span class="Other">:</span>
-    <span class="Keyword">nil</span>
-  </pre></dt>
-<dd>
-
-
-
-</dd>
-</div>
 
 </dl></div>
 <div class="section" id="12">
 <h1><a class="toc-backref" href="#12">Procs</a></h1>
 <dl class="item">
-<div id="inside,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#inside%2CMathNode"><span class="Identifier">inside</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="inside,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#inside%2CEMathNode"><span class="Identifier">inside</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 returns the inside value of a parenthesis/prefix/postfix
 
 </dd>
 </div>
-<div id="left,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#left%2CMathNode"><span class="Identifier">left</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="left,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#left%2CEMathNode"><span class="Identifier">left</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 returns the left side of an infix operator
@@ -319,8 +319,8 @@ returns the left side of an infix operator
 
 </dd>
 </div>
-<div id="right,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#right%2CMathNode"><span class="Identifier">right</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="right,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#right%2CEMathNode"><span class="Identifier">right</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <a href="model.html#EMathNode"><span class="Identifier">EMathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 returns the right side of an infix operator
@@ -337,7 +337,7 @@ returns the right side of an infix operator
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 18:14:46 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-11-01 16:25:42 UTC</small>
       </div>
     </div>
   </div>

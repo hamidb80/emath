@@ -32,11 +32,11 @@ emnkPrefix	emath/model.html#emnkPrefix	EMathNodeKind.emnkPrefix
 emnkPostfix	emath/model.html#emnkPostfix	EMathNodeKind.emnkPostfix	
 emnkInfix	emath/model.html#emnkInfix	EMathNodeKind.emnkInfix	
 EMathNodeKind	emath/model.html#EMathNodeKind	model: EMathNodeKind	
-MathNode	emath/model.html#MathNode	model: MathNode	
+EMathNode	emath/model.html#EMathNode	model: EMathNode	
 EMathFn	emath/model.html#EMathFn	model: EMathFn	
 EMathFnLookup	emath/model.html#EMathFnLookup	model: EMathFnLookup	
 EMathVarLookup	emath/model.html#EMathVarLookup	model: EMathVarLookup	
-left	emath/model.html#left,MathNode	model: left(mn: MathNode): MathNode	
-right	emath/model.html#right,MathNode	model: right(mn: MathNode): MathNode	
-inside	emath/model.html#inside,MathNode	model: inside(mn: MathNode): MathNode	
+left	emath/model.html#left,EMathNode	model: left(mn: EMathNode): EMathNode	
+right	emath/model.html#right,EMathNode	model: right(mn: EMathNode): EMathNode	
+inside	emath/model.html#inside,EMathNode	model: inside(mn: EMathNode): EMathNode	
 priority	emath/model.html#priority,EMathOperator	model: priority(mo: EMathOperator): int	

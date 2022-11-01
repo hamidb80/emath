@@ -108,30 +108,30 @@ window.addEventListener('DOMContentLoaded', main);
   <a class="reference reference-toplevel" href="#12" id="62">Procs</a>
   <ul class="simple simple-toc-section">
       <ul class="simple nested-toc-section">$
-      <li><a class="reference" href="#%24%2CMathNode"
-    title="`$`(mn: MathNode): string">`$`(mn: MathNode): string</a></li>
+      <li><a class="reference" href="#%24%2CEMathNode"
+    title="`$`(mn: EMathNode): string">`$`(mn: EMathNode): string</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">eval
-      <li><a class="reference" href="#eval%2CMathNode"
-    title="eval(mn: MathNode): float">eval(mn: MathNode): float</a></li>
-  <li><a class="reference" href="#eval%2CMathNode%2CEMathVarLookup%2CEMathFnLookup"
-    title="eval(mn: MathNode; varLookup: EMathVarLookup; fnLookup: EMathFnLookup): float">eval(mn: MathNode; varLookup: EMathVarLookup; fnLookup: EMathFnLookup): float</a></li>
+      <li><a class="reference" href="#eval%2CEMathNode"
+    title="eval(mn: EMathNode): float">eval(mn: EMathNode): float</a></li>
+  <li><a class="reference" href="#eval%2CEMathNode%2CEMathVarLookup%2CEMathFnLookup"
+    title="eval(mn: EMathNode; varLookup: EMathVarLookup; fnLookup: EMathFnLookup): float">eval(mn: EMathNode; varLookup: EMathVarLookup; fnLookup: EMathFnLookup): float</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">isValid
-      <li><a class="reference" href="#isValid%2CMathNode"
-    title="isValid(mn: MathNode): bool">isValid(mn: MathNode): bool</a></li>
+      <li><a class="reference" href="#isValid%2CEMathNode"
+    title="isValid(mn: EMathNode): bool">isValid(mn: EMathNode): bool</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">parse
       <li><a class="reference" href="#parse%2Cstring"
-    title="parse(input: string): MathNode">parse(input: string): MathNode</a></li>
+    title="parse(input: string): EMathNode">parse(input: string): EMathNode</a></li>
 
   </ul>
   <ul class="simple nested-toc-section">treeRepr
-      <li><a class="reference" href="#treeRepr%2CMathNode"
-    title="treeRepr(mn: MathNode): string">treeRepr(mn: MathNode): string</a></li>
+      <li><a class="reference" href="#treeRepr%2CEMathNode"
+    title="treeRepr(mn: EMathNode): string">treeRepr(mn: EMathNode): string</a></li>
 
   </ul>
 
@@ -183,16 +183,16 @@ window.addEventListener('DOMContentLoaded', main);
 <div class="section" id="12">
 <h1><a class="toc-backref" href="#12">Procs</a></h1>
 <dl class="item">
-<div id="$,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#%24%2CMathNode"><span class="Identifier">`$`</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="$,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#%24%2CEMathNode"><span class="Identifier">`$`</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 
 
 </dd>
 </div>
-<div id="eval,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#eval%2CMathNode"><span class="Identifier">eval</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">EMathNotDefined</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span>
+<div id="eval,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#eval%2CEMathNode"><span class="Identifier">eval</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">EMathNotDefined</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span>
     <span class="Identifier">EMathEvalError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
@@ -200,8 +200,8 @@ calculates the final answer with default variables and default functions
 
 </dd>
 </div>
-<div id="eval,MathNode,EMathVarLookup,EMathFnLookup">
-<dt><pre><span class="Keyword">func</span> <a href="#eval%2CMathNode%2CEMathVarLookup%2CEMathFnLookup"><span class="Identifier">eval</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">;</span> <span class="Identifier">varLookup</span><span class="Other">:</span> <a href="emath/model.html#EMathVarLookup"><span class="Identifier">EMathVarLookup</span></a><span class="Other">;</span> <span class="Identifier">fnLookup</span><span class="Other">:</span> <a href="emath/model.html#EMathFnLookup"><span class="Identifier">EMathFnLookup</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.
+<div id="eval,EMathNode,EMathVarLookup,EMathFnLookup">
+<dt><pre><span class="Keyword">func</span> <a href="#eval%2CEMathNode%2CEMathVarLookup%2CEMathFnLookup"><span class="Identifier">eval</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">;</span> <span class="Identifier">varLookup</span><span class="Other">:</span> <a href="emath/model.html#EMathVarLookup"><span class="Identifier">EMathVarLookup</span></a><span class="Other">;</span> <span class="Identifier">fnLookup</span><span class="Other">:</span> <a href="emath/model.html#EMathFnLookup"><span class="Identifier">EMathFnLookup</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">float</span> {.
     <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">EMathNotDefined</span><span class="Other">,</span> <span class="Identifier">EMathNotDefined</span><span class="Other">,</span> <span class="Identifier">Exception</span><span class="Other">,</span> <span class="Identifier">EMathEvalError</span><span class="Other">]</span><span class="Other">,</span>
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">RootEffect</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
@@ -210,8 +210,8 @@ calculates the final answer
 
 </dd>
 </div>
-<div id="isValid,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#isValid%2CMathNode"><span class="Identifier">isValid</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="isValid,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#isValid%2CEMathNode"><span class="Identifier">isValid</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
 check for any AST errors in genereated AST
@@ -219,7 +219,7 @@ check for any AST errors in genereated AST
 </dd>
 </div>
 <div id="parse,string">
-<dt><pre><span class="Keyword">func</span> <a href="#parse%2Cstring"><span class="Identifier">parse</span></a><span class="Other">(</span><span class="Identifier">input</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">EMathParseError</span><span class="Other">,</span>
+<dt><pre><span class="Keyword">func</span> <a href="#parse%2Cstring"><span class="Identifier">parse</span></a><span class="Other">(</span><span class="Identifier">input</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">EMathParseError</span><span class="Other">,</span>
     <span class="Identifier">EMathTokenError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
@@ -227,11 +227,11 @@ parses the math expression from raw string into its corresponding AST
 
 </dd>
 </div>
-<div id="treeRepr,MathNode">
-<dt><pre><span class="Keyword">func</span> <a href="#treeRepr%2CMathNode"><span class="Identifier">treeRepr</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+<div id="treeRepr,EMathNode">
+<dt><pre><span class="Keyword">func</span> <a href="#treeRepr%2CEMathNode"><span class="Identifier">treeRepr</span></a><span class="Other">(</span><span class="Identifier">mn</span><span class="Other">:</span> <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
 <dd>
 
-<p>converts a <tt class="docutils literal"><span class="pre"><span class="Identifier">MathNode</span></span></tt> into its corresponding tree representation.</p>
+<p>converts a <tt class="docutils literal"><span class="pre"><span class="Identifier">EMathNode</span></span></tt> into its corresponding tree representation.</p>
 <p>can be used for debugging purposes.</p>
 
 
@@ -242,7 +242,7 @@ parses the math expression from raw string into its corresponding AST
 <div class="section" id="19">
 <h1><a class="toc-backref" href="#19">Exports</a></h1>
 <dl class="item">
-<a href="emath/exceptions.html#EMathParseError"><span class="Identifier">EMathParseError</span></a>, <a href="emath/exceptions.html#emskVar"><span class="Identifier">emskVar</span></a>, <a href="emath/exceptions.html#EMathTokenError"><span class="Identifier">EMathTokenError</span></a>, <a href="emath/exceptions.html#EMathNotDefined"><span class="Identifier">EMathNotDefined</span></a>, <a href="emath/exceptions.html#emskFunc"><span class="Identifier">emskFunc</span></a>, <a href="emath/exceptions.html#EMathSymbolKind"><span class="Identifier">EMathSymbolKind</span></a>, <a href="emath/exceptions.html#EMathEvalError"><span class="Identifier">EMathEvalError</span></a>, <a href="emath/exceptions.html#EMathException"><span class="Identifier">EMathException</span></a>, <a href="emath/model.html#left,MathNode"><span class="Identifier">left</span></a>, <a href="emath/model.html#emoPow"><span class="Identifier">emoPow</span></a>, <a href="emath/model.html#emoDiv"><span class="Identifier">emoDiv</span></a>, <a href="emath/model.html#emoAssign"><span class="Identifier">emoAssign</span></a>, <a href="emath/model.html#emoMod"><span class="Identifier">emoMod</span></a>, <a href="emath/model.html#emoAlmostEq"><span class="Identifier">emoAlmostEq</span></a>, <a href="emath/model.html#EMathTokenKind"><span class="Identifier">EMathTokenKind</span></a>, <a href="emath/model.html#emoLessEq"><span class="Identifier">emoLessEq</span></a>, <a href="emath/model.html#emoEq"><span class="Identifier">emoEq</span></a>, <a href="emath/model.html#inside,MathNode"><span class="Identifier">inside</span></a>, <a href="emath/model.html#emoPlus"><span class="Identifier">emoPlus</span></a>, <a href="emath/model.html#emoMinus"><span class="Identifier">emoMinus</span></a>, <a href="emath/model.html#emoNotFact"><span class="Identifier">emoNotFact</span></a>, <a href="emath/model.html#emoMult"><span class="Identifier">emoMult</span></a>, <a href="emath/model.html#EMathOperator"><span class="Identifier">EMathOperator</span></a>, <a href="emath/model.html#EMathToken"><span class="Identifier">EMathToken</span></a>, <a href="emath/model.html#right,MathNode"><span class="Identifier">right</span></a>, <a href="emath/model.html#emoNotEq"><span class="Identifier">emoNotEq</span></a>, <a href="emath/model.html#EMathFnLookup"><span class="Identifier">EMathFnLookup</span></a>, <a href="emath/model.html#emoLess"><span class="Identifier">emoLess</span></a>, <a href="emath/model.html#emoLarger"><span class="Identifier">emoLarger</span></a>, <a href="emath/model.html#MathNode"><span class="Identifier">MathNode</span></a>, <a href="emath/model.html#emoLargerEq"><span class="Identifier">emoLargerEq</span></a>, <a href="emath/model.html#EMathFn"><span class="Identifier">EMathFn</span></a>, <a href="emath/model.html#EMathVarLookup"><span class="Identifier">EMathVarLookup</span></a>, <a href="emath/model.html#emoAnd"><span class="Identifier">emoAnd</span></a>, <a href="emath/model.html#emoOr"><span class="Identifier">emoOr</span></a>, <a href="emath/model.html#EMathNodeKind"><span class="Identifier">EMathNodeKind</span></a>, <a href="emath/model.html#priority,EMathOperator"><span class="Identifier">priority</span></a>
+<a href="emath/exceptions.html#EMathParseError"><span class="Identifier">EMathParseError</span></a>, <a href="emath/exceptions.html#emskVar"><span class="Identifier">emskVar</span></a>, <a href="emath/exceptions.html#EMathTokenError"><span class="Identifier">EMathTokenError</span></a>, <a href="emath/exceptions.html#EMathNotDefined"><span class="Identifier">EMathNotDefined</span></a>, <a href="emath/exceptions.html#emskFunc"><span class="Identifier">emskFunc</span></a>, <a href="emath/exceptions.html#EMathSymbolKind"><span class="Identifier">EMathSymbolKind</span></a>, <a href="emath/exceptions.html#EMathEvalError"><span class="Identifier">EMathEvalError</span></a>, <a href="emath/exceptions.html#EMathException"><span class="Identifier">EMathException</span></a>, <a href="emath/model.html#left,EMathNode"><span class="Identifier">left</span></a>, <a href="emath/model.html#emoPow"><span class="Identifier">emoPow</span></a>, <a href="emath/model.html#emoDiv"><span class="Identifier">emoDiv</span></a>, <a href="emath/model.html#emoAssign"><span class="Identifier">emoAssign</span></a>, <a href="emath/model.html#emoMod"><span class="Identifier">emoMod</span></a>, <a href="emath/model.html#emoAlmostEq"><span class="Identifier">emoAlmostEq</span></a>, <a href="emath/model.html#EMathTokenKind"><span class="Identifier">EMathTokenKind</span></a>, <a href="emath/model.html#emoLessEq"><span class="Identifier">emoLessEq</span></a>, <a href="emath/model.html#emoEq"><span class="Identifier">emoEq</span></a>, <a href="emath/model.html#EMathNode"><span class="Identifier">EMathNode</span></a>, <a href="emath/model.html#emoPlus"><span class="Identifier">emoPlus</span></a>, <a href="emath/model.html#emoMinus"><span class="Identifier">emoMinus</span></a>, <a href="emath/model.html#emoNotFact"><span class="Identifier">emoNotFact</span></a>, <a href="emath/model.html#emoMult"><span class="Identifier">emoMult</span></a>, <a href="emath/model.html#EMathOperator"><span class="Identifier">EMathOperator</span></a>, <a href="emath/model.html#EMathToken"><span class="Identifier">EMathToken</span></a>, <a href="emath/model.html#right,EMathNode"><span class="Identifier">right</span></a>, <a href="emath/model.html#emoNotEq"><span class="Identifier">emoNotEq</span></a>, <a href="emath/model.html#EMathFnLookup"><span class="Identifier">EMathFnLookup</span></a>, <a href="emath/model.html#emoLess"><span class="Identifier">emoLess</span></a>, <a href="emath/model.html#emoLarger"><span class="Identifier">emoLarger</span></a>, <a href="emath/model.html#emoLargerEq"><span class="Identifier">emoLargerEq</span></a>, <a href="emath/model.html#EMathFn"><span class="Identifier">EMathFn</span></a>, <a href="emath/model.html#EMathVarLookup"><span class="Identifier">EMathVarLookup</span></a>, <a href="emath/model.html#emoAnd"><span class="Identifier">emoAnd</span></a>, <a href="emath/model.html#emoOr"><span class="Identifier">emoOr</span></a>, <a href="emath/model.html#EMathNodeKind"><span class="Identifier">EMathNodeKind</span></a>, <a href="emath/model.html#priority,EMathOperator"><span class="Identifier">priority</span></a>, <a href="emath/model.html#inside,EMathNode"><span class="Identifier">inside</span></a>
 </dl></div>
 
   </div>
@@ -252,7 +252,7 @@ parses the math expression from raw string into its corresponding AST
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2022-10-14 18:14:46 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2022-11-01 16:25:44 UTC</small>
       </div>
     </div>
   </div>

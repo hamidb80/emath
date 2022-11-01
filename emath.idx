@@ -1,6 +1,6 @@
-`$`	emath.html#$,MathNode	emath: `$`(mn: MathNode): string	
-treeRepr	emath.html#treeRepr,MathNode	emath: treeRepr(mn: MathNode): string	
-isValid	emath.html#isValid,MathNode	emath: isValid(mn: MathNode): bool	
-eval	emath.html#eval,MathNode,EMathVarLookup,EMathFnLookup	emath: eval(mn: MathNode; varLookup: EMathVarLookup; fnLookup: EMathFnLookup): float	
-eval	emath.html#eval,MathNode	emath: eval(mn: MathNode): float	
-parse	emath.html#parse,string	emath: parse(input: string): MathNode	
+`$`	emath.html#$,EMathNode	emath: `$`(mn: EMathNode): string	
+treeRepr	emath.html#treeRepr,EMathNode	emath: treeRepr(mn: EMathNode): string	
+isValid	emath.html#isValid,EMathNode	emath: isValid(mn: EMathNode): bool	
+eval	emath.html#eval,EMathNode,EMathVarLookup,EMathFnLookup	emath: eval(mn: EMathNode; varLookup: EMathVarLookup; fnLookup: EMathFnLookup): float	
+eval	emath.html#eval,EMathNode	emath: eval(mn: EMathNode): float	
+parse	emath.html#parse,string	emath: parse(input: string): EMathNode	

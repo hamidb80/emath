@@ -6,12 +6,12 @@ last	emath/private/utils.html#last.t,seq	utils: last(s: seq): untyped
 first	emath/private/utils.html#first.t,seq	utils: first(s: seq): untyped	
 isInt	emath/private/utils.html#isInt,float	utils: isInt(f: float): bool	
 toBinary	emath/private/utils.html#toBinary,float	utils: toBinary(f: float): bool	
-newPrefix	emath/private/utils.html#newPrefix,EMathOperator	utils: newPrefix(o: EMathOperator): MathNode	
-newPostfix	emath/private/utils.html#newPostfix,EMathOperator,MathNode	utils: newPostfix(o: EMathOperator; sub: MathNode): MathNode	
-newInfix	emath/private/utils.html#newInfix,EMathOperator	utils: newInfix(o: EMathOperator): MathNode	
-newVar	emath/private/utils.html#newVar,string	utils: newVar(i: string): MathNode	
-newPar	emath/private/utils.html#newPar	utils: newPar(): MathNode	
-newCall	emath/private/utils.html#newCall,string	utils: newCall(i: string): MathNode	
-newLiteral	emath/private/utils.html#newLiteral,float	utils: newLiteral(f: float): MathNode	
-isOpenWrapper	emath/private/utils.html#isOpenWrapper,MathNode	utils: isOpenWrapper(mn: MathNode): bool	
-isFinalValue	emath/private/utils.html#isFinalValue,MathNode	utils: isFinalValue(mn: MathNode): bool	
+newPrefix	emath/private/utils.html#newPrefix,EMathOperator	utils: newPrefix(o: EMathOperator): EMathNode	
+newPostfix	emath/private/utils.html#newPostfix,EMathOperator,EMathNode	utils: newPostfix(o: EMathOperator; sub: EMathNode): EMathNode	
+newInfix	emath/private/utils.html#newInfix,EMathOperator	utils: newInfix(o: EMathOperator): EMathNode	
+newVar	emath/private/utils.html#newVar,string	utils: newVar(i: string): EMathNode	
+newPar	emath/private/utils.html#newPar	utils: newPar(): EMathNode	
+newCall	emath/private/utils.html#newCall,string	utils: newCall(i: string): EMathNode	
+newLiteral	emath/private/utils.html#newLiteral,float	utils: newLiteral(f: float): EMathNode	
+isOpenWrapper	emath/private/utils.html#isOpenWrapper,EMathNode	utils: isOpenWrapper(mn: EMathNode): bool	
+isFinalValue	emath/private/utils.html#isFinalValue,EMathNode	utils: isFinalValue(mn: EMathNode): bool	
