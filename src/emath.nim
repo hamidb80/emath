@@ -279,7 +279,8 @@ iterator lex(input: string): EMathToken =
     inc i
 
 
-func goUp(stack: var seq[EMathNode], tkrange: Slice[int], fn: EMathNode -> bool): EMathNode =
+func goUp(stack: var seq[EMathNode], tkrange: Slice[int], fn: EMathNode ->
+    bool): EMathNode =
   ## goes up of a sub tree until satisfies `fn`
   ## returns sub tree, could be nil
   while true:
@@ -374,7 +375,7 @@ func parse*(input: string): EMathNode =
 
       if stack.last.kind != emnkCall or lastTk.kind in {emtkComma, emtkOpenPar}:
         raise parseTokErr("hit ',' in unexpected place", tk.slice)
-    
+
     lastTk = tk
 
 
@@ -385,6 +386,6 @@ func parse*(input: string): EMathNode =
       debugEcho treeRepr stack[0]
       debugEcho "---------------------"
 
-  result = goUp(stack, 0..0, (mn: EMathNode) => isOpenWrapper(mn))
+  result = goUp(stack, input.len..input.len, (mn: EMathNode) => isOpenWrapper(mn))
   if result != mainNode.inside:
     raise parseErr "expected closing pars, but reached end of the expression"
