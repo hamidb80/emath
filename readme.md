@@ -1,4 +1,4 @@
->  Prophet Muhammad asked his companions, “Do you know who the strong person is?” His companions replied, “The one who is able to wrestle others down.” The Prophet responded, “No, it is the one who is able to control their anger".
+>  Prophet Muhammad asked his companions, “Do you know who is the strongest person?” His companions replied, “The one who is able to wrestle others down.” The Prophet responded, “No, it is the one who is able to control their anger".
 
 # Introduction
 `emath` is library that provides functionality to parse/evaluate math experssions.
